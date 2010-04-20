@@ -1,0 +1,100 @@
+body { 
+	font-size: 16px; 
+	margin: 0; 
+	padding: 0; 
+	font-family: "Helvetica Neue", Helvetica, Arial, Sans-serif;
+	font-size: 0.875em;
+}
+
+h1 {
+	font-size: 42px;
+	font-weight: bold;
+	margin-bottom: 5px;
+	color: #FFFFFF;
+}
+
+h2 {
+	color: #0D83DD;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+h3 {
+	color: #0D83DD;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+p {
+	color: #FFFFFF;
+}
+
+div#map_canvas {
+	height: 700px; 
+	width: 1100px;
+	border-style: solid;
+	border-width: 2px;
+	border-left-width: 2px;
+	border-right-width: 2px;
+	border-color: #333;
+}
+
+#events_list {
+	width: 100%;
+	height: 580px;
+	overflow-y: scroll;
+}
+
+#events_scroller {
+	width: 100%;
+}
+
+#header { 
+	background-color: #333333;
+	height: 90px;
+}
+
+#header_left {
+	margin-left: 10px;
+	float: left;
+}
+
+#header_right {
+	float: right;
+	margin-right: 10px;
+	text-align: right;
+}
+
+#left { 
+	float: left;
+	width: 300px;
+	min-height: 650px; /* for modern browsers */
+	height: auto !important; /* for modern browsers */
+	height: 680px; /* for IE5.x and IE6 */
+	border-style: solid;
+	border-width: 2px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 0px;
+	border-color: #333;
+
+}
+
+#left_margin {
+	width: 95%;
+	float: left;
+	margin-left: 10px;
+}
+
+#center { 
+	margin-left: 300px;
+	min-height: 650px; /* for modern browsers */
+	height: auto !important; /* for modern browsers */
+	height: 650px; /* for IE5.x and IE6 */
+}
+
+#footer { 
+	clear: both;
+	background-color: #333;
+	height: 100px;
+}
