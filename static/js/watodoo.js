@@ -364,6 +364,7 @@ function updateMarkers(events) {
 			content += '<h3>' + event.name + '</h3>';
 		} else {
 			content += '<a href="' + event.url + '" target="_blank">' + event.name + '</a>';
+			content += '<br>';
 		}
 		
 		// Description
