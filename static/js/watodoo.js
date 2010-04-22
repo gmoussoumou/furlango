@@ -103,7 +103,12 @@ function timeFilter(events) {
 			tomorrow.getDate() <= endDate.getUTCDate()) {
 			eventTimes.push('tomorrow');
 		}
-		if (endDate.getUTCDay() - startDate.getUTCDay() < 0) {
+		// 0 = Sunday, 6 = Saturday
+		if (startDate.getUTCDay() == 0 || 
+			startDate.getUTCDay() == 6 ||
+			endDate.getUTCDay() == 0 || 
+			endDate.getUTCDay() == 6 || 
+			endDate.getUTCDay() - startDate.getUTCDay() < 0) {
 			eventTimes.push('weekend');
 		}
 
