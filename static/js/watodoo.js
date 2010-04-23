@@ -249,34 +249,17 @@ function handleResponse(response) {
 	});
 
 	// Default settings
-	var anyEventsBox = document.getElementById('events_any');
-	anyEventsBox.checked = true;
-	uncheckAll(anyEventsBox, 'events');
-	updateCategories(anyEventsBox, 0, false);
-
-	var anyTimesBox = document.getElementById('times_any');
-	anyTimesBox.checked = true;
-	uncheckAll(anyTimesBox, 'times');
-	updateTimes(anyTimesBox, 'any', false);
-	
+	updateCategories(0, false);
+	updateTimes('any', false);
 	updateAllWidgets();
 }
 
 /** Updates selected event categories. */
-function updateCategories(checkBox, categoryId, updateWidgets) {
-	selectedCategories[categoryId] = checkBox.checked;
-	
-	// If no category criteria unselect all categories, otherwise unselect 'any'.
-	if (categoryId == 0) {
-		for (var i = 1; i < selectedCategories.length; i++) {
-			selectedCategories[i] = false;
-		}
-	} else {
-		selectedCategories[0] = false;
-		var anyBox = document.getElementById('events_any');
-		anyBox.checked = false;
-		anyBox.disabled = '';
+function updateCategories(categoryId, updateWidgets) {
+	for (var i in selectedCategories) {
+		selectedCategories[i] = false;
 	}
+	selectedCategories[categoryId] = true;
 
 	updateWidgets = updateWidgets === undefined || false;  // default
 	if (updateWidgets == true) {
@@ -285,21 +268,11 @@ function updateCategories(checkBox, categoryId, updateWidgets) {
 }
 
 /** Updates selected times. */
-function updateTimes(checkBox, timeTag, updateWidgets) {
-	selectedTimes[timeTag] = checkBox.checked;
-
-	if (timeTag == 'any') {
-		for (var t in selectedTimes) {
-			if (t != 'any') {
-				selectedTimes[t] = false;
-			}
-		}
-	} else {
-		selectedTimes['any'] = false;
-		var anyBox = document.getElementById('times_any');
-		anyBox.checked = false;
-		anyBox.disabled = '';
+function updateTimes(timeTag, updateWidgets) {
+	for (var t in selectedTimes) {
+		selectedTimes[t] = false;
 	}
+	selectedTimes[timeTag] = true;
 
 	updateWidgets = updateWidgets === undefined || false;  // default
 	if (updateWidgets == true) {
@@ -366,11 +339,11 @@ function updateMarkers(events) {
 		
 		// Name
 		if (event.url == '') {
-			content += '<h3>' + event.name + '</h3>';
+			content += '<b style="color: blue;">' + event.name + '</b>';
 		} else {
 			content += '<a href="' + event.url + '" target="_blank">' + event.name + '</a>';
-			content += '<br>';
 		}
+		content += '<br>';
 		
 		// Description
 		content += event.description + '</b><p></p>';
@@ -448,25 +421,28 @@ function updateScroller(events) {
 		var row1 = document.createElement('tr');
 		innerTable.appendChild(row1);
 
+		// Marker
 		var cell1 = document.createElement('td');
 		cell1.setAttribute('rowspan', '2');
-		cell1.setAttribute('style', 'background-color: #F5E1BF;');
+		cell1.setAttribute('style', 'background-color: #F5E1BF; width: 10px;');
 		row1.appendChild(cell1);
 		var markerImage = document.createElement('img');
 		cell1.appendChild(markerImage);
 		var letter = String.fromCharCode("A".charCodeAt(0) + eval(i));
 		markerImage.setAttribute('src', 'http://www.google.com/mapfiles/marker' + letter + '.png');
 
+		// Event link
 		var cell2 = document.createElement('td');
-		cell2.setAttribute('colspan', '2');
+		cell2.setAttribute('colspan', '3');
 		row1.appendChild(cell2);
 		if (event.url == '') {
-			cell2.innerHTML = '<h3>' + event.name + '</h3>';
+			cell2.innerHTML = '<b style="color: blue; color: #8181F7;">' + event.name + '</b>';
 		} else {
 			var linkToEvent = document.createElement('a');
 			cell2.appendChild(linkToEvent);
 			linkToEvent.setAttribute('href', event.url);
 			linkToEvent.setAttribute('target', '_blank');
+			linkToEvent.setAttribute('style', 'color: #8181F7;');
 			linkToEvent.innerHTML = '<b>' + event.name + '</b>';
 		}
 
@@ -474,16 +450,26 @@ function updateScroller(events) {
 		var row2 = document.createElement('tr');
 		innerTable.appendChild(row2);
 
+		// Category image
 		var cell3 = document.createElement('td');
 		row2.appendChild(cell3);
 		var categoryImage = document.createElement('img');
 		cell3.appendChild(categoryImage);
 		categoryImage.setAttribute('src', 'images/' + imageMap[event.category_id]);
-		categoryImage.setAttribute('style', 'border: 1px solid blue;');
+		categoryImage.setAttribute('style', 'border: 1px solid blue; width: 32px;');
 
+		// Event venue
 		var cell4 = document.createElement('td');
 		row2.appendChild(cell4);
+		cell4.setAttribute('style', 'font-size: 12px; width: 135px;');
 		cell4.innerHTML = event.venue_name;
+
+		// Event start date
+		var cell5 = document.createElement('td');
+		row2.appendChild(cell5);
+		cell5.setAttribute('style', 'font-size: 12px; color: gray; text-align: right;');
+		var date = (new Date(event.start_date)).toLocaleDateString();
+		cell5.innerHTML = date.substring(0, date.length - 6);
 	}
 }
 
@@ -525,6 +511,28 @@ function showAddress(address) {
           }
         );
 	}
+}
+
+/** Category filter click handler. */
+function handleCategoryFilterClick(categoryId, categoryText) {
+	// An infowindow might be open while clicking on a filter
+	if (currentInfoWindow) {
+		currentInfoWindow.close();
+	}
+	document.getElementById('events_categories').style.display = 'none'; 
+    document.getElementById('categories_filter').innerHTML = '<u style="color: blue; font-size: 12px; color: #8181F7;">' + categoryText + '</u>';
+    updateCategories(categoryId);
+}
+
+/** Time filter click handler. */
+function handleTimeFilterClick(timeTag, timeText) {
+	// An infowindow might be open while clicking on a filter
+	if (currentInfoWindow) {
+		currentInfoWindow.close();
+	}
+	document.getElementById('time_options').style.display = 'none'; 
+    document.getElementById('time_filter').innerHTML = '<u style="color: blue; font-size: 12px; color: #8181F7;">' + timeText + '</u>';
+    updateTimes(timeTag);	
 }
 
 

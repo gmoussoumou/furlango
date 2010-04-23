@@ -56,37 +56,92 @@
 </div>
 <div id="left">
 	<div id="left_margin">
-		<img id="events_expander" src="images/expand.png" 
-		     onclick="toggle('events_categories', 'events_expander')">&nbsp;<b>Categories</b><br>
-		<div id="events_categories" style="display: none;">	     
-		  &nbsp;<input type="checkbox" name="events" id="category1" onclick="updateCategories(this, 1)">Music<br>
-		  &nbsp;<input type="checkbox" name="events" id="category2" onclick="updateCategories(this, 2)">Arts<br>
-		  &nbsp;<input type="checkbox" name="events" id="category3" onclick="updateCategories(this, 3)">Media<br>
-		  &nbsp;<input type="checkbox" name="events" id="category4" onclick="updateCategories(this, 4)">Social<br>
-		  &nbsp;<input type="checkbox" name="events" id="category5" onclick="updateCategories(this, 5)">Education<br>
-		  &nbsp;<input type="checkbox" name="events" id="category6" onclick="updateCategories(this, 6)">Commercial<br>
-		  &nbsp;<input type="checkbox" name="events" id="category7" onclick="updateCategories(this, 7)">Festivals<br>
-		  &nbsp;<input type="checkbox" name="events" id="category8" onclick="updateCategories(this, 8)">Sports<br>
-		  &nbsp;<input type="checkbox" name="events" id="category10" onclick="updateCategories(this, 10)">Other<br>
-		  &nbsp;<input type="checkbox" name="events" id="category11" onclick="updateCategories(this, 11)">Comedy<br>
-		  &nbsp;<input type="checkbox" name="events" id="category12" onclick="updateCategories(this, 12)">Politics<br>
-		  &nbsp;<input type="checkbox" name="events" id="category13" onclick="updateCategories(this, 13)">Family<br>
-		  &nbsp;<input type="checkbox" id="events_any" 
-		               onclick="uncheckAll(this, 'events'); updateCategories(this, 0)">Any<br>
-		</div>
-		<br>		               
-	    <img id="time_expander" src="images/expand.png" 
-		     onclick="toggle('time_options', 'time_expander')">&nbsp;<b>When</b><br>
-		<div id="time_options" style="display: none;">
-		  &nbsp;<input type="checkbox" name="times" id="time1" onclick="updateTimes(this, 'today')">Today<br>
-		  &nbsp;<input type="checkbox" name="times" id="time2" onclick="updateTimes(this, 'tomorrow')">Tomorrow<br>
-		  &nbsp;<input type="checkbox" name="times" id="time3" onclick="updateTimes(this, 'weekend')">Weekend<br>
-		  &nbsp;<input type="checkbox" id="times_any" 
-		               onclick="uncheckAll(this, 'times'); updateTimes(this, 'any')">Any<br>
-  	    </div>
-		<br>
-	    <img id="events_list_expander" src="images/collapse.png" 
-		     onclick="toggle('events_list', 'events_list_expander')">&nbsp;<b>Events</b><br>
+		<table style="width: 100%; border-top: 2px gray solid; border-bottom: 2px gray solid;">
+			<tr>
+				<td rowspan="2" style="font-size: 18px; width: 65%;"><b>Events</b></td>
+				<td style="text-align: right;">
+					<div id="categories_filter" style="cursor: pointer;"
+						 onmouseover="this.style.backgroundColor = '#F7EEEE'; 
+									  document.getElementById('events_categories').style.display = '';
+									  document.getElementById('time_options').style.display = 'none';"
+						 onmouseout="this.style.backgroundColor = 'white';">
+						<u style="color: blue; font-size: 12px; color: #8181F7;">All categories</u>
+					</div>
+					<div id="events_categories" 
+						 style="display: none; background-color: white; cursor: pointer; position: absolute; top: 100px; left: 300px; z-index: 2; border: 1px solid blue; text-align: left;">	 
+						<table>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleCategoryFilterClick(1, 'Music');">Music</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleCategoryFilterClick(2, 'Arts');">Arts</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleCategoryFilterClick(3, 'Media');">Media</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleCategoryFilterClick(4, 'Social');">Social</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleCategoryFilterClick(5, 'Education');">Education</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleCategoryFilterClick(6, 'Commercial');">Commercial</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleCategoryFilterClick(7, 'Festivals');">Festivals</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleCategoryFilterClick(8, 'Sports');">Sports</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleCategoryFilterClick(10, 'Other');">Other</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleCategoryFilterClick(11, 'Comedy');">Comedy</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleCategoryFilterClick(12, 'Politics');">Politics</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleCategoryFilterClick(13, 'Family');">Family</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleCategoryFilterClick(0, 'All Categories');">All Categories</td></tr>
+						</table>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td style="text-align: right;">
+					<div id="time_filter" style="cursor: pointer;"
+						 onmouseover="this.style.backgroundColor = '#F7EEEE'; 
+									  document.getElementById('time_options').style.display = ''; 
+									  document.getElementById('events_categories').style.display = 'none';"
+						 onmouseout="this.style.backgroundColor = 'white';">
+						<u style="color: blue; font-size: 12px; color: #8181F7;">All Times</u>
+					</div>
+					<div id="time_options" 
+					 	 style="display: none; background-color: white; cursor: pointer; position: absolute; top: 125px; left: 300px; z-index: 2; border: 1px solid blue; text-align: left;">	   
+						<table>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleTimeFilterClick('today', 'Today');">Today</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleTimeFilterClick('tomorrow', 'Tomorrow');">Tomorrow</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleTimeFilterClick('weekend', 'Weekend');">Weekend</td></tr>
+							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
+								    onmouseout="this.style.backgroundColor = 'white';" 
+								    onclick="handleTimeFilterClick('any', 'All Times');">All Times</td></tr>
+						</table>
+			  	    </div>
+				</td>
+			</tr>
+		</table>
 		<div id="events_list">
 		  <table id="events_scroller">
 		  </table>
