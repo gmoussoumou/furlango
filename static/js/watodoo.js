@@ -410,7 +410,8 @@ function updateScroller(events) {
 		// Table in each row
 		var innerTable = document.createElement('table');
 		row.appendChild(innerTable);
-		innerTable.setAttribute('id', event.id);
+		// Cannot start element ids with a number; only works in IE.
+		innerTable.setAttribute('id', 'event_' + event.id);  
 		innerTable.setAttribute('style', 'width: 100%');
 		innerTable.setAttribute('onclick', "openInfo(" + event.id + ")");
 		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#F7EEEE'");
