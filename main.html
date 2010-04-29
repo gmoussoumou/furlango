@@ -2,6 +2,8 @@
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
+
+
 <head profile="http://www.w3.org/2005/10/profile">
 <link rel="icon" type="images/ico" href="/images/favicon.ico" />
 
@@ -36,27 +38,45 @@
 <script type="text/javascript" src="/js/watodoo.js"></script>
 <script type="text/javascript" src="/js/util.js"></script>
 </head>
+
+
+
 <body>
+
+<div id="menu">
+		<li class="page_item page-item-9">
+	    	<a title="About us" href="http://furlango.com/blog/about-us/"></a> 
+		</li>
+</div>	
+<div id="menu2"> </div>
+
 <div id="header">
-		<div id="header_left">
-			<h1>Furlango</h1>
-		</div>	
+	<div id="header_left">
+		<h1><img id="hdrImg" src="/images/FurlanGo.png" alt="FurlanGo" /> </h1>
+	</div>	
+	
+	<div id="header_left2">
+		<form action="#" onsubmit="showAddress(this.address.value); return false">
+					      <p id="header_left2">
+					        <input type="text" style="width:300px" name="address" value="Near (Address, City, State or Zip)" onClick="address.value=''"/>
+					        <input type="submit" value="FurlanGo!" /> 
+							&nbsp; &nbsp;											Events around you </br>
+			             </p> 
+
+		</form>
+	</div>
 		<div id="header_right">
-			<p>
-				<b><a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a></b>
-				<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
-			</p>
-			<form action="#" onsubmit="showAddress(this.address.value); return false">
-				<p>
-					<input type="text" style="width:200px" name="address" value="Near (Address, City, State or Zip)" onClick="address.value=''"/>
-			    	<input type="submit" value="Go!" />
-		    	</p>
-			</form>	
+			<p id="header_right"> About Us | <a id="twitter" href="http://twitter.com/home?status=find interesting events and activities on map - www.furlango.com / @furlango" target="_blank">  <img id="twitter" src="/images/retweet.gif" border="0" alt="FurlanGo" /> </a> | <a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>  |  <a title="Furlango - Local events and activities" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="link" data-imageurl="http://www.furlango.com/images/FurlanGo.png"></a>
+			<script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script> |
+			   </p>
 		</div>
 </div>
+
+
 <div id="left">
 	<div id="left_margin">
-		<table style="width: 100%; border-top: 2px gray solid; border-bottom: 2px gray solid;">
+		<div id="left_block">
+		<table style="width: 100%; border-top: 0px gray solid; border-bottom: 0px gray solid;">
 			<tr>
 				<td rowspan="2" style="font-size: 18px; width: 65%;"><b>Events</b></td>
 				<td style="text-align: right;">
@@ -65,10 +85,10 @@
 									  document.getElementById('events_categories').style.display = '';
 									  document.getElementById('time_options').style.display = 'none';"
 						 onmouseout="this.style.backgroundColor = 'white';">
-						<u style="color: blue; font-size: 12px; color: #8181F7;">All categories</u>
+						<u style="color: #0D83DD; font-size: 12px; color: #0D83DD;">All categories</u>
 					</div>
 					<div id="events_categories" 
-						 style="display: none; background-color: white; cursor: pointer; position: absolute; top: 100px; left: 300px; z-index: 2; border: 1px solid blue; text-align: left;">	 
+						 style="display: none; background-color: white; cursor: pointer; position: absolute; top: 100px; left: 300px; z-index: 2; border: 1px solid #0D83DD; text-align: left;">	 
 						<table>
 							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
 								    onmouseout="this.style.backgroundColor = 'white';" 
@@ -120,10 +140,10 @@
 									  document.getElementById('time_options').style.display = ''; 
 									  document.getElementById('events_categories').style.display = 'none';"
 						 onmouseout="this.style.backgroundColor = 'white';">
-						<u style="color: blue; font-size: 12px; color: #8181F7;">All Times</u>
+						<u style="color: #0D83DD; font-size: 12px; color: #0D83DD;">All Times</u>
 					</div>
 					<div id="time_options" 
-					 	 style="display: none; background-color: white; cursor: pointer; position: absolute; top: 125px; left: 300px; z-index: 2; border: 1px solid blue; text-align: left;">	   
+					 	 style="display: none; background-color: white; cursor: pointer; position: absolute; top: 125px; left: 300px; z-index: 2; border: 1px solid #0D83DD; text-align: left;">	   
 						<table>
 							<tr><td onmouseover="this.style.backgroundColor = '#F7EEEE';" 
 								    onmouseout="this.style.backgroundColor = 'white';" 
@@ -142,17 +162,23 @@
 				</td>
 			</tr>
 		</table>
+		</div>
+		
+		<div id="left_block">
 		<div id="events_list">
 		  <table id="events_scroller">
 		  </table>
-		</div>  		               
+		</div>  		     
+		</div>          
 	</div>
 </div>	
 <div id="center">
 	<div id="map_canvas"></div>
 	  	<script type="text/javascript">initialize()</script> 
 	</div>
-	<div id="footer"></div>
+
+
+	
 </body>
 </html>
 
