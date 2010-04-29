@@ -339,7 +339,7 @@ function updateMarkers(events) {
 		
 		// Name
 		if (event.url == '') {
-			content += '<b style="color: blue;">' + event.name + '</b>';
+			content += '<b style="color: #0D83DD;">' + event.name + '</b>';
 		} else {
 			content += '<a href="' + event.url + '" target="_blank">' + event.name + '</a>';
 		}
@@ -437,13 +437,13 @@ function updateScroller(events) {
 		cell2.setAttribute('colspan', '3');
 		row1.appendChild(cell2);
 		if (event.url == '') {
-			cell2.innerHTML = '<b style="color: blue; color: #8181F7;">' + event.name + '</b>';
+			cell2.innerHTML = '<b style="color: #0D83DD; color: #0D83DD;">' + event.name + '</b>';
 		} else {
 			var linkToEvent = document.createElement('a');
 			cell2.appendChild(linkToEvent);
 			linkToEvent.setAttribute('href', event.url);
 			linkToEvent.setAttribute('target', '_blank');
-			linkToEvent.setAttribute('style', 'color: #8181F7;');
+			linkToEvent.setAttribute('style', 'color: #0D83DD;');
 			linkToEvent.innerHTML = '<b>' + event.name + '</b>';
 		}
 
@@ -457,7 +457,7 @@ function updateScroller(events) {
 		var categoryImage = document.createElement('img');
 		cell3.appendChild(categoryImage);
 		categoryImage.setAttribute('src', 'images/' + imageMap[event.category_id]);
-		categoryImage.setAttribute('style', 'border: 1px solid blue; width: 32px;');
+		categoryImage.setAttribute('style', 'border: 0px solid #0D83DD; width: 32px;');
 
 		// Event venue
 		var cell4 = document.createElement('td');
@@ -521,7 +521,7 @@ function handleCategoryFilterClick(categoryId, categoryText) {
 		currentInfoWindow.close();
 	}
 	document.getElementById('events_categories').style.display = 'none'; 
-    document.getElementById('categories_filter').innerHTML = '<u style="color: blue; font-size: 12px; color: #8181F7;">' + categoryText + '</u>';
+    document.getElementById('categories_filter').innerHTML = '<u style="color: #0D83DD; font-size: 12px; color: #8181F7;">' + categoryText + '</u>';
     updateCategories(categoryId);
 }
 
@@ -532,7 +532,7 @@ function handleTimeFilterClick(timeTag, timeText) {
 		currentInfoWindow.close();
 	}
 	document.getElementById('time_options').style.display = 'none'; 
-    document.getElementById('time_filter').innerHTML = '<u style="color: blue; font-size: 12px; color: #8181F7;">' + timeText + '</u>';
+    document.getElementById('time_filter').innerHTML = '<u style="color: #0D83DD; font-size: 12px; color: #8181F7;">' + timeText + '</u>';
     updateTimes(timeTag);	
 }
 
