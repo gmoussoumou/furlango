@@ -1,21 +1,16 @@
-/* Furlango Maps Key
-<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAPFqXiYfQYAapR3vV2DL8dRQwZkmGdQPAhxNB3VTyTbTNx0A0SBQdnaaGqbcm2_pzVfnfxevfy5sdKg"
-  		type="text/javascript">
-*/
-
 html {
 	min-height: 100%;
 }
 
-body{ 
-font-size:16px; 
-height: 100%;
-margin:0; 
-padding:0; 
-font-family:"Helvetica Neue",Helvetica,Arial,Sans-serif;
-font-size:0.875em;
-background:url("/images/bg.png") repeat-x scroll center top #C0C0C0;
-background-color:#FFFFFF;
+body { 
+	font-size:16px; 
+	height: 100%;
+	margin:0; 
+	padding:0; 
+	font-family:"Helvetica Neue",Helvetica,Arial,Sans-serif;
+	font-size:0.875em;
+	background:url("/images/bg.png") repeat-x scroll center top #C0C0C0;
+	background-color:#FFFFFF;
 }
 
 
@@ -40,17 +35,15 @@ h1 {
 }
 
 p {
-		font-color:#0D83DD;;
-		font-size:13px;
-		
+	font-color:#0D83DD;
+	font-size:13px;
 }
 
-a:link{
-	color:#0D83DD;;
+a:link {
+	color:#0D83DD;
 }
 
 hr {
-
   border:0;
   border-top: 1px solid #333;
   height: 0;
@@ -66,12 +59,9 @@ hr {
 	font-size:13px;
 }
 
-
-
 #events_scroller {
 	width: 100%;
 }
-
 
 
 /* Menu */
@@ -83,20 +73,14 @@ hr {
 }
 
 #menu2 {
-	
 	background-color: #0D83DD;
-	/*
-	background-color: #C9252B;
-	*/
 	height:0.2em;
-
 }
 
 #menu3 {
 	background-color: #191919;
 	height:0.5em;
 }
-
 
 #menu ul {
 	width: 800px;
@@ -106,12 +90,12 @@ hr {
 	left: 0;
 	list-style: none;
 	font-family:"Palatino","Georgia","Baskerville",serif;
-		font size: 30px;
+	font size: 30px;
 }
 
 .double-right-sidebar #menu ul {
 	width: 947px;
-		font size: 30px;
+	font size: 30px;
 }
 
 #menu ul li {
@@ -127,97 +111,86 @@ hr {
 	color: #868686;
 	text-decoration: none;
 	font-family:"Palatino","Georgia","Baskerville",serif;
-		font size: 30px;
+	font size: 30px;
 }
 
 #menu .current_page_item a, #menu .page_item a:hover {
 	color: #fff;
 	font-family:"Palatino","Georgia","Baskerville",serif;
-		font size: 30px;
+	font size: 30px;
 }
 
 
 /* Header - one below menu */
 
-
-#header{ 
-
-height:95px;
+#header { 
+	height:95px;
 }
 
-#header_left{
-	  margin-left:20px;
-	  margin-top:-15px;	
-	  float:left;
-
-	  font-color:#C9252B;
-	
+#header_left {
+	margin-left: 20px;
+	margin-top: -15px;	
+	float: left;
+	font-color: #C9252B;
 }
 
-#header_left2{
-	margin-left:60px;
-	float:left;
+#header_left2 {
+	margin-left: 60px;
+	float: left;
 	width: 400px;
-	margin-top:10px;
+	margin-top: 10px;
 	font-color: #333;
 }
 
-p#header_left2{
-	color:#333;
-	margin-top:20px;
-/*	color:#0D83DD;; */
-/*	font-size:23px; */
+p#header_left2 {
+	color: #333;
+	margin-top: 20px;
 }
 
-p#header_right{
-	font-color:#333;;
-	font-size:14px;
+p#header_right {
+	font-color: #333;
+	font-size: 14px;
     font-weight: bold;
 	
 }
 
-#header_right{
+#header_right {
 	  float:right;
 	  margin-top:4px;
 	  margin-right:10px;
 	  text-align: right;
-	  font-color: #333;;
+	  font-color: #333;
 }
 
-/* Left bloack */
+/* Left block */
 
-#left{ 
-float:left;
-width:330px;
-
-
- min-height:500px; /* for modern browsers */
- height:auto !important; /* for modern browsers */
- height:520px; /* for IE5.x and IE6 */
-border-style: solid;
+#left { 
+	float: left;
+	width: 330px;
+	min-height: 500px; /* for modern browsers */
+	height:auto !important; /* for modern browsers */
+	height:520px; /* for IE5.x and IE6 */
+	border-style: solid;
 	border-width: 0px;
 	border-left-width: 0px;
 	border-right-width: 0px;
 	border-bottom-width: 0px;
 	border-color: #333;
-
 }
 
-#left_margin{
-	float:left;
-	margin-left:10px;
-	height:525px;
+#left_margin {
+	float: left;
+	margin-left: 10px;
+	height: 525px;
 }
 
-#left_block{
-	border-style:dotted;
-	border-width:1px;
+#left_block {
+	border-style: dotted;
+	border-width: 1px;
 	border-color: #333; 
 	font-color: #333;
-	margin-right:10px;
-
-	background-color:#EEEEEE;
-	margin-bottom:10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
 }
 
 
@@ -228,15 +201,14 @@ div#map_canvas {
 	min-height: 520px;
 	width: 99%;
 	border-style: solid;
-		border-width: 1px;
-		border-left-width: 1px;
-		border-right-width: 1px;
-		border-color: #333;
+	border-width: 1px;
+	border-left-width: 1px;
+	border-right-width: 1px;
+	border-color: #333;
 }
 
 #center { 
 	margin-left: 330px;
-
 	min-height: 500px; /* for modern browsers */
 	height: auto !important; /* for modern browsers */
 	height: 500px; /* for IE5.x and IE6 */
@@ -245,8 +217,4 @@ div#map_canvas {
 #footer { 
 	margin-top:5px;
 	clear: both;
-/*
-	background-color: #333;
-	height: 100px;
-*/	
 }

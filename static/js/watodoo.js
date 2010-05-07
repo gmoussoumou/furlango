@@ -1,5 +1,5 @@
 /**
- * Logic for dynamically manipulating the DOM.
+ * All the meaty UI logic.
  *
  * @author Ajit Apte
  */
@@ -19,6 +19,7 @@ var selectedCategories =     // Bit vector for selected categories. 0th position
 	[false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 var selectedTimes = {'today': false, 'tomorrow': false, 'weekend': false, 'any': false};	
 var filters = [categoryFilter, timeFilter];  // List of filter methods.
+var parameterMap = {'eventId': openInfo};  // Mapping from URL parameters to the corresponding action
 
 /** Mapping from event category to the image. */
 var imageMap = {
@@ -146,9 +147,14 @@ function initialize() {
 	if (flag != 'true' || flag == null) {
 		whereAmI();
 	} else {
-		markHome();
-		insertYahooUpcomingScript();
+		initChores();
 	}
+}
+
+/** Initialization related chores. */
+function initChores() {
+	markHome();
+	insertYahooUpcomingScript();
 }
  
 /** Finds out the user's geolocation and stores it as a cookie. */
@@ -157,38 +163,32 @@ function whereAmI() {
 	if(navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function(position) {
 			storeMyLocation(position.coords.latitude, position.coords.longitude);
-			markHome();
-			insertYahooUpcomingScript();
+			initChores();
 		}, function() {
 			alert("W3C geolocation service failed. You have been placed in Mountain View, CA.");
 			storeMyLocation(37.386, -122.082);
-			markHome();
-			insertYahooUpcomingScript();
+			initChores();
 		});
 	
 	// Try Google Gears geolocation
 	// Note that using Google Gears requires loading the Javascript
 	// at http://code.google.com/apis/gears/gears_init.js
-	} 
-	else if (google.gears) {
+	} else if (google.gears) {
 		var geo = google.gears.factory.create('beta.geolocation');
 		geo.getCurrentPosition(function(position) {
 			storeMyLocation(position.coords.latitude, position.coords.longitude);
-			markHome();
-			insertYahooUpcomingScript();
+			initChores();
 		}, function() {
 			alert("Google Gears geolocation service failed. You have been placed in Mountain View, CA.");
 			storeMyLocation(37.386, -122.082);
-			markHome();
-		insertYahooUpcomingScript();
+			initChores();
 		});
 	
 	// Browser doesn't support geolocation
 	} else {
 		alert("Your browser doesn't support geolocation. You have been placed in Mountain View, CA.");
 		storeMyLocation(37.386, -122.082);
-		markHome();
-		insertYahooUpcomingScript();
+		initChores();
 	}
 }
 
@@ -235,6 +235,18 @@ function insertYahooUpcomingScript() {
 	document.getElementsByTagName('head')[0].appendChild(eventsScript);
 }
 
+/** Parses URL parameters and calls respective handlers. */
+function processUrlParameters() {
+	var params = window.location.hash.substring(1).split('&');
+	for (i in params) {
+		var pair = params[i].split('=');
+		var handler = parameterMap[pair[0]];
+		if (handler) {
+			handler(pair[1]);
+		}
+	}
+}
+
 /** Callback to handle event feed results. */
 function handleResponse(response) {
 	if (response.rsp.stat != 'ok') {
@@ -245,23 +257,21 @@ function handleResponse(response) {
 	// Sort events by start date and store in global list
 	allEvents = response.rsp.event;
 	allEvents.sort(function(event1, event2) {
-		if(event2.start_date == null){
-			return 1;
-		}
-		else if (event1.start_date == null){
+		if (event1.start_date == null) {
 			return -1;
-		}
-		else{
-		var startDate1 = new Date(event1.start_date);
-		var startDate2 = new Date(event2.start_date);
-		var result =  startDate1.getTime() - startDate2.getTime();
-		if (result > 0)
+		} else if (event2.start_date == null) {
 			return 1;
-		else if (result == 0)
-			return 0;
-		else if (result < 0)	
-			return -1;
-		else return 0;	
+		} else {
+			var startDate1 = new Date(event1.start_date);
+			var startDate2 = new Date(event2.start_date);
+			var result =  startDate1.getTime() - startDate2.getTime();
+			if (result < 0) {
+				return -1;
+			} else if (result > 0) {
+				return 1;
+			} else {
+				return 0;	
+			}
 		}
 	});
 
@@ -269,6 +279,7 @@ function handleResponse(response) {
 	updateCategories(0, false);
 	updateTimes('any', false);
 	updateAllWidgets();
+	processUrlParameters();
 }
 
 /** Updates selected event categories. */
@@ -341,6 +352,7 @@ function updateMarkers(events) {
 				size: new google.maps.Size(75, 50)
 			});
 		google.maps.event.addListener(marker, 'click', function() {
+			window.location.hash = '#eventId=' + event.id; 
 			if (currentInfoWindow) {
 				currentInfoWindow.close();
 			}
@@ -429,11 +441,11 @@ function updateScroller(events) {
 		row.appendChild(innerTable);
 		// Cannot start element ids with a number; only works in IE.
 		innerTable.setAttribute('id', 'event_' + event.id);  
-		innerTable.setAttribute('style', 'width: 100%', "backgroundcolor= '#333'");
-		innerTable.setAttribute('onclick', "openInfo(" + event.id + ")");
-//		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#F7EEEE'");
+		innerTable.setAttribute('style', 'width: 100%');
+		innerTable.setAttribute(
+			'onclick', "window.location.hash = '#eventId=" + event.id + "'; openInfo(" + event.id + ");");
 		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#F3F8FB'");
-		innerTable.setAttribute('onmouseout', "this.style.backgroundColor = 'transparent'");
+		innerTable.setAttribute('onmouseout', "this.style.backgroundColor = 'white'");
 		innerTable.setAttribute('cellpadding', '1px');
 		
 		// First row in the inner table contains marker and the link to the event
@@ -443,7 +455,6 @@ function updateScroller(events) {
 		// Marker
 		var cell1 = document.createElement('td');
 		cell1.setAttribute('rowspan', '2');
-//		cell1.setAttribute('style', 'background-color: #F5E1BF; width: 10px;');
 		row1.appendChild(cell1);
 		var markerImage = document.createElement('img');
 		cell1.appendChild(markerImage);
@@ -455,7 +466,7 @@ function updateScroller(events) {
 		cell2.setAttribute('colspan', '3');
 		row1.appendChild(cell2);
 		if (event.url == '') {
-			cell2.innerHTML = '<b style="color: #0D83DD; color: #0D83DD;">' + event.name + '</b>';
+			cell2.innerHTML = '<b style="color: #0D83DD;">' + event.name + '</b>';
 		} else {
 			var linkToEvent = document.createElement('a');
 			cell2.appendChild(linkToEvent);
@@ -498,8 +509,12 @@ function openInfo(eventId) {
 		currentInfoWindow.close();
 	}
 	var row = eventMarkerMap[eventId];
-	row.info.open(map, row.marker);
-	currentInfoWindow = row.info;
+	if (row) {
+		row.info.open(map, row.marker);
+		currentInfoWindow = row.info;
+	} else {
+		alert('This event no longer exists.');
+	}
 }
 
 /** Initialize geocoder on load **/
@@ -524,8 +539,7 @@ function showAddress(address) {
             } else {
 				writeCookie('search', 'true');
 				storeMyLocation(point.lat(), point.lng());
-				markHome();
-				insertYahooUpcomingScript();
+				initChores();
             }
           }
         );
