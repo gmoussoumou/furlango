@@ -441,11 +441,11 @@ function updateScroller(events) {
 		row.appendChild(innerTable);
 		// Cannot start element ids with a number; only works in IE.
 		innerTable.setAttribute('id', 'event_' + event.id);  
-		innerTable.setAttribute('style', 'width: 100%');
+		innerTable.setAttribute('style', 'width: 100%; cursor: pointer; cursor: hand;');
 		innerTable.setAttribute(
 			'onclick', "window.location.hash = '#eventId=" + event.id + "'; openInfo(" + event.id + ");");
-		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#F3F8FB'");
-		innerTable.setAttribute('onmouseout', "this.style.backgroundColor = 'white'");
+		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#F3F8FB';");
+		innerTable.setAttribute('onmouseout', "this.style.backgroundColor = 'white';");
 		innerTable.setAttribute('cellpadding', '1px');
 		
 		// First row in the inner table contains marker and the link to the event
