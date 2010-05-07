@@ -33,7 +33,7 @@ var imageMap = {
 	10: 'other.png',
 	11: 'comedy.png',
 	12: 'politics.png',
-	13: 'family.png',
+	13: 'family.png'
 };
 
 /** Category filter. */
@@ -125,7 +125,8 @@ function timeFilter(events) {
 	
 /** Applies all filters on all events and returns the filtered event list. */
 function filterEvents() {
-	var events = allEvents.filter(function(x) {return true});  // Make a local copy!
+	var events = [];
+	events = allEvents.filter(function(x) {return true});  // Make a local copy!
 	var filteredEvents = [];
 	for (var i in filters) {
 		filteredEvents = filters[i](events);
@@ -168,7 +169,8 @@ function whereAmI() {
 	// Try Google Gears geolocation
 	// Note that using Google Gears requires loading the Javascript
 	// at http://code.google.com/apis/gears/gears_init.js
-	} else if (google.gears) {
+	} 
+	else if (google.gears) {
 		var geo = google.gears.factory.create('beta.geolocation');
 		geo.getCurrentPosition(function(position) {
 			storeMyLocation(position.coords.latitude, position.coords.longitude);
@@ -178,7 +180,7 @@ function whereAmI() {
 			alert("Google Gears geolocation service failed. You have been placed in Mountain View, CA.");
 			storeMyLocation(37.386, -122.082);
 			markHome();
-			insertYahooUpcomingScript();
+		insertYahooUpcomingScript();
 		});
 	
 	// Browser doesn't support geolocation
@@ -243,9 +245,24 @@ function handleResponse(response) {
 	// Sort events by start date and store in global list
 	allEvents = response.rsp.event;
 	allEvents.sort(function(event1, event2) {
+		if(event2.start_date == null){
+			return 1;
+		}
+		else if (event1.start_date == null){
+			return -1;
+		}
+		else{
 		var startDate1 = new Date(event1.start_date);
 		var startDate2 = new Date(event2.start_date);
-		return startDate1.getTime() - startDate2.getTime();
+		var result =  startDate1.getTime() - startDate2.getTime();
+		if (result > 0)
+			return 1;
+		else if (result == 0)
+			return 0;
+		else if (result < 0)	
+			return -1;
+		else return 0;	
+		}
 	});
 
 	// Default settings
@@ -310,7 +327,7 @@ function updateMarkers(events) {
 			position: _location, 
 			map: map, 
 			title: _name,
-			icon: 'http://www.google.com/mapfiles/marker' + letter + '.png',
+			icon: 'http://www.google.com/mapfiles/marker' + letter + '.png'
 		});
 		markers.push(marker);
 		attachInfo(marker, event);
@@ -335,7 +352,7 @@ function updateMarkers(events) {
 	
 	/** Formats information about the given event into human readable form. */
 	function formatInfo(event) {
-		var content = '<div id="event_info" style="background-color: #F5E1BF; padding: 5px;">'
+		var content = '<div id="event_info" style="background-color: #F3F8FB; padding: 5px;">'
 		
 		// Name
 		if (event.url == '') {
@@ -412,10 +429,11 @@ function updateScroller(events) {
 		row.appendChild(innerTable);
 		// Cannot start element ids with a number; only works in IE.
 		innerTable.setAttribute('id', 'event_' + event.id);  
-		innerTable.setAttribute('style', 'width: 100%');
+		innerTable.setAttribute('style', 'width: 100%', "backgroundcolor= '#333'");
 		innerTable.setAttribute('onclick', "openInfo(" + event.id + ")");
-		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#F7EEEE'");
-		innerTable.setAttribute('onmouseout', "this.style.backgroundColor = 'white'");
+//		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#F7EEEE'");
+		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#F3F8FB'");
+		innerTable.setAttribute('onmouseout', "this.style.backgroundColor = 'transparent'");
 		innerTable.setAttribute('cellpadding', '1px');
 		
 		// First row in the inner table contains marker and the link to the event
@@ -425,7 +443,7 @@ function updateScroller(events) {
 		// Marker
 		var cell1 = document.createElement('td');
 		cell1.setAttribute('rowspan', '2');
-		cell1.setAttribute('style', 'background-color: #F5E1BF; width: 10px;');
+//		cell1.setAttribute('style', 'background-color: #F5E1BF; width: 10px;');
 		row1.appendChild(cell1);
 		var markerImage = document.createElement('img');
 		cell1.appendChild(markerImage);
