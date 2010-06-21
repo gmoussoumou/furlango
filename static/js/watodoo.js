@@ -229,7 +229,7 @@ function insertYahooUpcomingScript() {
 
 	var eventsScript = document.createElement('script');
 	eventsScript.src = 'http://upcoming.yahooapis.com/services/rest/?api_key=ea79f3c7b2' + 
-		'&method=event.getBestInPlace&sort=score-desc&per_page=25&format=json' + 
+		'&method=event.getBestInPlace&sort=score-desc&per_page=100&format=json' + 
 		'&callback=handleResponse&location=' + _location;
 
 	document.getElementsByTagName('head')[0].appendChild(eventsScript);
@@ -327,21 +327,26 @@ function updateMarkers(events) {
 	eventMarkerMap = {};
 	for (var i in events) {
 		var event = events[i];
-		var _location = new google.maps.LatLng(event.latitude, event.longitude);
-		var _name = event.name;
-		var image = new google.maps.MarkerImage('images/' + imageMap[event.category_id],
-			new google.maps.Size(32, 32),
-			new google.maps.Point(0, 0),     // origin
-			new google.maps.Point(0, 32));   // anchor		
-		var letter = String.fromCharCode("A".charCodeAt(0) + eval(i));
 		var marker = new google.maps.Marker({
-			position: _location, 
+			position: new google.maps.LatLng(event.latitude, event.longitude),
+			icon: '/images/marker.png',
 			map: map, 
-			title: _name,
-			icon: 'http://www.google.com/mapfiles/marker' + letter + '.png'
+			title: event.name
 		});
 		markers.push(marker);
 		attachInfo(marker, event);
+		
+		// Label markers
+		var t = eval(i) + 1;
+		var markerText = t;
+		if (t < 10) { // one-digit labels need extra margin
+			markerText = '&nbsp;' + t;
+		}
+		var label = new Label({
+           map: map,
+           position: marker.position,
+           text: markerText
+        });
 	}
 	
 	/** Creates an InfoWindow for the given marker and event information. */
@@ -442,8 +447,8 @@ function updateScroller(events) {
 		// Cannot start element ids with a number; only works in IE.
 		innerTable.setAttribute('id', 'event_' + event.id);  
 		innerTable.setAttribute('style', 'width: 100%; cursor: pointer; cursor: hand;');
-		innerTable.setAttribute(
-			'onclick', "window.location.hash = '#eventId=" + event.id + "'; openInfo(" + event.id + ");");
+		innerTable.setAttribute('onclick', 
+			"window.location.hash = '#eventId=" + event.id + "'; openInfo(" + event.id + ");");
 		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#F3F8FB';");
 		innerTable.setAttribute('onmouseout', "this.style.backgroundColor = 'white';");
 		innerTable.setAttribute('cellpadding', '1px');
@@ -452,14 +457,13 @@ function updateScroller(events) {
 		var row1 = document.createElement('tr');
 		innerTable.appendChild(row1);
 
-		// Marker
+		// Event marker tracking number
 		var cell1 = document.createElement('td');
 		cell1.setAttribute('rowspan', '2');
 		row1.appendChild(cell1);
-		var markerImage = document.createElement('img');
-		cell1.appendChild(markerImage);
-		var letter = String.fromCharCode("A".charCodeAt(0) + eval(i));
-		markerImage.setAttribute('src', 'http://www.google.com/mapfiles/marker' + letter + '.png');
+		cell1.setAttribute('style', 
+			'font-weight: bold; font-size: larger; padding: 3px; background-color: #F3F8FF');
+		cell1.innerHTML = eval(i) + 1;
 
 		// Event link
 		var cell2 = document.createElement('td');
@@ -553,7 +557,8 @@ function handleCategoryFilterClick(categoryId, categoryText) {
 		currentInfoWindow.close();
 	}
 	document.getElementById('events_categories').style.display = 'none'; 
-    document.getElementById('categories_filter').innerHTML = '<u style="color: #0D83DD; font-size: 12px; color: #8181F7;">' + categoryText + '</u>';
+    document.getElementById('categories_filter').innerHTML = 
+    	'<u style="color: #0D83DD; font-size: 12px; color: #8181F7;">' + categoryText + '</u>';
     updateCategories(categoryId);
 }
 
@@ -564,7 +569,8 @@ function handleTimeFilterClick(timeTag, timeText) {
 		currentInfoWindow.close();
 	}
 	document.getElementById('time_options').style.display = 'none'; 
-    document.getElementById('time_filter').innerHTML = '<u style="color: #0D83DD; font-size: 12px; color: #8181F7;">' + timeText + '</u>';
+    document.getElementById('time_filter').innerHTML = 
+    	'<u style="color: #0D83DD; font-size: 12px; color: #8181F7;">' + timeText + '</u>';
     updateTimes(timeTag);	
 }
 
