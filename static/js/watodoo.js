@@ -556,7 +556,7 @@ function handleCategoryFilterClick(categoryId, categoryText) {
 	if (currentInfoWindow) {
 		currentInfoWindow.close();
 	}
-	toggle('events_categories', 'categories_arrow');; 
+	toggle('events_categories', 'categories_arrow');
     document.getElementById('selected_category').innerHTML = 
     	'<u style="color: #0D83DD; font-size: 12px; color: #8181F7;">' + categoryText + '</u>';
     updateCategories(categoryId);
@@ -568,7 +568,7 @@ function handleTimeFilterClick(timeTag, timeText) {
 	if (currentInfoWindow) {
 		currentInfoWindow.close();
 	}
-	toggle('time_options', 'time_arrow');; 
+	toggle('time_options', 'time_arrow');
     document.getElementById('selected_time').innerHTML = 
     	'<u style="color: #0D83DD; font-size: 12px; color: #8181F7;">' + timeText + '</u>';
     updateTimes(timeTag);	
