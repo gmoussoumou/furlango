@@ -22,4 +22,28 @@ function writeCookie(key, value) {
 	document.cookie = key + '=' + value + '; path=/';
 }
 
+/** 
+ * Toggles the display of the target widget, when the 
+ * zipper widget is clicked.
+ */
+function toggle(target, zipper) {
+	var targetWidget = document.getElementById(target);
+	var zipperWidget = document.getElementById(zipper);
+	if (targetWidget.style.display == 'none') {
+		targetWidget.style.display = '';
+		zipperWidget.src = '/images/collapse_arrow.png';
+	} else {
+		targetWidget.style.display = 'none';
+		zipperWidget.src = '/images/expand_arrow.png';
+	}
+}
+
+/** Returns if the target widget is currently open. */
+function isOpen(target) {
+	if (document.getElementById(target).style.display == '') {
+		return true;
+	}
+	return false;
+}
+
 
