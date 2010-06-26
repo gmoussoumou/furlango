@@ -56,7 +56,6 @@
 					      <p id="header_left2">
 					        <input type="text" style="width:300px" name="address" value="Near (Address, City, State or Zip)" onClick="address.value=''"/>
 					        <input type="submit" value="FurlanGo!" /> 
-							&nbsp; &nbsp;											Events around you </br>
 			             </p> 
 
 		</form>
@@ -76,14 +75,18 @@
 				<td rowspan="2" style="font-size: 18px; width: 65%;"><b>Events</b></td>
 				<td style="text-align: right;">
 					<div id="categories_filter" style="cursor: pointer;"
-						 onmouseover="this.style.backgroundColor = '#F3F8FB'; 
-									  document.getElementById('events_categories').style.display = '';
-									  document.getElementById('time_options').style.display = 'none';"
+						 onclick="toggle('events_categories', 'categories_arrow');
+						          if (isOpen('time_options')) {
+						              toggle('time_options', 'time_arrow');
+						          }"
+						 onmouseover="this.style.backgroundColor = '#F3F8FB';"
 						 onmouseout="this.style.backgroundColor = 'white';">
-						<u style="color: #0D83DD; font-size: 12px;">All categories</u>
+						<u id="selected_category" style="color: #0D83DD; font-size: 12px;">All categories</u>
+						<img id="categories_arrow" src="/images/expand_arrow.png"></img>
 					</div>
 					<div id="events_categories" 
-						 style="display: none; background-color: white; cursor: pointer; position: absolute; top: 110px; left: 320px; z-index: 2; border: 1px solid #0D83DD; text-align: left;">	 
+						 style="display: none; background-color: white; cursor: pointer; position: absolute; 
+						        top: 110px; left: 320px; z-index: 2; border: 1px solid #0D83DD; text-align: left;">	 
 						<table>
 							<tr><td onmouseover="this.style.backgroundColor = '#F3F8FB';" 
 								    onmouseout="this.style.backgroundColor = 'white';" 
@@ -131,14 +134,18 @@
 			<tr>
 				<td style="text-align: right;">
 					<div id="time_filter" style="cursor: pointer;"
-						 onmouseover="this.style.backgroundColor = '#F3F8FB'; 
-									  document.getElementById('time_options').style.display = ''; 
-									  document.getElementById('events_categories').style.display = 'none';"
+						 onclick="toggle('time_options', 'time_arrow');
+						          if (isOpen('events_categories')) {
+						              toggle('events_categories', 'categories_arrow');
+						          }"
+						 onmouseover="this.style.backgroundColor = '#F3F8FB';"
 						 onmouseout="this.style.backgroundColor = 'white';">
-						<u style="color: #0D83DD; font-size: 12px;">All Times</u>
+						<u id="selected_time" style="color: #0D83DD; font-size: 12px;">All Times</u>
+						<img id="time_arrow" src="/images/expand_arrow.png"></img>
 					</div>
 					<div id="time_options" 
-					 	 style="display: none; background-color: white; cursor: pointer; position: absolute; top: 135px; left: 320px; z-index: 2; border: 1px solid #0D83DD; text-align: left;">	   
+					 	 style="display: none; background-color: white; cursor: pointer; position: absolute; 
+					 	        top: 135px; left: 320px; z-index: 2; border: 1px solid #0D83DD; text-align: left;">	   
 						<table>
 							<tr><td onmouseover="this.style.backgroundColor = '#F3F8FB';" 
 								    onmouseout="this.style.backgroundColor = 'white';" 
