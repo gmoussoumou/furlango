@@ -11,7 +11,8 @@ var eventMarkerMap = {};
 var geocoder;
 var homeMarker;
 var map;
-var markers = []; 
+var labels = []; // All currently displayed labels
+var markers = []; // All currently displayed markers
 
 // Event related variables and methods
 var allEvents = [];          // All events sorted by start date
@@ -317,7 +318,11 @@ function updateAllWidgets() {
 
 /** Update markers according to the given events. */
 function updateMarkers(events) {
-	// Clear all markers.
+	// Clear all labels and markers.
+	for (var i in labels) {
+		labels[i].setMap(null);
+	}
+	labels = [];
 	for (var i in markers) {
 		markers[i].setMap(null);
 	}
@@ -347,6 +352,7 @@ function updateMarkers(events) {
            position: marker.position,
            text: markerText
         });
+        labels.push(label);
 	}
 	
 	/** Creates an InfoWindow for the given marker and event information. */
