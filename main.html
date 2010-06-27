@@ -70,23 +70,27 @@
 <div id="left">
 	<div id="left_margin">
 		<div id="left_block">
-		<table style="width: 100%; border-top: 0px gray solid; border-bottom: 0px gray solid;">
+		<table id="events_container_table">
 			<tr>
-				<td rowspan="2" style="font-size: 18px; width: 65%;"><b>Events</b></td>
-				<td style="text-align: right;">
-					<div id="categories_filter" style="cursor: pointer;"
+				<td id="events_title_cell" rowspan="2"><b>Events</b></td>
+				<td id="events_filters_cell">
+					<div id="categories_filter"
 						 onclick="toggle('events_categories', 'categories_arrow');
 						          if (isOpen('time_options')) {
 						              toggle('time_options', 'time_arrow');
 						          }"
 						 onmouseover="this.style.backgroundColor = '#F3F8FB';"
 						 onmouseout="this.style.backgroundColor = 'white';">
-						<u id="selected_category" style="color: #0D83DD; font-size: 12px;">All categories</u>
+						<u id="selected_category">All categories</u>
 						<img id="categories_arrow" src="/images/expand_arrow.png"></img>
 					</div>
-					<div id="events_categories" 
-						 style="display: none; background-color: white; cursor: pointer; position: absolute; 
-						        top: 110px; left: 320px; z-index: 2; border: 1px solid #0D83DD; text-align: left;">	 
+					<div id="events_categories"
+						 style="background-color: white; 
+						 border: 1px solid #0D83DD; 
+						 cursor: pointer; 
+						 display: none; 	
+						 position: absolute; top: 110px; left: 320px; z-index: 2; 
+						 text-align: left;"> 
 						<table>
 							<tr><td onmouseover="this.style.backgroundColor = '#F3F8FB';" 
 								    onmouseout="this.style.backgroundColor = 'white';" 
@@ -132,20 +136,24 @@
 				</td>
 			</tr>
 			<tr>
-				<td style="text-align: right;">
-					<div id="time_filter" style="cursor: pointer;"
+				<td  id="time_filters_cell">
+					<div id="time_filter"
 						 onclick="toggle('time_options', 'time_arrow');
 						          if (isOpen('events_categories')) {
 						              toggle('events_categories', 'categories_arrow');
 						          }"
 						 onmouseover="this.style.backgroundColor = '#F3F8FB';"
 						 onmouseout="this.style.backgroundColor = 'white';">
-						<u id="selected_time" style="color: #0D83DD; font-size: 12px;">All Times</u>
+						<u id="selected_time">All Times</u>
 						<img id="time_arrow" src="/images/expand_arrow.png"></img>
 					</div>
-					<div id="time_options" 
-					 	 style="display: none; background-color: white; cursor: pointer; position: absolute; 
-					 	        top: 135px; left: 320px; z-index: 2; border: 1px solid #0D83DD; text-align: left;">	   
+					<div id="time_options"
+						 style="background-color: white; 
+								border: 1px solid #0D83DD; 
+								cursor: pointer; 
+								display: none; 
+								position: absolute; top: 135px; left: 320px; z-index: 2; 
+								text-align: left;"> 
 						<table>
 							<tr><td onmouseover="this.style.backgroundColor = '#F3F8FB';" 
 								    onmouseout="this.style.backgroundColor = 'white';" 
