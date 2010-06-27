@@ -375,7 +375,7 @@ function updateMarkers(events) {
 	
 	/** Formats information about the given event into human readable form. */
 	function formatInfo(event) {
-		var content = '<div id="event_info" style="background-color: #F3F8FB; padding: 5px;">'
+		var content = '<div id="event_info">'
 		
 		// Name
 		if (event.url == '') {
@@ -452,7 +452,7 @@ function updateScroller(events) {
 		row.appendChild(innerTable);
 		// Cannot start element ids with a number; only works in IE.
 		innerTable.setAttribute('id', 'event_' + event.id);  
-		innerTable.setAttribute('style', 'width: 100%; cursor: pointer; cursor: hand;');
+		innerTable.setAttribute('class', 'events_scroller_item');
 		innerTable.setAttribute('onclick', 
 			"window.location.hash = '#eventId=" + event.id + "'; openInfo(" + event.id + ");");
 		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#F3F8FB';");
@@ -467,8 +467,7 @@ function updateScroller(events) {
 		var cell1 = document.createElement('td');
 		cell1.setAttribute('rowspan', '2');
 		row1.appendChild(cell1);
-		cell1.setAttribute('style', 
-			'font-weight: bold; font-size: larger; padding: 3px; background-color: #F3F8FF');
+		cell1.setAttribute('class', 'events_scroller_item_id');
 		cell1.innerHTML = eval(i) + 1;
 
 		// Event link
@@ -495,19 +494,19 @@ function updateScroller(events) {
 		row2.appendChild(cell3);
 		var categoryImage = document.createElement('img');
 		cell3.appendChild(categoryImage);
-		categoryImage.setAttribute('src', 'images/' + imageMap[event.category_id]);
-		categoryImage.setAttribute('style', 'border: 0px solid #0D83DD; width: 32px;');
+		categoryImage.setAttribute('src', '/images/' + imageMap[event.category_id]);
+		categoryImage.setAttribute('class', 'events_scroller_category_image');
 
 		// Event venue
 		var cell4 = document.createElement('td');
 		row2.appendChild(cell4);
-		cell4.setAttribute('style', 'font-size: 12px; width: 135px;');
+		cell4.setAttribute('class', 'events_scroller_venue');
 		cell4.innerHTML = event.venue_name;
 
 		// Event start date
 		var cell5 = document.createElement('td');
 		row2.appendChild(cell5);
-		cell5.setAttribute('style', 'font-size: 12px; color: gray; text-align: right;');
+		cell5.setAttribute('class', 'events_scroller_start_date');
 		var date = (new Date(event.start_date)).toLocaleDateString();
 		cell5.innerHTML = date.substring(0, date.length - 6);
 	}
@@ -563,8 +562,7 @@ function handleCategoryFilterClick(categoryId, categoryText) {
 		currentInfoWindow.close();
 	}
 	toggle('events_categories', 'categories_arrow');
-    document.getElementById('selected_category').innerHTML = 
-    	'<u style="color: #0D83DD; font-size: 12px; color: #8181F7;">' + categoryText + '</u>';
+    document.getElementById('selected_category').innerHTML = '<u>' + categoryText + '</u>';
     updateCategories(categoryId);
 }
 
@@ -575,8 +573,7 @@ function handleTimeFilterClick(timeTag, timeText) {
 		currentInfoWindow.close();
 	}
 	toggle('time_options', 'time_arrow');
-    document.getElementById('selected_time').innerHTML = 
-    	'<u style="color: #0D83DD; font-size: 12px; color: #8181F7;">' + timeText + '</u>';
+    document.getElementById('selected_time').innerHTML = '<u>' + timeText + '</u>';
     updateTimes(timeTag);	
 }
 
