@@ -38,6 +38,31 @@ var imageMap = {
 	13: 'family.png'
 };
 
+/* Category ids to names. */
+var categoryMap = {
+	0: 'All Categories',
+	1: 'Music',
+	2: 'Arts',
+	3: 'Media',
+	4: 'Social',
+	5: 'Education',
+	6: 'Commercial',
+	7: 'Festivals',
+	8: 'Sports',
+	10: 'Other',
+	11: 'Comedy',
+	12: 'Politics',
+	13: 'Family'
+};
+
+/* Time options */
+var timeMap = {
+	'any': 'All Times',
+	'today': 'Today',
+	'tomorrow': 'Tomorrow',
+	'weekend': 'Weekend'
+};
+
 /** Category filter. */
 function categoryFilter(events) {
 	// No category criteria - return all events
@@ -144,8 +169,8 @@ function filterEvents() {
 function initialize() {
 	initMap();
 	geocoder = new GClientGeocoder();
-	var flag = readCookie('search');
-	if (flag != 'true' || flag == null) {
+	var isSearch = readCookie('search');
+	if (isSearch != 'true' || isSearch == null) {
 		whereAmI();
 	} else {
 		initChores();
@@ -156,6 +181,8 @@ function initialize() {
 function initChores() {
 	markHome();
 	insertYahooUpcomingScript();
+	initEventCategoryOptions();
+	initEventTimeOptions();
 }
  
 /** Finds out the user's geolocation and stores it as a cookie. */
@@ -235,6 +262,59 @@ function insertYahooUpcomingScript() {
 
 	document.getElementsByTagName('head')[0].appendChild(eventsScript);
 }
+
+/** Initialize the event category options dialog. */
+function initEventCategoryOptions() {
+	// Set default
+	document.getElementById('selected_category').innerHTML = categoryMap[0];
+	
+	var container = document.getElementById('events_categories');
+	if (container.hasChildNodes()) { // Avoid double painting
+		container.removeChild(container.firstChild);
+	}
+	var table = document.createElement('table');
+	container.appendChild(table);
+
+	// Add all categories to the dialog	
+	for (var i in categoryMap) {
+		var row = document.createElement('tr');
+		table.appendChild(row);
+		var col = document.createElement('td');
+		row.appendChild(col);
+		col.setAttribute("onmouseover", "this.style.backgroundColor = '#F3F8FB';");
+		col.setAttribute("onmouseout", "this.style.backgroundColor = white;");
+		col.setAttribute("onclick", 
+		                 "handleCategoryFilterClick(" + i + ", '" + categoryMap[i] + "');");
+		col.innerHTML = categoryMap[i];            
+	}
+}
+
+/** Initialize the event times options dialog. */
+function initEventTimeOptions() {
+	// Set default
+	document.getElementById('selected_time').innerHTML = timeMap['any'];
+	
+	var container = document.getElementById('time_options');
+	if (container.hasChildNodes()) { // Avoid double painting
+		container.removeChild(container.firstChild);
+	}
+	var table = document.createElement('table');
+	container.appendChild(table);
+
+	// Add all time options to the dialog	
+	for (var i in timeMap) {
+		var row = document.createElement('tr');
+		table.appendChild(row);
+		var col = document.createElement('td');
+		row.appendChild(col);
+		col.setAttribute("onmouseover", "this.style.backgroundColor = '#F3F8FB';");
+		col.setAttribute("onmouseout", "this.style.backgroundColor = white;");
+		col.setAttribute("onclick", 
+		                 "handleTimeFilterClick('" + i + "', '" + timeMap[i] + "');");
+		col.innerHTML = timeMap[i];            
+	}
+}
+
 
 /** Parses URL parameters and calls respective handlers. */
 function processUrlParameters() {
