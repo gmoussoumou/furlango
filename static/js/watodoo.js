@@ -179,8 +179,9 @@ function initialize() {
 
 /** Initialization related chores. */
 function initChores() {
-	markHome();
 	insertYahooUpcomingScript();
+	insertGrouponDealsScript();
+	markHome();
 	initEventCategoryOptions();
 	initEventTimeOptions();
 }
@@ -258,9 +259,25 @@ function insertYahooUpcomingScript() {
 	var eventsScript = document.createElement('script');
 	eventsScript.src = 'http://upcoming.yahooapis.com/services/rest/?api_key=ea79f3c7b2' + 
 		'&method=event.getBestInPlace&sort=score-desc&per_page=100&format=json' + 
-		'&callback=handleResponse&location=' + _location;
+		'&callback=handleYahooResponse&location=' + _location;
 
 	document.getElementsByTagName('head')[0].appendChild(eventsScript);
+}
+
+/** Insert a script element for invoking the Groupon deals script. */
+function insertGrouponDealsScript() {
+	var lat = readCookie('latitude');
+	var lng = readCookie('longitude');
+
+	var grouponScript = document.createElement('script');
+	grouponScript.src = 'http://www.groupon.com/api/v1/deals'
+		+ '?X-GrouponToken=827581b3617e5ac54482be2dcc23a12c5a36c2fd'
+		+ '&lat=' + lat
+		+ '&lng=' + lng
+		+ '&format=json'
+		+ '&callback=handleGrouponResponse';
+
+	document.getElementsByTagName('head')[0].appendChild(grouponScript);
 }
 
 /** Initialize the event category options dialog. */
@@ -269,7 +286,7 @@ function initEventCategoryOptions() {
 	document.getElementById('selected_category').innerHTML = categoryMap[0];
 	
 	var container = document.getElementById('events_categories');
-	if (container.hasChildNodes()) { // Avoid double painting
+	while (container.hasChildNodes()) { // start with a clean slate
 		container.removeChild(container.firstChild);
 	}
 	var table = document.createElement('table');
@@ -329,7 +346,7 @@ function processUrlParameters() {
 }
 
 /** Callback to handle event feed results. */
-function handleResponse(response) {
+function handleYahooResponse(response) {
 	if (response.rsp.stat != 'ok') {
 		alert('Error fetching events feed. Please try after some time.');
 		return;
@@ -361,6 +378,34 @@ function handleResponse(response) {
 	updateTimes('any', false);
 	updateAllWidgets();
 	processUrlParameters();
+}
+
+/** Display all groupon deals. */
+function handleGrouponResponse(response) {
+	if (response.status.message != 'Ok') {
+		alert('Error fetching deals. Please try after some time.');
+		return;
+	}
+	
+	var container = document.getElementById('groupon_deals');
+	while (container.hasChildNodes()) { // start with a clean slate
+		container.removeChild(container.firstChild);
+	}
+	for (var i in response.deals) {
+		var deal = response.deals[i];
+		
+		var link = document.createElement('a');
+		container.appendChild(link);
+		link.setAttribute('href', deal.deal_url);
+		link.setAttribute('target', '_blank');
+		link.innerHTML = deal.title + '<br>';
+		
+		var image = document.createElement('img');
+		container.appendChild(image);
+		image.setAttribute('src', deal.medium_image_url);
+		
+		container.innerHTML += '<br><br>';
+	}
 }
 
 /** Updates selected event categories. */

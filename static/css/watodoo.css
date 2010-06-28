@@ -292,3 +292,30 @@ div#map_canvas {
 	font-size: 12px; 
 	text-align: right;
 }
+
+/* Groupon deals. */
+#groupon_deals {
+	background-color: #F7F8E0; 
+	border: 3px solid #76A045;
+	color: #76A045;
+	font-size: smaller;
+	font-weight: bold;
+	opacity: 0.8; filter:alpha(opacity=60);
+	padding: 3px;
+	position: absolute; bottom: 160px; right: 15px; z-index: 2; 
+	text-align: left;
+	height: 130px;
+	width: 200px;
+	overflow-y: scroll;
+}
+
+#powered_by_groupon {
+	background-color: #F7F8E0; 
+	border-top: 3px solid #76A045;
+	border-left: 3px solid #76A045;
+	border-right: 3px solid #76A045;
+	height: 40px;
+	width: 207px;
+	opacity: 0.8; filter:alpha(opacity=60);
+	position: absolute; bottom: 302px; right: 15px; z-index: 2; 
+}
