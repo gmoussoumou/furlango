@@ -552,6 +552,20 @@ function updateMarkers(events) {
 			content += '<a href="' + event.ticket_url + '" target="_blank">' + event.ticket_url + '</a>';
 		}
 				
+		//Facebook Like Button
+		var eventURL = 'http://4.latest.watodoo.appspot.com/#eventId=' + event.id ;
+
+		//content +=' <a title="Post to Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="link"></a> &nbsp';
+		content +='<br> <b>Share with your friends</b> </br>'
+		content +='Event URL='+ eventURL;
+		content +='<br>'
+		//var eventURL = escape(eventURL);
+		var facebookURL = '<iframe src="http://www.facebook.com/plugins/like.php?href=' + escape(eventURL) +'&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe> ';
+		//var facebookURL = '<iframe src="http://www.facebook.com/plugins/like.php?href=' + eventURL +' &amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:35px;" allowTransparency="true"></iframe>'
+		content += '<br>';
+        content += facebookURL;
+		content += '<br>';
+		content += '<a href="http://www.addtoany.com/share_save?linkurl=' +  eventURL +'&amp;linkname="><img src="http://static.addtoany.com/buttons/share_save_171_16.png" width="171" height="16" border="0" alt="Share/Bookmark"/></a>';
 		content += '</div>';
 		return content;
 	}
