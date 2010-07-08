@@ -22,6 +22,9 @@ var selectedTimes = {'today': false, 'tomorrow': false, 'weekend': false, 'any':
 var filters = [categoryFilter, timeFilter];  // List of filter methods.
 var parameterMap = {'eventId': openInfo};  // Mapping from URL parameters to the corresponding action
 
+var daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+var monthsOfYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 /** Mapping from event category to the image. */
 var imageMap = {
 	1: 'music.png',
@@ -652,8 +655,10 @@ function updateScroller(events) {
 		var cell5 = document.createElement('td');
 		row2.appendChild(cell5);
 		cell5.setAttribute('class', 'events_scroller_start_date');
-		var date = (new Date(event.start_date)).toLocaleDateString();
-		cell5.innerHTML = date.substring(0, date.length - 6);
+		var date = new Date(event.start_date);
+		cell5.innerHTML = daysOfWeek[date.getDay()]
+		                  + ' ' + monthsOfYear[date.getMonth()]
+		                  + ' ' + date.getDate();
 	}
 }
 
