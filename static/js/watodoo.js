@@ -649,7 +649,7 @@ function updateScroller(events) {
 		var cell4 = document.createElement('td');
 		row2.appendChild(cell4);
 		cell4.setAttribute('class', 'events_scroller_venue');
-		cell4.innerHTML = event.venue_name;
+		cell4.innerHTML = event.venue_name + ', ' + event.venue_city;
 
 		// Event start date
 		var cell5 = document.createElement('td');
