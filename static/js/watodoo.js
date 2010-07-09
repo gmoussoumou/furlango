@@ -566,13 +566,13 @@ function updateMarkers(events) {
 			content += '<a href="' + event.ticket_url + '" target="_blank">' + event.ticket_url + '</a>';
 		}
 				
-		//Facebook Like Button
-		var eventURL = 'http://4.latest.watodoo.appspot.com/#eventId=' + event.id ;
-
-		//content +=' <a title="Post to Google Buzz" class="google-buzz-button" href="http://www.google.com/buzz/post" data-button-style="link"></a> &nbsp';
-		content +='<br> <b>Share:</b> </br>'
+		// Facebook 'Like' Button
+		var eventURL = window.location.protocol + '//' + window.location.host + '/?eventId=' + event.id;
+		content +='<br><b>Share:</b></br>'
 		content +='<input type="text" style="width:350px" readonly="true" name="address" value="'+ eventURL+ '"/>';
-		var facebookURL = '<iframe src="http://www.facebook.com/plugins/like.php?href=' + escape(eventURL) +'&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe> ';
+		var facebookURL = '<iframe src="http://www.facebook.com/plugins/like.php?href=' + escape(eventURL) +
+		                  '&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80"' +
+		                  'scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:20px;" allowTransparency="true"></iframe>';
 		content += '<br>';
         content += facebookURL;
 		content += '</div>';
