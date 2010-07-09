@@ -66,7 +66,11 @@
 	<div id="header_left2">
 		<form action="#" onsubmit="showAddress(this.address.value); return false">
 					      <p id="header_left2">
-					        <input type="text" style="width:300px" name="address" value="Near (Address, City, State or Zip)" onClick="address.value=''"/>
+					        <input type="text"
+					               name="address"
+					               style="color:gray; width:300px" 
+					               value="Near (Address, City, State or Zip)"
+					               onClick="address.value=''; this.style.color = 'black';"/>
 					        <input type="submit" value="FurlanGo!" title="Search events around entered location"/> 
 			             </p> 
 
