@@ -264,6 +264,20 @@ div#map_canvas {
 	padding: 5px;
 }
 
+#movies_scroller_item {
+	width: 100%; 
+	background-color: #F7F8E0; 
+	font-weight: bold;
+	cursor: pointer; 
+	cursor: hand;
+	padding: 10px;
+}
+
+#movie_scroller_link {
+	padding-left: 15px;
+	padding-right: 5px;
+}
+
 .events_scroller_item {
 	width: 100%; 
 	cursor: pointer; 
