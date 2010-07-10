@@ -60,7 +60,7 @@ hr {
 }
 
 #events_scroller {
-	width: 100%;
+	width: 300px;
 }
 
 
@@ -166,7 +166,7 @@ p#header_right {
 
 #left { 
 	float: left;
-	width: 330px;
+	width: 300px;
 	min-height: 500px; /* for modern browsers */
 	height:auto !important; /* for modern browsers */
 	height:520px; /* for IE5.x and IE6 */
@@ -222,10 +222,15 @@ div#map_canvas {
 
 /* Events scroller */
 
+#loader_container {
+	width: 330px;
+	text-align: center;
+}
+
 #events_container_table {
 	border-top: 0px gray solid; 
 	border-bottom: 0px gray solid;
-	width: 100%; 
+	width: 300px; 
 }
 
 #events_title_cell {
