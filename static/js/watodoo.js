@@ -184,7 +184,8 @@ function initialize() {
 function initChores() {
 	checkBrowser();
 	insertYahooUpcomingScript();
-	insertGrouponDealsScript();
+	// TODO(ajit): Re-insert for v2.1 launch
+	// insertGrouponDealsScript();
 	markHome();
 	initEventCategoryOptions();
 	initEventTimeOptions();
