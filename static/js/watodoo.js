@@ -313,7 +313,7 @@ function initEventCategoryOptions() {
 		var col = document.createElement('td');
 		row.appendChild(col);
 		col.setAttribute("onmouseover", "this.style.backgroundColor = '#F3F8FB';");
-		//col.setAttribute("onmouseout", "this.style.backgroundColor = white;");
+		col.setAttribute("onmouseout", "this.style.backgroundColor = 'white';");
 		col.setAttribute("onclick", 
 		                 "handleCategoryFilterClick(" + i + ", '" + categoryMap[i] + "');");
 		col.innerHTML = categoryMap[i];            
@@ -339,7 +339,7 @@ function initEventTimeOptions() {
 		var col = document.createElement('td');
 		row.appendChild(col);
 		col.setAttribute("onmouseover", "this.style.backgroundColor = '#F3F8FB';");
-		col.setAttribute("onmouseout", "this.style.backgroundColor = white;");
+		col.setAttribute("onmouseout", "this.style.backgroundColor = 'white';");
 		col.setAttribute("onclick", 
 		                 "handleTimeFilterClick('" + i + "', '" + timeMap[i] + "');");
 		col.innerHTML = timeMap[i];            
@@ -402,7 +402,8 @@ function handleGrouponResponse(response) {
 	}
 	
 	var container = document.getElementById('groupon_deals');
-	while (container.hasChildNodes()) { // start with a clean slate
+	// Start with a clean slate
+	while (container.hasChildNodes()) {
 		container.removeChild(container.firstChild);
 	}
 	for (var i in response.deals) {
@@ -583,11 +584,28 @@ function updateMarkers(events) {
 /** Updates the scroller with the given events. */
 function updateScroller(events) {
 	var scroller = document.getElementById('events_scroller');
-	
-	// Remove all rows
-	for (var i = scroller.rows.length - 1; i >= 0; i--) {
-		scroller.deleteRow(i);
+	// Start with a clean slate
+	while (scroller.hasChildNodes()) {
+		scroller.removeChild(scroller.firstChild);
 	}
+	
+	// Add movie times URL as event
+	var movieItem = document.createElement('div');
+	movieItem.setAttribute('id', 'movies_scroller_item');
+	scroller.appendChild(movieItem);
+
+	var link = document.createElement('a');
+	link.setAttribute('id', 'movie_scroller_link');
+	var movieUrl = 'http://www.google.com/movies?view=map&near=' + 
+	                escape(readCookie('latitude')) + ',' + escape(readCookie('longitude'));
+	link.setAttribute('href', movieUrl);
+	link.setAttribute('target', '_blank');
+	link.innerHTML = 'Movies playing near you';
+	movieItem.appendChild(link);
+
+	var external_link = document.createElement('img');
+	external_link.setAttribute('src', '/images/external_link.png');
+	movieItem.appendChild(external_link);
 	
 	// Add events to scroller
 	for (var i in events) {
