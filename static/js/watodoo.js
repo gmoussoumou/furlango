@@ -301,9 +301,7 @@ function initEventCategoryOptions() {
 	document.getElementById('selected_category').innerHTML = categoryMap[0];
 	
 	var container = document.getElementById('events_categories');
-	while (container.hasChildNodes()) { // start with a clean slate
-		container.removeChild(container.firstChild);
-	}
+	removeAllChildren(container);
 	var table = document.createElement('table');
 	container.appendChild(table);
 
@@ -327,9 +325,7 @@ function initEventTimeOptions() {
 	document.getElementById('selected_time').innerHTML = timeMap['any'];
 	
 	var container = document.getElementById('time_options');
-	if (container.hasChildNodes()) { // Avoid double painting
-		container.removeChild(container.firstChild);
-	}
+	removeAllChildren(container);
 	var table = document.createElement('table');
 	container.appendChild(table);
 
@@ -403,10 +399,7 @@ function handleGrouponResponse(response) {
 	}
 	
 	var container = document.getElementById('groupon_deals');
-	// Start with a clean slate
-	while (container.hasChildNodes()) {
-		container.removeChild(container.firstChild);
-	}
+	removeAllChildren(container);
 	for (var i in response.deals) {
 		var deal = response.deals[i];
 		
@@ -585,10 +578,7 @@ function updateMarkers(events) {
 /** Updates the scroller with the given events. */
 function updateScroller(events) {
 	var scroller = document.getElementById('events_scroller');
-	// Start with a clean slate
-	while (scroller.hasChildNodes()) {
-		scroller.removeChild(scroller.firstChild);
-	}
+	removeAllChildren(scroller);
 	
 	// Add movie times URL as event
 	var movieItem = document.createElement('div');
