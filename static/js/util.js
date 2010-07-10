@@ -46,4 +46,11 @@ function isOpen(target) {
 	return false;
 }
 
+/** Remove all DOM children for the given widget. */
+function removeAllChildren(widget) {
+	while (widget.hasChildNodes()) {
+		widget.removeChild(widget.firstChild);
+	}
+}	
+
 
