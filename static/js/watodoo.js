@@ -255,7 +255,7 @@ function markHome() {
 	_home = new google.maps.LatLng(readCookie('latitude'), readCookie('longitude'));
 	map.setCenter(_home);
 
-	var image = new google.maps.MarkerImage('images/home.png',
+	var image = new google.maps.MarkerImage('/images/home.png',
 		  new google.maps.Size(48, 48),
 		  new google.maps.Point(0, 0),     // origin
 		  new google.maps.Point(0, 32));   // anchor
