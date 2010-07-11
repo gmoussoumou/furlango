@@ -698,6 +698,8 @@ function storeMyLocation(latitude, longitude) {
 
 /**  Geocode user provided location, store cookie and reload page. **/
 function showAddress(address) {
+	// The user could not have searched for an event
+	clearLocationHash();
 	if (geocoder) {
         geocoder.getLatLng (
           address,
@@ -716,6 +718,8 @@ function showAddress(address) {
 
 /** Category filter click handler. */
 function handleCategoryFilterClick(categoryId, categoryText) {
+	// The user could not have searched for an event
+	clearLocationHash();
 	// An infowindow might be open while clicking on a filter
 	if (currentInfoWindow) {
 		currentInfoWindow.close();
@@ -727,6 +731,8 @@ function handleCategoryFilterClick(categoryId, categoryText) {
 
 /** Time filter click handler. */
 function handleTimeFilterClick(timeTag, timeText) {
+	// The user could not have searched for an event
+	clearLocationHash();
 	// An infowindow might be open while clicking on a filter
 	if (currentInfoWindow) {
 		currentInfoWindow.close();
