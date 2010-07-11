@@ -53,4 +53,7 @@ function removeAllChildren(widget) {
 	}
 }	
 
-
+/** Clears the hash in Window#location. */
+function clearLocationHash() {
+	window.location.hash = '';
+}
