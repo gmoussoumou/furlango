@@ -270,7 +270,7 @@ div#map_canvas {
 }
 
 #movies_scroller_item {
-	width: 100%; 
+	width: 270px; 
 	background-color: #F7F8E0; 
 	font-weight: bold;
 	cursor: pointer; 
