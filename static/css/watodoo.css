@@ -223,7 +223,10 @@ div#map_canvas {
 /* Events scroller */
 
 #loader_container {
+	top-margin:100px;
 	width: 330px;
+	height: 400px;
+
 	text-align: center;
 }
 
