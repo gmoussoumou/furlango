@@ -500,12 +500,7 @@ function updateMarkers(events) {
 				size: new google.maps.Size(75, 50)
 			});
 		google.maps.event.addListener(marker, 'click', function() {
-			window.location.hash = '#eventId=' + event.id; 
-			if (currentInfoWindow) {
-				currentInfoWindow.close();
-			}
-			info.open(map, marker);
-			currentInfoWindow = info;
+			openInfo(event.id);
 		});
 		eventMarkerMap[event.id] = {'info': info, 'marker': marker};
 	}
@@ -613,8 +608,7 @@ function updateScroller(events) {
 		// Cannot start element ids with a number; only works in IE.
 		innerTable.setAttribute('id', 'event_' + event.id);  
 		innerTable.setAttribute('class', 'events_scroller_item');
-		innerTable.setAttribute('onclick', 
-			"window.location.hash = '#eventId=" + event.id + "'; openInfo(" + event.id + ");");
+		innerTable.setAttribute('onclick', "openInfo(" + event.id + ");");
 		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#F3F8FB';");
 		innerTable.setAttribute('onmouseout', "this.style.backgroundColor = 'white';");
 		innerTable.setAttribute('cellpadding', '1px');
@@ -676,6 +670,7 @@ function updateScroller(events) {
 
 /** Opens the info window for a specified event. */
 function openInfo(eventId) {
+	window.location.hash = '#eventId=' + eventId;
 	if (currentInfoWindow) {
 		currentInfoWindow.close();
 	}
