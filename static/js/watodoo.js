@@ -170,8 +170,13 @@ function filterEvents() {
 
 /** Bootstrap. */
 function initialize() {
-	checkBrowser();
+	dropIEUsers();
+	
+	// Location-independent initialization chores.
 	initMap();
+	initEventCategoryOptions();
+	initEventTimeOptions();
+	
 	geocoder = new GClientGeocoder();
 	var isSearch = readCookie('search');
 	if (isSearch != 'true' || isSearch == null) {
@@ -181,18 +186,8 @@ function initialize() {
 	}
 }
 
-/** Initialization related chores. */
-function initChores() {
-	insertYahooUpcomingScript();
-	// TODO(ajit): Re-insert for v2.1 launch
-	// insertGrouponDealsScript();
-	markHome();
-	initEventCategoryOptions();
-	initEventTimeOptions();
-}
-
 /** Shoo away IE users. */
-function checkBrowser() {
+function dropIEUsers() {
 	var browserName = navigator.appName;
 	if(browserName != null){
 		if (browserName == "Microsoft Internet Explorer"){
@@ -201,6 +196,14 @@ function checkBrowser() {
 	}
 }
  
+/** Location-dependent initialization chores. */
+function initChores() {
+	insertYahooUpcomingScript();
+	// TODO(ajit): Re-insert for v2.1 launch
+	// insertGrouponDealsScript();
+	markHome();
+}
+
 /** Finds out the user's geolocation and stores it as a cookie. */
 function whereAmI() {
 	// Try W3C geolocation (preferred)
