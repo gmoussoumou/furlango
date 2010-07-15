@@ -273,7 +273,7 @@ function insertYahooUpcomingScript() {
 
 	var eventsScript = document.createElement('script');
 	eventsScript.src = 'http://upcoming.yahooapis.com/services/rest/?api_key=ea79f3c7b2' + 
-		'&method=event.search&sort=start-date-asc&per_page=100&format=json' + 
+		'&method=event.search&sort=popular-score-desc&per_page=100&format=json' + 
 		'&callback=handleYahooResponse&location=' + _location;
 
 	document.getElementsByTagName('head')[0].appendChild(eventsScript);
@@ -363,8 +363,26 @@ function handleYahooResponse(response) {
 		return;
 	}
 	
-	// Store events in global list
+	// Sort events by start date and store in global list
 	allEvents = response.rsp.event;
+	allEvents.sort(function(event1, event2) {
+		if (event1.start_date == null) {
+			return -1;
+		} else if (event2.start_date == null) {
+			return 1;
+		} else {
+			var startDate1 = new Date(event1.start_date);
+			var startDate2 = new Date(event2.start_date);
+			var result =  startDate1.getTime() - startDate2.getTime();
+			if (result < 0) {
+				return -1;
+			} else if (result > 0) {
+				return 1;
+			} else {
+				return 0;	
+			}
+		}
+	});
 
 	// Default settings
 	updateCategories(0, false);
