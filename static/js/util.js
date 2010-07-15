@@ -53,7 +53,8 @@ function removeAllChildren(widget) {
 	}
 }	
 
-/** Clears the hash in Window#location. */
+/** Clears the hash in Window#location and resets the document's title. */
 function clearLocationHash() {
 	window.location.hash = '';
+	document.title = 'Events around you - Furlango';
 }
