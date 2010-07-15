@@ -170,6 +170,7 @@ function filterEvents() {
 
 /** Bootstrap. */
 function initialize() {
+	checkBrowser();
 	initMap();
 	geocoder = new GClientGeocoder();
 	var isSearch = readCookie('search');
@@ -182,7 +183,6 @@ function initialize() {
 
 /** Initialization related chores. */
 function initChores() {
-	checkBrowser();
 	insertYahooUpcomingScript();
 	// TODO(ajit): Re-insert for v2.1 launch
 	// insertGrouponDealsScript();
