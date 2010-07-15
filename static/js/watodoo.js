@@ -502,7 +502,7 @@ function updateMarkers(events) {
 		google.maps.event.addListener(marker, 'click', function() {
 			openInfo(event.id);
 		});
-		eventMarkerMap[event.id] = {'info': info, 'marker': marker};
+		eventMarkerMap[event.id] = {'info': info, 'marker': marker, 'event': event};
 	}
 	
 	/** Formats information about the given event into human readable form. */
@@ -671,10 +671,11 @@ function updateScroller(events) {
 /** Opens the info window for a specified event. */
 function openInfo(eventId) {
 	window.location.hash = '#eventId=' + eventId;
+	var row = eventMarkerMap[eventId];
+	document.title = row.event.name.substring(0, 15) + ' - Furlango';
 	if (currentInfoWindow) {
 		currentInfoWindow.close();
 	}
-	var row = eventMarkerMap[eventId];
 	if (row) {
 		row.info.open(map, row.marker);
 		currentInfoWindow = row.info;
