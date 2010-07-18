@@ -19,7 +19,6 @@ var allEvents = [];          // All events sorted by start date
 var selectedCategories =     // Bit vector for selected categories. 0th position is reserved for 'any'.
 	[false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 var selectedTimes = {'today': false, 'tomorrow': false, 'weekend': false, 'any': false};	
-var filters = [categoryFilter, timeFilter];  // List of filter methods.
 var parameterMap = {'eventId': openInfo};  // Mapping from URL parameters to the corresponding action
 
 var daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -66,117 +65,13 @@ var timeMap = {
 	'weekend': 'Weekend'
 };
 
-/** Category filter. */
-function categoryFilter(events) {
-	// No category criteria - return all events
-	if (selectedCategories[0] == true) {
-		return events;
-	}
-
-	// Gather all categories to filter by
-	var categories = [];
-	for (var i in selectedCategories) {
-		if (selectedCategories[i] == true) {
-			categories.push(eval(i));
-		}
-	}
-	
-	// Remove events that are not in the selected categories
-	return events.filter(byCategory);
-
-	/** Filter by category. */
-	function byCategory(event) {
-		for (var i in categories) {
-			if (event.category_id == categories[eval(i)]) {
-				return true;
-			}
-		}
-		return false;
-	}
-}	
-
-/** Time filter. */
-function timeFilter(events) {
-	// No time criteria - return all events
-	if (selectedTimes['any'] == true) {
-		return events;
-	}
-
-	// Gather all times to filter by
-	var times = [];
-	for (var key in selectedTimes) {
-		if (selectedTimes[key] == true) {
-			times.push(key);
-		}
-	}
-
-	return events.filter(byTime);
-	
-	/** Filter by time. */
-	function byTime(event) {
-		var startDate = new Date(event.start_date);
-		var endDate = event.end_date.indexOf('-') >= 0 ? 
-			new Date(event.end_date) : startDate;
-		var today = new Date();
-		var tomorrow = new Date(today.getTime() + 86400 * 1000);
-		
-		// new Date() gives today's date according to the local time zone
-		// while new Date(string) interpretes the string to be in the UTC time zone.
-		// Thus, use the UTC date for the event start and end dates, and use the local
-		// date for today.
-		var eventTimes = [];
-		if (startDate.getUTCDate() <= today.getDate() && 
-		    today.getDate() <= endDate.getUTCDate()) {
-			eventTimes.push('today');
-		}
-		if (startDate.getUTCDate() <= tomorrow.getDate() && 
-			tomorrow.getDate() <= endDate.getUTCDate()) {
-			eventTimes.push('tomorrow');
-		}
-		// 0 = Sunday, 6 = Saturday
-		if (startDate.getUTCDay() == 0 || 
-			startDate.getUTCDay() == 6 ||
-			endDate.getUTCDay() == 0 || 
-			endDate.getUTCDay() == 6 || 
-			endDate.getUTCDay() - startDate.getUTCDay() < 0) {
-			eventTimes.push('weekend');
-		}
-
-		for (var i in times) {
-			for (var j in eventTimes) {
-				if (times[eval(i)] == eventTimes[eval(j)]) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-}
-	
-/** Applies all filters on all events and returns the filtered event list. */
-function filterEvents() {
-	var events = [];
-	events = allEvents.filter(function(x) {return true});  // Make a local copy!
-	var filteredEvents = [];
-	for (var i in filters) {
-		filteredEvents = filters[i](events);
-		events = filteredEvents;
-	}
-	return events;
-}
-
 
 // -------------------- Initialization logic -----------------------------
 
 /** Bootstrap. */
 function initialize() {
 	dropIEUsers();
-	
-	// Location-independent initialization chores.
 	initMap();
-	initEventCategoryOptions();
-	initEventTimeOptions();
-	
 	geocoder = new GClientGeocoder();
 	var isSearch = readCookie('search');
 	if (isSearch != 'true' || isSearch == null) {
@@ -196,12 +91,13 @@ function dropIEUsers() {
 	}
 }
  
-/** Location-dependent initialization chores. */
-function initChores() {
-	insertYahooUpcomingScript();
-	// TODO(ajit): Re-insert for v2.1 launch
-	// insertGrouponDealsScript();
-	markHome();
+/** Initializes the map. */
+function initMap() {
+	var options = {
+		zoom: 10,
+		mapTypeId: google.maps.MapTypeId.ROADMAP
+	};
+	map = new google.maps.Map(document.getElementById("map_canvas"), options);
 }
 
 /** Finds out the user's geolocation and stores it as a cookie. */
@@ -239,63 +135,18 @@ function whereAmI() {
 	}
 }
 
-/** Initializes the map. */
-function initMap() {
-	var options = {
-		zoom: 10,
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
-	map = new google.maps.Map(document.getElementById("map_canvas"), options);
-}
+/** Location-dependent initialization chores. */
+function initChores() {
+	// Default filter settings
+	setCategories([0]);
+	setTimes(['any']);
+	initEventCategoryOptions();
+	initEventTimeOptions();
 
-/** Marks home on the map. */
-function markHome() {
-	// Clear old home marker
-	if (homeMarker) {
-		homeMarker.setMap(null);
-	}
-	
-	_home = new google.maps.LatLng(readCookie('latitude'), readCookie('longitude'));
-	map.setCenter(_home);
-
-	var image = new google.maps.MarkerImage('/images/home.png',
-		  new google.maps.Size(48, 48),
-		  new google.maps.Point(0, 0),     // origin
-		  new google.maps.Point(0, 32));   // anchor
-	homeMarker = new google.maps.Marker({
-		position: _home, 
-		map: map, 
-		title: "Home sweet home!",
-		icon: image
-	});
-}
-
-/** Insert a script element for invoking the Yahoo! Upcoming script. */
-function insertYahooUpcomingScript() {
-	var _location = readCookie('latitude') + ',' + readCookie('longitude');
-
-	var eventsScript = document.createElement('script');
-	eventsScript.src = 'http://upcoming.yahooapis.com/services/rest/?api_key=ea79f3c7b2' + 
-		'&method=event.search&sort=popular-score-desc&per_page=100&format=json' + 
-		'&callback=handleYahooResponse&location=' + _location;
-
-	document.getElementsByTagName('head')[0].appendChild(eventsScript);
-}
-
-/** Insert a script element for invoking the Groupon deals script. */
-function insertGrouponDealsScript() {
-	var lat = readCookie('latitude');
-	var lng = readCookie('longitude');
-
-	var grouponScript = document.createElement('script');
-	grouponScript.src = 'http://www.groupon.com/api/v1/deals'
-		+ '?X-GrouponToken=827581b3617e5ac54482be2dcc23a12c5a36c2fd'
-		+ '&lat=' + lat
-		+ '&lng=' + lng
-		+ '&format=json'
-		+ '&callback=handleGrouponResponse';
-
-	document.getElementsByTagName('head')[0].appendChild(grouponScript);
+	insertYahooUpcomingScript();
+	// TODO(ajit): Re-insert for v2.1 launch
+	// insertGrouponDealsScript();
+	markHome();
 }
 
 /** Initialize the event category options dialog. */
@@ -319,6 +170,38 @@ function initEventCategoryOptions() {
 		col.setAttribute("onclick", 
 		                 "handleCategoryFilterClick(" + i + ", '" + categoryMap[i] + "');");
 		col.innerHTML = categoryMap[i];            
+	}
+}
+
+
+/** Category filter click handler. */
+function handleCategoryFilterClick(categoryId, categoryText) {
+	// The user could not have searched for an event
+	clearLocationHash();
+	// An infowindow might be open while clicking on a filter
+	if (currentInfoWindow) {
+		currentInfoWindow.close();
+	}
+	toggle('events_categories', 'categories_arrow');
+    document.getElementById('selected_category').innerHTML = '<u>' + categoryText + '</u>';
+
+	// Set global array
+	setCategories([categoryId]);
+	
+	// Update events
+	insertYahooUpcomingScript();
+}
+
+/** Wipes all previously selected categories and sets the provided ones. */
+function setCategories(categoryIds) {
+	// Reset global array
+	for (var i in selectedCategories) {
+		selectedCategories[i] = false;
+	}
+	
+	// Set provided values
+	for (var i in categoryIds) {
+		selectedCategories[categoryIds[i]] = true;
 	}
 }
 
@@ -346,24 +229,162 @@ function initEventTimeOptions() {
 	}
 }
 
-
-/** Parses URL parameters and calls respective handlers. */
-function processUrlParameters() {
-	var params = window.location.hash.substring(1).split('&');
-	for (i in params) {
-		var pair = params[i].split('=');
-		var handler = parameterMap[pair[0]];
-		if (handler) {
-			handler(pair[1]);
-		}
+/** Time filter click handler. */
+function handleTimeFilterClick(timeTag, timeText) {
+	// The user could not have searched for an event
+	clearLocationHash();
+	// An infowindow might be open while clicking on a filter
+	if (currentInfoWindow) {
+		currentInfoWindow.close();
 	}
+	toggle('time_options', 'time_arrow');
+    document.getElementById('selected_time').innerHTML = '<u>' + timeText + '</u>';
+
+	// Set global array
+	setTimes([timeTag]);
+
+	// Update events
+	insertYahooUpcomingScript();
+}
+
+/** Wipes all previously selected times and sets the provided ones. */
+function setTimes(timeTags) {
+	// Reset global array
+	for (var t in selectedTimes) {
+		selectedTimes[t] = false;
+	}
+	
+	// Set provided values
+	for (var t in timeTags) {
+		selectedTimes[timeTags[t]] = true;
+	}
+}
+
+/** Marks home on the map. */
+function markHome() {
+	// Clear old home marker
+	if (homeMarker) {
+		homeMarker.setMap(null);
+	}
+	
+	_home = new google.maps.LatLng(readCookie('latitude'), readCookie('longitude'));
+	map.setCenter(_home);
+
+	var image = new google.maps.MarkerImage('/images/home.png',
+		  new google.maps.Size(48, 48),
+		  new google.maps.Point(0, 0),     // origin
+		  new google.maps.Point(0, 32));   // anchor
+	homeMarker = new google.maps.Marker({
+		position: _home, 
+		map: map, 
+		title: "Home sweet home!",
+		icon: image
+	});
+}
+
+/** Fetch events from Yahoo! Upcoming. */
+function insertYahooUpcomingScript(search_text) {
+	insertLoader();
+
+	var _location = readCookie('latitude') + ',' + readCookie('longitude');
+	var url = 'http://upcoming.yahooapis.com/services/rest/?api_key=ea79f3c7b2'
+		+ '&method=event.search'
+		+ '&per_page=100'
+		+ '&format=json'
+		+ '&sort=popular-score-desc'
+		+ '&callback=handleYahooResponse'
+		+ '&location=' + _location;
+		
+	// Search text annulls all other filters.
+	if (search_text === undefined) {
+		// Set categories.
+		// If all categories is selected, add all categories.
+		var categories = '';
+		if (selectedCategories[0] == true) {
+			for (var i in categoryMap) {
+				if (i != 0) {
+					categories += i + ',';
+				}
+			}
+		// Otherwise add selected categories.
+		} else {
+			for (var i in selectedCategories) {
+				if (selectedCategories[i] == true) {
+					categories += i + ',';
+				}
+			}
+		}
+		// Remove trailing comma and add selected categories to URL
+		categories = categories.substring(0, categories.length - 1);
+		url += '&category_id=' + categories;
+		
+		// Set times.
+		// If any time is selected, fetch all events from today till 2 months from now.
+		var min_date = new Date();
+		var max_date = new Date();
+		if (selectedTimes['any'] == true) {
+			min_date.setDate(min_date.getDate());
+			max_date.setDate(max_date.getDate() + 90);
+
+		// Gather all times to filter by
+		} else {
+			var today_min = new Date();
+			var tomorrow_min = new Date();
+			tomorrow_min.setDate(tomorrow_min.getDate() + 1);
+			// The weekend is from the coming Friday to the coming Monday.
+			var weekend_min = new Date();
+			weekend_min.setDate(weekend_min.getDate() + (5 - weekend_min.getDay()));
+			var weekend_max = new Date();
+			weekend_max.setDate(weekend_min.getDate() + 3);
+			var dates = {'today': {'min': today_min, 'max': today_min},
+			             'tomorrow': {'min': tomorrow_min, 'max': tomorrow_min},
+			             'weekend': {'min': weekend_min, 'max': weekend_max}};
+			
+			times = [];
+			for (var key in selectedTimes) {
+				if (selectedTimes[key] == true) {
+					times.push(key);
+				}
+			}
+			times.sort();
+			
+			min_date = dates[times[0]].min;
+			max_date = dates[times[times.length - 1]].max;
+		}
+		// Add a min and a max date to the URL.
+		url += '&min_date=' + min_date.getFullYear() 
+			+ '-' + (padWithZero(min_date.getMonth() + 1)) + '-' + min_date.getDate();
+		url += '&max_date=' + max_date.getFullYear() 
+			+ '-' + (padWithZero(max_date.getMonth() + 1)) + '-' + max_date.getDate();
+
+	} else {
+		url += '&search_text=' + escape(search_text);
+	}
+
+	var eventsScript = document.createElement('script');
+	eventsScript.src = url;
+	document.getElementsByTagName('head')[0].appendChild(eventsScript);
+}
+
+/** Insert the loader into the scroller. */
+function insertLoader() {
+	var scroller = document.getElementById('events_scroller');
+	removeAllChildren(scroller);
+	var row = document.createElement('tr');
+	row.setAttribute('id', 'loader_container');
+	scroller.appendChild(row);
+	var cell = document.createElement('td');
+	row.appendChild(cell);
+	var loaderImage = document.createElement('img');
+	loaderImage.setAttribute('src', '/images/loader.gif');
+	loaderImage.setAttribute('alt', 'Loading...');
+	cell.appendChild(loaderImage);
 }
 
 /** Callback to handle event feed results. */
 function handleYahooResponse(response) {
-	if (response.rsp.stat != 'ok') {
-		alert('Error fetching events feed. Please try after some time.');
-		return;
+	if (response.rsp === undefined) {
+		noEventsFound();
 	}
 	
 	// Sort events by start date and store in global list
@@ -387,11 +408,48 @@ function handleYahooResponse(response) {
 		}
 	});
 
-	// Default settings
-	updateCategories(0, false);
-	updateTimes('any', false);
 	updateAllWidgets();
 	processUrlParameters();
+}
+
+/** Inserts text into the scroller saying that no events were found. */
+function noEventsFound() {
+	var scroller = document.getElementById('events_scroller');
+	removeAllChildren(scroller);
+	var row = document.createElement('tr');
+	row.setAttribute('id', 'no_events_container');
+	scroller.appendChild(row);
+	var cell = document.createElement('td');
+	row.appendChild(cell);
+	cell.innerHTML = 'Sorry, no events found.';
+}
+
+/** Parses URL parameters and calls respective handlers. */
+function processUrlParameters() {
+	var params = window.location.hash.substring(1).split('&');
+	for (i in params) {
+		var pair = params[i].split('=');
+		var handler = parameterMap[pair[0]];
+		if (handler) {
+			handler(pair[1]);
+		}
+	}
+}
+
+/** Insert a script element for invoking the Groupon deals script. */
+function insertGrouponDealsScript() {
+	var lat = readCookie('latitude');
+	var lng = readCookie('longitude');
+
+	var grouponScript = document.createElement('script');
+	grouponScript.src = 'http://www.groupon.com/api/v1/deals'
+		+ '?X-GrouponToken=827581b3617e5ac54482be2dcc23a12c5a36c2fd'
+		+ '&lat=' + lat
+		+ '&lng=' + lng
+		+ '&format=json'
+		+ '&callback=handleGrouponResponse';
+
+	document.getElementsByTagName('head')[0].appendChild(grouponScript);
 }
 
 /** Display all groupon deals. */
@@ -420,37 +478,10 @@ function handleGrouponResponse(response) {
 	}
 }
 
-/** Updates selected event categories. */
-function updateCategories(categoryId, updateWidgets) {
-	for (var i in selectedCategories) {
-		selectedCategories[i] = false;
-	}
-	selectedCategories[categoryId] = true;
-
-	updateWidgets = updateWidgets === undefined || false;  // default
-	if (updateWidgets == true) {
-		updateAllWidgets();
-	}
-}
-
-/** Updates selected times. */
-function updateTimes(timeTag, updateWidgets) {
-	for (var t in selectedTimes) {
-		selectedTimes[t] = false;
-	}
-	selectedTimes[timeTag] = true;
-
-	updateWidgets = updateWidgets === undefined || false;  // default
-	if (updateWidgets == true) {
-		updateAllWidgets();
-	}
-}
-
 /** Updates all user-visible widgets  */
 function updateAllWidgets() {
-	var events = filterEvents();
-	updateMarkers(events);
-	updateScroller(events);
+	updateMarkers(allEvents);
+	updateScroller(allEvents);
 }
 
 /** Update markers according to the given events. */
@@ -713,30 +744,4 @@ function showAddress(address) {
           }
         );
 	}
-}
-
-/** Category filter click handler. */
-function handleCategoryFilterClick(categoryId, categoryText) {
-	// The user could not have searched for an event
-	clearLocationHash();
-	// An infowindow might be open while clicking on a filter
-	if (currentInfoWindow) {
-		currentInfoWindow.close();
-	}
-	toggle('events_categories', 'categories_arrow');
-    document.getElementById('selected_category').innerHTML = '<u>' + categoryText + '</u>';
-    updateCategories(categoryId);
-}
-
-/** Time filter click handler. */
-function handleTimeFilterClick(timeTag, timeText) {
-	// The user could not have searched for an event
-	clearLocationHash();
-	// An infowindow might be open while clicking on a filter
-	if (currentInfoWindow) {
-		currentInfoWindow.close();
-	}
-	toggle('time_options', 'time_arrow');
-    document.getElementById('selected_time').innerHTML = '<u>' + timeText + '</u>';
-    updateTimes(timeTag);	
 }

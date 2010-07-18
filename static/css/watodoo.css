@@ -223,10 +223,14 @@ div#map_canvas {
 /* Events scroller */
 
 #loader_container {
-	top-margin:100px;
+	top-margin: 100px;
 	width: 330px;
 	height: 400px;
+	text-align: center;
+}
 
+#no_events_container {
+	font-weight: bold; 
 	text-align: center;
 }
 

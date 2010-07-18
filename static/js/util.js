@@ -58,3 +58,14 @@ function clearLocationHash() {
 	window.location.hash = '';
 	document.title = 'Events around you - Furlango';
 }
+
+/** 
+ * Converts a one-digit number to a two-digit number by padding it with a zero.
+ * If a number has two or more digits, returns the same number.
+ */
+function padWithZero(number) {
+	if (eval(number) < 10) {
+		return '0' + number;
+	}
+	return number;
+}
