@@ -297,10 +297,11 @@ div#map_canvas {
 }
 
 .events_scroller_item_id {
-	background-color: #F3F8FF;
+	background-color: #FF9331;
 	font-size: larger; 
 	font-weight: bold; 
-	padding: 3px; 
+	text-align: center;
+	width: 15px;
 }
 
 .events_scroller_category_image {
