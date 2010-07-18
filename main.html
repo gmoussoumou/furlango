@@ -69,8 +69,9 @@
 					        <input type="text"
 					               name="address"
 					               style="color:gray; width:300px" 
-					               value="Near (Address, City, State or Zip)"
-					               onClick="address.value=''; this.style.color = 'black';"/>
+					               value="Address, City, State or Zip"
+					               onfocus="this.value=''; this.style.color = 'black';"
+					               onblur="this.value='Address, City, State or Zip'; this.style.color = 'gray';"/>
 					        <input type="submit" value="FurlanGo!" title="Search events around entered location"/> 
 			             </p> 
 
