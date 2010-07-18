@@ -165,7 +165,7 @@ function initEventCategoryOptions() {
 		table.appendChild(row);
 		var col = document.createElement('td');
 		row.appendChild(col);
-		col.setAttribute("onmouseover", "this.style.backgroundColor = '#F3F8FB';");
+		col.setAttribute("onmouseover", "this.style.backgroundColor = '#ADDFFF';");
 		col.setAttribute("onmouseout", "this.style.backgroundColor = 'white';");
 		col.setAttribute("onclick", 
 		                 "handleCategoryFilterClick(" + i + ", '" + categoryMap[i] + "');");
@@ -221,7 +221,7 @@ function initEventTimeOptions() {
 		table.appendChild(row);
 		var col = document.createElement('td');
 		row.appendChild(col);
-		col.setAttribute("onmouseover", "this.style.backgroundColor = '#F3F8FB';");
+		col.setAttribute("onmouseover", "this.style.backgroundColor = '#ADDFFF';");
 		col.setAttribute("onmouseout", "this.style.backgroundColor = 'white';");
 		col.setAttribute("onclick", 
 		                 "handleTimeFilterClick('" + i + "', '" + timeMap[i] + "');");
@@ -640,7 +640,7 @@ function updateScroller(events) {
 		innerTable.setAttribute('id', 'event_' + event.id);  
 		innerTable.setAttribute('class', 'events_scroller_item');
 		innerTable.setAttribute('onclick', "openInfo(" + event.id + ");");
-		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#F3F8FB';");
+		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#ADDFFF';");
 		innerTable.setAttribute('onmouseout', "this.style.backgroundColor = 'white';");
 		innerTable.setAttribute('cellpadding', '1px');
 		
