@@ -176,12 +176,7 @@ function initEventCategoryOptions() {
 
 /** Category filter click handler. */
 function handleCategoryFilterClick(categoryId, categoryText) {
-	// The user could not have searched for an event
-	clearLocationHash();
-	// An infowindow might be open while clicking on a filter
-	if (currentInfoWindow) {
-		currentInfoWindow.close();
-	}
+	clearEventSpecificInfo();
 	toggle('events_categories', 'categories_arrow');
     document.getElementById('selected_category').innerHTML = '<u>' + categoryText + '</u>';
 
@@ -231,12 +226,7 @@ function initEventTimeOptions() {
 
 /** Time filter click handler. */
 function handleTimeFilterClick(timeTag, timeText) {
-	// The user could not have searched for an event
-	clearLocationHash();
-	// An infowindow might be open while clicking on a filter
-	if (currentInfoWindow) {
-		currentInfoWindow.close();
-	}
+	clearEventSpecificInfo();
 	toggle('time_options', 'time_arrow');
     document.getElementById('selected_time').innerHTML = '<u>' + timeText + '</u>';
 
@@ -609,10 +599,16 @@ function updateScroller(events) {
 	var scroller = document.getElementById('events_scroller');
 	removeAllChildren(scroller);
 	
-	// Add movie times URL as event
+	// Add movies URL
 	var movieItem = document.createElement('div');
 	movieItem.setAttribute('id', 'movies_scroller_item');
 	scroller.appendChild(movieItem);
+
+	var moviesImage = document.createElement('img');
+	moviesImage.setAttribute('id', 'movie_scroller_image');
+	moviesImage.setAttribute('src', '/images/movies.png');
+	moviesImage.setAttribute('style', 'float: left');
+	movieItem.appendChild(moviesImage);
 
 	var link = document.createElement('a');
 	link.setAttribute('id', 'movie_scroller_link');
@@ -728,8 +724,7 @@ function storeMyLocation(latitude, longitude) {
 
 /**  Geocode user provided location, store cookie and reload page. **/
 function showAddress(address) {
-	// The user could not have searched for an event
-	clearLocationHash();
+	clearEventSpecificInfo();
 	if (geocoder) {
         geocoder.getLatLng (
           address,
@@ -743,5 +738,20 @@ function showAddress(address) {
             }
           }
         );
+	}
+}
+
+/** Search events in the current location with the provided text. */
+function searchEvents(search_text) {
+	clearEventSpecificInfo();
+	insertYahooUpcomingScript(search_text);
+}
+
+/** Clears event-specific information displayed on the page. */
+function clearEventSpecificInfo() {
+	window.location.hash = '';
+	document.title = 'Events around you - Furlango';
+	if (currentInfoWindow) { // defined in watodoo.js
+		currentInfoWindow.close();
 	}
 }

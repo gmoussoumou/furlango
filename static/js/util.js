@@ -53,12 +53,6 @@ function removeAllChildren(widget) {
 	}
 }	
 
-/** Clears the hash in Window#location and resets the document's title. */
-function clearLocationHash() {
-	window.location.hash = '';
-	document.title = 'Events around you - Furlango';
-}
-
 /** 
  * Converts a one-digit number to a two-digit number by padding it with a zero.
  * If a number has two or more digits, returns the same number.

@@ -51,125 +51,148 @@
 </head>
 
 <body oncontextmenu="return false;">
-<div id="menu">
-		<li class="page_item page-item-9">
-	    	<a title="About us" href="http://furlango.com/blog/about-us/"></a> 
-		</li>
-</div>	
-<div id="menu2"> </div>
-
-<div id="header">
-	<div id="header_left">
-		<h1><img id="hdrImg" src="/images/FurlanGo.png" alt="FurlanGo" /> </h1>
-	</div>	
-	
-	<div id="header_left2">
-		<form action="#" onsubmit="showAddress(this.address.value); return false">
-					      <p id="header_left2">
-					        <input type="text"
-					               name="address"
-					               style="color:gray; width:300px" 
-					               value="Address, City, State or Zip"
-					               onfocus="this.value=''; this.style.color = 'black';"
-					               onblur="this.value='Address, City, State or Zip'; this.style.color = 'gray';"/>
-					        <input type="submit" value="FurlanGo!" title="Search events around entered location"/> 
-			             </p> 
-
-		</form>
-	</div>
-		<div id="header_right">
-			<p id="header_right">
-				<a href="http://www.furlango.com/blog" target="_blank"><b>Blog</b></a>
-				&nbsp;|&nbsp;
-				<a id="twitter" 
-				   href="http://twitter.com/home?status=find interesting events and activities on map - www.furlango.com / @furlango" 
-				   target="_blank">
-				   <img id="twitter" src="/images/retweet.gif" border="0" alt="FurlanGo"/>
-				</a>
-				&nbsp;
-				<a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a>
-				<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
-				&nbsp;
-				<a title="Furlango - Local events and activities" 
-				   class="google-buzz-button" 
-				   href="http://www.google.com/buzz/post" 
-				   data-button-style="link" 
-				   data-imageurl="http://www.furlango.com/images/FurlanGo.png"></a>
-				<script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>
-			</p>
-		</div>
-</div>
-
-<div id="left">
-	<div id="left_margin">
-		<div id="left_block">
-		<table id="events_container_table">
-			<tr>
-				<td id="events_title_cell" rowspan="2"><b>Events</b></td>
-				<td id="events_filters_cell">
-					<div id="categories_filter"
-						 onclick="toggle('events_categories', 'categories_arrow');
-						          if (isOpen('time_options')) {
-						              toggle('time_options', 'time_arrow');
-						          }"
-						 onmouseover="this.style.backgroundColor = '#F3F8FB';"
-						 onmouseout="this.style.backgroundColor = 'white';">
-						<u id="selected_category">All categories</u>
-						<img id="categories_arrow" src="/images/expand_arrow.png"></img>
-					</div>
-					<div id="events_categories"
-						 style="background-color: white; 
-						 border: 1px solid #0D83DD; 
-						 cursor: pointer; 
-						 display: none; 	
-						 position: absolute; top: 110px; left: 320px; z-index: 2; 
-						 text-align: left;"> 
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td  id="time_filters_cell">
-					<div id="time_filter"
-						 onclick="toggle('time_options', 'time_arrow');
-						          if (isOpen('events_categories')) {
-						              toggle('events_categories', 'categories_arrow');
-						          }"
-						 onmouseover="this.style.backgroundColor = '#F3F8FB';"
-						 onmouseout="this.style.backgroundColor = 'white';">
-						<u id="selected_time">All Times</u>
-						<img id="time_arrow" src="/images/expand_arrow.png"></img>
-					</div>
-					<div id="time_options"
-						 style="background-color: white; 
-								border: 1px solid #0D83DD; 
-								cursor: pointer; 
-								display: none; 
-								position: absolute; top: 135px; left: 320px; z-index: 2; 
-								text-align: left;"> 
-			  	    </div>
-				</td>
-			</tr> 
-		</table>
-		</div>
-		
-		<div id="left_block">
-		<div id="events_list">
-		  <table id="events_scroller">
+  <div id="header">
+	  <div id="header_left">
+		  <h1><img id="hdrImg" src="/images/FurlanGo.png" alt="FurlanGo" /> </h1>
+	  </div>	
+	  
+	  <div id="header_left2">
+		  <form action="#" onsubmit="showAddress(this.address.value); return false">
+							<p id="header_left2">
+							  <input type="text"
+									 name="address"
+									 id="set_location_box"
+									 value="Set location (Address, City, State or Zip)"
+									 onfocus="if (this.value == 'Set location (Address, City, State or Zip)') {
+									              this.value=''; 
+									              this.style.color = 'black';
+									          }"
+									 onblur="if (this.value == '') {
+									             this.value='Set location (Address, City, State or Zip)'; 
+									             this.style.color = 'gray';
+									         }"/>
+							 <input type="image" 
+							        src="/images/search_button.png" 
+							        class="search_button"
+							        title="Set location"/> 
+						   </p> 
+  
+		  </form>
+	  </div>
+		  <div id="header_right">
+			  <p id="header_right">
+				  <a href="http://www.furlango.com/blog" target="_blank"><b>Blog</b></a>
+				  &nbsp;|&nbsp;
+				  <a id="twitter" 
+					 href="http://twitter.com/home?status=find interesting events and activities on map - www.furlango.com / @furlango" 
+					 target="_blank">
+					 <img id="twitter" src="/images/retweet.gif" border="0" alt="FurlanGo"/>
+				  </a>
+				  &nbsp;
+				  <a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a>
+				  <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+				  &nbsp;
+				  <a title="Furlango - Local events and activities" 
+					 class="google-buzz-button" 
+					 href="http://www.google.com/buzz/post" 
+					 data-button-style="link" 
+					 data-imageurl="http://www.furlango.com/images/FurlanGo.png"></a>
+				  <script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>
+			  </p>
+		  </div>
+  </div>
+  
+  <div id="left">
+	  <div id="left_margin">
+		  <div id="left_block">
+		  <table id="events_container_table">
+			  <tr>
+				  <td id="events_title_cell" rowspan="2"><b>Events</b></td>
+				  <td id="events_filters_cell">
+					  <div id="categories_filter"
+						   onclick="toggle('events_categories', 'categories_arrow');
+									if (isOpen('time_options')) {
+										toggle('time_options', 'time_arrow');
+									}"
+						   onmouseover="this.style.backgroundColor = '#F3F8FB';"
+						   onmouseout="this.style.backgroundColor = 'white';">
+						  <u id="selected_category">All categories</u>
+						  <img id="categories_arrow" src="/images/expand_arrow.png"></img>
+					  </div>
+					  <div id="events_categories"
+						   style="background-color: white; 
+						   border: 1px solid #0D83DD; 
+						   cursor: pointer; 
+						   display: none; 	
+						   position: absolute; top: 110px; left: 320px; z-index: 2; 
+						   text-align: left;"> 
+					  </div>
+				  </td>
+			  </tr>
+			  <tr>
+				  <td  id="time_filters_cell">
+					  <div id="time_filter"
+						   onclick="toggle('time_options', 'time_arrow');
+									if (isOpen('events_categories')) {
+										toggle('events_categories', 'categories_arrow');
+									}"
+						   onmouseover="this.style.backgroundColor = '#F3F8FB';"
+						   onmouseout="this.style.backgroundColor = 'white';">
+						  <u id="selected_time">All Times</u>
+						  <img id="time_arrow" src="/images/expand_arrow.png"></img>
+					  </div>
+					  <div id="time_options"
+						   style="background-color: white; 
+								  border: 1px solid #0D83DD; 
+								  cursor: pointer; 
+								  display: none; 
+								  position: absolute; top: 135px; left: 320px; z-index: 2; 
+								  text-align: left;"> 
+					  </div>
+				  </td>
+			  </tr> 
 		  </table>
-		</div>  		     
-		</div>          
-	</div>
-</div>
-
-<!-- TODO(ajit): Reinsert for v2.1 launch
-<div id="groupon_deals"></div>
-<img id="powered_by_groupon" src="/images/powered_by_groupon.png"></img>
--->
-
-<div id="center">
-	<div id="map_canvas"></div>
-	  	<script type="text/javascript">initialize()</script> 
-	</div>	
+		  </div>
+		  
+		  <div id="left_block">
+			<form action="#" 
+				  style="vertical-align: center"
+				  onsubmit="searchEvents(this.search.value); return false;">
+				<input type="text"
+					   name="search"
+					   id="search_events_box"
+					   value="Search events"
+					   onfocus="if (this.value == 'Search events') {
+									this.value=''; 
+									this.style.color = 'black';
+								}"
+					   onblur="if (this.value == '') {
+								   this.value='Search events'; 
+								   this.style.color = 'gray';
+							   }"/>
+				<input type="image" 
+				       src="/images/search_button.png" 
+				       class="search_button"
+				       title="Search events"/> 
+			</form>
+  
+			<div id="events_list">
+			  <table id="events_scroller">
+			  </table>
+			</div>  		     
+		  </div>          
+	  </div>
+  </div>
+  
+  <!-- TODO(ajit): Reinsert for v2.1 launch
+  <div id="groupon_deals"></div>
+  <img id="powered_by_groupon" src="/images/powered_by_groupon.png"></img>
+  -->
+  
+  <div id="center">
+	  <div id="map_canvas"></div>
+	  <script type="text/javascript">initialize()</script> 
+  </div>	
 </body>
 </html>
 
