@@ -468,10 +468,30 @@ function handleGrouponResponse(response) {
 	}
 }
 
-/** Updates all user-visible widgets  */
+/** Updates all user-visible widgets. */
 function updateAllWidgets() {
-	updateMarkers(allEvents);
-	updateScroller(allEvents);
+	duplicateRemovedEvents = removeDuplicateEvents(allEvents);
+	updateMarkers(duplicateRemovedEvents);
+	updateScroller(duplicateRemovedEvents);
+}
+
+/** 
+ * Removing duplicate events (by name) irrespective of their date.
+ * Returns duplicate removed list. Lower duplicates are removed.
+ */ 
+function removeDuplicateEvents(sortedEvents) {
+	var eventHashmap = new Array();
+	for (var i in sortedEvents) {
+			eventHashmap[sortedEvents[i].name] = [];
+	}
+	for (var i in sortedEvents){
+			eventHashmap[sortedEvents[i].name].push(sortedEvents[i]);
+	}
+	events = [];
+	for (var key in eventHashmap) {
+			events.push((eventHashmap[key])[0]);
+	}
+	return events;
 }
 
 /** Update markers according to the given events. */
