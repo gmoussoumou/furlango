@@ -31,10 +31,10 @@ function toggle(target, zipper) {
 	var zipperWidget = document.getElementById(zipper);
 	if (targetWidget.style.display == 'none') {
 		targetWidget.style.display = '';
-		zipperWidget.src = '/images/collapse_arrow.png';
+		zipperWidget.src = 'images/collapse_arrow.png';
 	} else {
 		targetWidget.style.display = 'none';
-		zipperWidget.src = '/images/expand_arrow.png';
+		zipperWidget.src = 'images/expand_arrow.png';
 	}
 }
 

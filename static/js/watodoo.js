@@ -260,7 +260,7 @@ function markHome() {
 	_home = new google.maps.LatLng(readCookie('latitude'), readCookie('longitude'));
 	map.setCenter(_home);
 
-	var image = new google.maps.MarkerImage('/images/home.png',
+	var image = new google.maps.MarkerImage('images/home.png',
 		  new google.maps.Size(48, 48),
 		  new google.maps.Point(0, 0),     // origin
 		  new google.maps.Point(0, 32));   // anchor
@@ -366,7 +366,7 @@ function insertLoader() {
 	var cell = document.createElement('td');
 	row.appendChild(cell);
 	var loaderImage = document.createElement('img');
-	loaderImage.setAttribute('src', '/images/loader.gif');
+	loaderImage.setAttribute('src', 'images/loader.gif');
 	loaderImage.setAttribute('alt', 'Loading...');
 	cell.appendChild(loaderImage);
 }
@@ -492,7 +492,7 @@ function updateMarkers(events) {
 		var event = events[i];
 		var marker = new google.maps.Marker({
 			position: new google.maps.LatLng(event.latitude, event.longitude),
-			icon: '/images/marker.png',
+			icon: 'images/marker.png',
 			map: map, 
 			title: event.name
 		});
@@ -606,7 +606,7 @@ function updateScroller(events) {
 
 	var moviesImage = document.createElement('img');
 	moviesImage.setAttribute('id', 'movie_scroller_image');
-	moviesImage.setAttribute('src', '/images/movies.png');
+	moviesImage.setAttribute('src', 'images/movies.png');
 	moviesImage.setAttribute('style', 'float: left');
 	movieItem.appendChild(moviesImage);
 
@@ -620,7 +620,7 @@ function updateScroller(events) {
 	movieItem.appendChild(link);
 
 	var external_link = document.createElement('img');
-	external_link.setAttribute('src', '/images/external_link.png');
+	external_link.setAttribute('src', 'images/external_link.png');
 	movieItem.appendChild(external_link);
 	
 	// Add events to scroller
@@ -675,7 +675,7 @@ function updateScroller(events) {
 		row2.appendChild(cell3);
 		var categoryImage = document.createElement('img');
 		cell3.appendChild(categoryImage);
-		categoryImage.setAttribute('src', '/images/' + imageMap[event.category_id]);
+		categoryImage.setAttribute('src', 'images/' + imageMap[event.category_id]);
 		categoryImage.setAttribute('class', 'events_scroller_category_image');
 
 		// Event venue
