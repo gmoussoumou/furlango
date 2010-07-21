@@ -744,6 +744,11 @@ function storeMyLocation(latitude, longitude) {
 
 /**  Geocode user provided location, store cookie and reload page. **/
 function showAddress(address) {
+	// Reset the search events box.
+	var search_events_box = document.getElementById('search_events_box');
+	search_events_box.value = 'Search events (e.g. salsa, concert)';
+    search_events_box.setAttribute('style', 'color: gray');
+
 	clearEventSpecificInfo();
 	if (geocoder) {
         geocoder.getLatLng (
