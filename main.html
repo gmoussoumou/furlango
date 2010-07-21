@@ -61,26 +61,39 @@
 	  </div>	
 	  
 	  <div id="header_left2">
+		  <form action="#" 
+				onsubmit="searchEvents(this.search.value); return false;">
+			  <input type="text"
+					 name="search"
+					 id="search_events_box"
+					 value="Search events (e.g. salsa, concert)"
+					 onfocus="if (this.value == 'Search events (e.g. salsa, concert)') {
+								  this.value=''; 
+								  this.style.color = 'black';
+							  }"
+					 onblur="if (this.value == '') {
+								 this.value='Search events (e.g. salsa, concert)'; 
+								 this.style.color = 'gray';
+							 }"/>
+		  </form>
+		  <p id="near_label">&nbsp;&nbsp;near&nbsp;&nbsp;</p>
 		  <form action="#" onsubmit="showAddress(this.address.value); return false">
-							<p id="header_left2">
-							  <input type="text"
-									 name="address"
-									 id="set_location_box"
-									 value="Set location (Address, City, State or Zip)"
-									 onfocus="if (this.value == 'Set location (Address, City, State or Zip)') {
-									              this.value=''; 
-									              this.style.color = 'black';
-									          }"
-									 onblur="if (this.value == '') {
-									             this.value='Set location (Address, City, State or Zip)'; 
-									             this.style.color = 'gray';
-									         }"/>
-							 <input type="image" 
-							        src="images/search_button.png" 
-							        class="search_button"
-							        title="Set location"/> 
-						   </p> 
-  
+			<input type="text"
+				   name="address"
+				   id="set_location_box"
+				   value="Set location (Address, City, State or Zip)"
+				   onfocus="if (this.value == 'Set location (Address, City, State or Zip)') {
+								this.value=''; 
+								this.style.color = 'black';
+							}"
+				   onblur="if (this.value == '') {
+							   this.value='Set location (Address, City, State or Zip)'; 
+							   this.style.color = 'gray';
+						   }"/>
+		   <input type="image" 
+				  src="images/search_button.png" 
+				  class="search_button"
+				  title="Search"/> 
 		  </form>
 	  </div>
 		  <div id="header_right">
@@ -159,27 +172,6 @@
 		  </div>
 		  
 		  <div id="left_block">
-			<form action="#" 
-				  style="vertical-align: center"
-				  onsubmit="searchEvents(this.search.value); return false;">
-				<input type="text"
-					   name="search"
-					   id="search_events_box"
-					   value="Search events"
-					   onfocus="if (this.value == 'Search events') {
-									this.value=''; 
-									this.style.color = 'black';
-								}"
-					   onblur="if (this.value == '') {
-								   this.value='Search events'; 
-								   this.style.color = 'gray';
-							   }"/>
-				<input type="image" 
-				       src="images/search_button.png" 
-				       class="search_button"
-				       title="Search events"/> 
-			</form>
-  
 			<div id="events_list">
 			  <table id="events_scroller">
 			  </table>

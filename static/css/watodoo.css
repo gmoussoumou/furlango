@@ -53,10 +53,10 @@ hr {
 
 #events_list {
 	width: 100%;
-	height: 465px;
+	height: 495px;
 	overflow-y: scroll;
-	font-color:#333;
-	font-size:13px;
+	font-color: #333;
+	font-size: 13px;
 }
 
 #events_scroller {
@@ -75,14 +75,15 @@ hr {
 	margin-top: -15px;	
 	float: left;
 	font-color: #C9252B;
+	width: 310px;
 }
 
 #header_left2 {
-	margin-left: 60px;
+	margin-top: 40px;
 	float: left;
-	width: 400px;
-	margin-top: 10px;
 	font-color: #333;
+	height: 27px;
+	width: 800px;
 }
 
 p#header_left2 {
@@ -94,7 +95,7 @@ p#header_right {
 	font-color: #333;
 	font-size: 14px;
     font-weight: bold;
-	
+    width: 250px;
 }
 
 #header_right {
@@ -171,14 +172,23 @@ div#map_canvas {
 	font-size: 110%;
 	height: 25px; 
 	width: 300px; 
+	vertical-align: middle;
 }
 
 #search_events_box {
 	color: gray; 
-	float: left; 
+	float: left;
 	font-size: 100%;
 	height: 25px; 
-	width: 267px; 
+	width: 300px; 
+	vertical-align: middle;
+}
+
+#near_label {
+	float: left; 
+	font-size: larger; 
+	vertical-align: middle; 
+	margin-top: 3px;
 }
 
 #loader_container {
@@ -290,6 +300,7 @@ div#map_canvas {
 
 .search_button {
 	float: left;
+	margin-left: 5px;
 }
 
 /* Groupon deals. */
