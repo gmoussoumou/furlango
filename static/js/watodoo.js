@@ -137,6 +137,8 @@ function whereAmI() {
 
 /** Location-dependent initialization chores. */
 function initChores() {
+	displayDefaultLocation();
+	
 	// Default filter settings
 	setCategories([0]);
 	setTimes(['any']);
@@ -147,6 +149,33 @@ function initChores() {
 	// TODO(ajit): Re-insert for v2.1 launch
 	// insertGrouponDealsScript();
 	markHome();
+}
+
+/** Displays default location in the set location box. */
+function displayDefaultLocation() {
+	var set_location_box = document.getElementById('set_location_box');
+	if (geocoder) {
+        geocoder.getLocations (
+			new GLatLng(readCookie('latitude'), readCookie('longitude')),
+			function(addresses) {
+				if(addresses.Status.code != 200) {
+				    // The user should not care about this, so ignore.
+				} else {
+					// Set minimum precision level.
+					var i = 3;
+					while (!addresses.Placemark[i] && i >= 0) {
+						i--;
+					}
+					if (i >= 0) { 
+						address = addresses.Placemark[i].address;
+						var box = document.getElementById('set_location_box');
+						box.value = address;
+						box.setAttribute('style', 'color: black');
+				    }
+				}
+			}
+        );
+	}
 }
 
 /** Initialize the event category options dialog. */
