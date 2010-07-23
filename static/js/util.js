@@ -63,3 +63,21 @@ function padWithZero(number) {
 	}
 	return number;
 }
+
+/** 
+ * Converts a date like '2010-07-22' and a time like '20:00:00' 
+ * to 'Thu Jul 22 h20:00'. 
+ */
+function convertDate(date, time) {
+	var y = eval(date.substring(0, 4));
+	var m = eval(date.substring(5, 7));
+	var d = eval(date.substring(8, 10));
+	
+	// Assume toDateString() returns a string like 'Thu Jul 22 2010'
+	var str = new Date(y, m-1, d).toDateString().substring(0, 10);
+	
+	if (time.indexOf(':') >= 0) {
+		str += ' h' + time.substring(0, 5);	
+	}
+	return str;
+}
