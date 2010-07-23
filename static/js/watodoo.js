@@ -595,20 +595,11 @@ function updateMarkers(events) {
 			event.venue_city + ' ' + event.venue_state_code + ' ' + event.venue_zip + '<br>';
 
 		// Dates
-		content += '<b>Date:&nbsp;</b>' + event.start_date;
+		content += '<b>Date:&nbsp;</b>' + convertDate(event.start_date, event.start_time);
 		if (event.end_date.indexOf('-') >= 0) {
-			content += ' to ' + event.end_date;
+			content += ' to ' + convertDate(event.end_date, event.end_time);
 		}
 		content += '<br>';
-
-		// Time
-		if (event.start_time.indexOf(':') >= 0) {
-			content += '<b>Time:&nbsp;</b>' + event.start_time;
-			if (event.end_time != -1) {
-				content += ' to ' + event.end_time;
-			}
-			content += '<br>';
-		}
 
 		// Price
 		content += '<b>Ticket Price:&nbsp;</b>'
@@ -738,9 +729,7 @@ function updateScroller(events) {
 		row2.appendChild(cell5);
 		cell5.setAttribute('class', 'events_scroller_start_date');
 		var date = new Date(event.start_date);
-		cell5.innerHTML = daysOfWeek[date.getDay()]
-		                  + ' ' + monthsOfYear[date.getMonth()]
-		                  + ' ' + date.getDate();
+		cell5.innerHTML = convertDate(event.start_date, event.start_time);
 	}
 }
 
