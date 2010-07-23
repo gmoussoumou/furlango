@@ -73,11 +73,33 @@ function convertDate(date, time) {
 	var m = eval(date.substring(5, 7));
 	var d = eval(date.substring(8, 10));
 	
-	// Assume toDateString() returns a string like 'Thu Jul 22 2010'
+	// Assume toDateString() returns a string like 'Thu Jul 08 2010'
 	var str = new Date(y, m-1, d).toDateString().substring(0, 10);
 	
 	if (time.indexOf(':') >= 0) {
-		str += ' h' + time.substring(0, 5);	
+		str += ', ' + twentyFourHourToTwelveHour(time.substring(0, 5));	
 	}
 	return str;
+}
+	
+/** 
+ * Converts the given 24-hour time to a 12-hour time. 
+ * 18:35 -> 6:35 PM
+ * 06:35 -> 6:35 AM
+ * 00:00 -> 12:00 AM
+ * 12:14 -> 12:14 PM
+ */
+function twentyFourHourToTwelveHour(time) {
+	var h = eval(time.substring(0, 2));
+	var m = eval(time.substring(3, 5));
+	var merediem = 'AM';
+	if (h == 0) {
+		h = 12;
+	} else if (h == 12) {
+		merediem = 'PM';
+	} else if (h > 12) {
+		h -= 12;
+		merediem = 'PM';
+	}
+	return h + ':' + padWithZero(m) + ' ' + merediem;
 }
