@@ -587,6 +587,17 @@ function updateMarkers(events) {
 		}
 		content += '<br>';
 		
+		//facebook
+		var eventURL = window.location.protocol + '//' + window.location.host + '/?eventId=' + event.id;
+		var facebookURL = '<iframe src="http://www.facebook.com/plugins/like.php?href=' + escape(eventURL) +
+		                  '&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80"' +
+		                  'scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:25px;" allowTransparency="true"></iframe>';
+		content += '<br>';
+        content += facebookURL;
+		content += '<br>';
+		content += '<br>';
+		
+		
 		// Description
 		content += event.description + '</b><p></p>';
 		
@@ -620,15 +631,11 @@ function updateMarkers(events) {
 			content += '<a href="' + event.ticket_url + '" target="_blank">' + event.ticket_url + '</a>';
 		}
 				
+				
 		// Facebook 'Like' Button
-		var eventURL = window.location.protocol + '//' + window.location.host + '/?eventId=' + event.id;
 		content +='<br><b>Share:</b></br>'
-		content +='<input type="text" style="width:350px" readonly="true" name="address" value="'+ eventURL+ '"/>';
-		var facebookURL = '<iframe src="http://www.facebook.com/plugins/like.php?href=' + escape(eventURL) +
-		                  '&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80"' +
-		                  'scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:20px;" allowTransparency="true"></iframe>';
-		content += '<br>';
-        content += facebookURL;
+		content +='<input type="text" style="width:300px" readonly="true" name="address" value="'+ eventURL+ '"/>';
+		
 		content += '</div>';
 		return content;
 	}
