@@ -19,10 +19,8 @@ var allEvents = [];          // All events sorted by start date
 var selectedCategories =     // Bit vector for selected categories. 0th position is reserved for 'any'.
 	[false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 var selectedTimes = {'today': false, 'tomorrow': false, 'weekend': false, 'any': false};	
-var parameterMap = {'eventId': openInfo};  // Mapping from URL parameters to the corresponding action
 
-var daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-var monthsOfYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+var parameterMap = {'eventId': openInfo};  // Mapping from URL parameters to the corresponding action
 
 /** Mapping from event category to the image. */
 var imageMap = {
@@ -86,7 +84,8 @@ function dropIEUsers() {
 	var browserName = navigator.appName;
 	if(browserName != null){
 		if (browserName == "Microsoft Internet Explorer"){
-			alert("Sorry, we do not support Internet Explorer as yet. Please try Firefox or Chrome.");
+			alert("Sorry, we do not support Internet Explorer as yet." 
+			      + "Please try Chrome, Firefox or Safari.");
 		}	
 	}
 }
