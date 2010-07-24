@@ -61,10 +61,8 @@
 	  </div>	
 	  
 	  <div id="header_left2">
-		  <form action="#" 
-				onsubmit="searchEvents(this.search.value); return false;">
+		  <form action="#" onsubmit="search(); return false;">
 			  <input type="text"
-					 name="search"
 					 id="search_events_box"
 					 value="Search events (e.g. salsa, concert)"
 					 onfocus="if (this.value == 'Search events (e.g. salsa, concert)') {
@@ -77,9 +75,8 @@
 							 }"/>
 		  </form>
 		  <p id="near_label">&nbsp;&nbsp;near&nbsp;&nbsp;</p>
-		  <form action="#" onsubmit="showAddress(this.address.value); return false">
+		  <form action="#" onsubmit="search(); return false;">
 			<input type="text"
-				   name="address"
 				   id="set_location_box"
 				   value="Address, City, State or Zip"
 				   onfocus="if (this.value == 'Address, City, State or Zip') {
@@ -96,27 +93,28 @@
 				  title="Search"/> 
 		  </form>
 	  </div>
-		  <div id="header_right">
-			  <p id="header_right">
-				  <a href="http://www.furlango.com/blog" target="_blank"><b>Blog</b></a>
-				  &nbsp;|&nbsp;
-				  <a id="twitter" 
-					 href="http://twitter.com/home?status=find interesting events and activities on map - www.furlango.com / @furlango" 
-					 target="_blank">
-					 <img id="twitter" src="images/retweet.gif" border="0" alt="FurlanGo"/>
-				  </a>
-				  &nbsp;
-				  <a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a>
-				  <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
-				  &nbsp;
-				  <a title="Furlango - Local events and activities" 
-					 class="google-buzz-button" 
-					 href="http://www.google.com/buzz/post" 
-					 data-button-style="link" 
-					 data-imageurl="http://www.furlango.com/images/FurlanGo.png"></a>
-				  <script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>
-			  </p>
-		  </div>
+
+	  <div id="header_right">
+		  <p id="header_right">
+			  <a href="http://www.furlango.com/blog" target="_blank"><b>Blog</b></a>
+			  &nbsp;|&nbsp;
+			  <a id="twitter" 
+				 href="http://twitter.com/home?status=find interesting events and activities on map - www.furlango.com / @furlango" 
+				 target="_blank">
+				 <img id="twitter" src="images/retweet.gif" border="0" alt="FurlanGo"/>
+			  </a>
+			  &nbsp;
+			  <a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a>
+			  <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+			  &nbsp;
+			  <a title="Furlango - Local events and activities" 
+				 class="google-buzz-button" 
+				 href="http://www.google.com/buzz/post" 
+				 data-button-style="link" 
+				 data-imageurl="http://www.furlango.com/images/FurlanGo.png"></a>
+			  <script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>
+		  </p>
+	  </div>
   </div>
   
   <div id="left">
