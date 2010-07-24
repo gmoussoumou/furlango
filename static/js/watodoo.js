@@ -302,7 +302,7 @@ function markHome() {
 }
 
 /** Fetch events from Yahoo! Upcoming. */
-function insertYahooUpcomingScript(search_text) {
+function insertYahooUpcomingScript() {
 	insertLoader();
 
 	var _location = readCookie('latitude') + ',' + readCookie('longitude');
@@ -314,69 +314,69 @@ function insertYahooUpcomingScript(search_text) {
 		+ '&callback=handleYahooResponse'
 		+ '&location=' + _location;
 		
-	// Search text annulls all other filters.
-	if (search_text === undefined) {
-		// Set categories.
-		// If all categories is selected, add all categories.
-		var categories = '';
-		if (selectedCategories[0] == true) {
-			for (var i in categoryMap) {
-				if (i != 0) {
-					categories += i + ',';
-				}
-			}
-		// Otherwise add selected categories.
-		} else {
-			for (var i in selectedCategories) {
-				if (selectedCategories[i] == true) {
-					categories += i + ',';
-				}
+	// Set categories.
+	// If all categories is selected, add all categories.
+	var categories = '';
+	if (selectedCategories[0] == true) {
+		for (var i in categoryMap) {
+			if (i != 0) {
+				categories += i + ',';
 			}
 		}
-		// Remove trailing comma and add selected categories to URL
-		categories = categories.substring(0, categories.length - 1);
-		url += '&category_id=' + categories;
-		
-		// Set times.
-		// If any time is selected, fetch all events from today till 2 months from now.
-		var min_date = new Date();
-		var max_date = new Date();
-		if (selectedTimes['any'] == true) {
-			min_date.setDate(min_date.getDate());
-			max_date.setDate(max_date.getDate() + 90);
-
-		// Gather all times to filter by
-		} else {
-			var today_min = new Date();
-			var tomorrow_min = new Date();
-			tomorrow_min.setDate(tomorrow_min.getDate() + 1);
-			// The weekend is from the coming Friday to the coming Monday.
-			var weekend_min = new Date();
-			weekend_min.setDate(weekend_min.getDate() + (5 - weekend_min.getDay()));
-			var weekend_max = new Date();
-			weekend_max.setDate(weekend_min.getDate() + 3);
-			var dates = {'today': {'min': today_min, 'max': today_min},
-			             'tomorrow': {'min': tomorrow_min, 'max': tomorrow_min},
-			             'weekend': {'min': weekend_min, 'max': weekend_max}};
-			
-			times = [];
-			for (var key in selectedTimes) {
-				if (selectedTimes[key] == true) {
-					times.push(key);
-				}
-			}
-			times.sort();
-			
-			min_date = dates[times[0]].min;
-			max_date = dates[times[times.length - 1]].max;
-		}
-		// Add a min and a max date to the URL.
-		url += '&min_date=' + min_date.getFullYear() 
-			+ '-' + (padWithZero(min_date.getMonth() + 1)) + '-' + min_date.getDate();
-		url += '&max_date=' + max_date.getFullYear() 
-			+ '-' + (padWithZero(max_date.getMonth() + 1)) + '-' + max_date.getDate();
-
+	// Otherwise add selected categories.
 	} else {
+		for (var i in selectedCategories) {
+			if (selectedCategories[i] == true) {
+				categories += i + ',';
+			}
+		}
+	}
+	// Remove trailing comma and add selected categories to URL
+	categories = categories.substring(0, categories.length - 1);
+	url += '&category_id=' + categories;
+	
+	// Set times.
+	// If any time is selected, fetch all events from today till 2 months from now.
+	var min_date = new Date();
+	var max_date = new Date();
+	if (selectedTimes['any'] == true) {
+		min_date.setDate(min_date.getDate());
+		max_date.setDate(max_date.getDate() + 90);
+
+	// Gather all times to filter by
+	} else {
+		var today_min = new Date();
+		var tomorrow_min = new Date();
+		tomorrow_min.setDate(tomorrow_min.getDate() + 1);
+		// The weekend is from the coming Friday to the coming Monday.
+		var weekend_min = new Date();
+		weekend_min.setDate(weekend_min.getDate() + (5 - weekend_min.getDay()));
+		var weekend_max = new Date();
+		weekend_max.setDate(weekend_min.getDate() + 3);
+		var dates = {'today': {'min': today_min, 'max': today_min},
+					 'tomorrow': {'min': tomorrow_min, 'max': tomorrow_min},
+					 'weekend': {'min': weekend_min, 'max': weekend_max}};
+		
+		times = [];
+		for (var key in selectedTimes) {
+			if (selectedTimes[key] == true) {
+				times.push(key);
+			}
+		}
+		times.sort();
+		
+		min_date = dates[times[0]].min;
+		max_date = dates[times[times.length - 1]].max;
+	}
+	// Add a min and a max date to the URL.
+	url += '&min_date=' + min_date.getFullYear() 
+		+ '-' + (padWithZero(min_date.getMonth() + 1)) + '-' + min_date.getDate();
+	url += '&max_date=' + max_date.getFullYear() 
+		+ '-' + (padWithZero(max_date.getMonth() + 1)) + '-' + max_date.getDate();
+
+	// Add search text if present in the search box
+	var search_text = document.getElementById('search_events_box').value;
+	if (search_text != 'Search events (e.g. salsa, concert)' && search_text != '') {
 		url += '&search_text=' + escape(search_text);
 	}
 
@@ -768,13 +768,10 @@ function storeMyLocation(latitude, longitude) {
 }
 
 /**  Geocode user provided location, store cookie and reload page. **/
-function showAddress(address) {
-	// Reset the search events box.
-	var search_events_box = document.getElementById('search_events_box');
-	search_events_box.value = 'Search events (e.g. salsa, concert)';
-    search_events_box.setAttribute('style', 'color: gray');
-
+function search() {
 	clearEventSpecificInfo();
+	// Fetch address from the set location box
+	var address = document.getElementById('set_location_box').value;
 	if (geocoder) {
         geocoder.getLatLng (
           address,
@@ -789,12 +786,6 @@ function showAddress(address) {
           }
         );
 	}
-}
-
-/** Search events in the current location with the provided text. */
-function searchEvents(search_text) {
-	clearEventSpecificInfo();
-	insertYahooUpcomingScript(search_text);
 }
 
 /** Clears event-specific information displayed on the page. */
