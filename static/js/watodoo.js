@@ -5,6 +5,9 @@
  */
 
 // ------------------- Global variables ---------------------------------
+// Constants
+var millisPerDay = 86400000;
+
 // Map related variables
 var currentInfoWindow;
 var eventMarkerMap = {};
@@ -335,23 +338,22 @@ function insertYahooUpcomingScript() {
 	url += '&category_id=' + categories;
 	
 	// Set times.
-	// If any time is selected, fetch all events from today till 2 months from now.
+	// If any time is selected, fetch all events from today till 3 months from now.
 	var min_date = new Date();
 	var max_date = new Date();
 	if (selectedTimes['any'] == true) {
-		min_date.setDate(min_date.getDate());
-		max_date.setDate(max_date.getDate() + 90);
+		max_date.setTime(max_date.getTime() + 90 * millisPerDay);
 
 	// Gather all times to filter by
 	} else {
 		var today_min = new Date();
 		var tomorrow_min = new Date();
-		tomorrow_min.setDate(tomorrow_min.getDate() + 1);
+		tomorrow_min.setTime(tomorrow_min.getTime() + millisPerDay);
 		// The weekend is from the coming Friday to the coming Monday.
 		var weekend_min = new Date();
-		weekend_min.setDate(weekend_min.getDate() + (5 - weekend_min.getDay()));
+		weekend_min.setTime(weekend_min.getTime() + (5 - weekend_min.getDay()) * millisPerDay);
 		var weekend_max = new Date();
-		weekend_max.setDate(weekend_min.getDate() + 3);
+		weekend_max.setTime(weekend_min.getTime() + 3 * millisPerDay);
 		var dates = {'today': {'min': today_min, 'max': today_min},
 					 'tomorrow': {'min': tomorrow_min, 'max': tomorrow_min},
 					 'weekend': {'min': weekend_min, 'max': weekend_max}};
@@ -368,10 +370,10 @@ function insertYahooUpcomingScript() {
 		max_date = dates[times[times.length - 1]].max;
 	}
 	// Add a min and a max date to the URL.
-	url += '&min_date=' + min_date.getFullYear() 
-		+ '-' + (padWithZero(min_date.getMonth() + 1)) + '-' + min_date.getDate();
-	url += '&max_date=' + max_date.getFullYear() 
-		+ '-' + (padWithZero(max_date.getMonth() + 1)) + '-' + max_date.getDate();
+	url += '&min_date=' + min_date.getFullYear() + '-'  
+		+ (padWithZero(min_date.getMonth() + 1)) + '-' + padWithZero(min_date.getDate());
+	url += '&max_date=' + max_date.getFullYear() + '-'
+		+ (padWithZero(max_date.getMonth() + 1)) + '-' + padWithZero(max_date.getDate());
 
 	// Add search text if present in the search box
 	var search_text = document.getElementById('search_events_box').value;
@@ -403,8 +405,9 @@ function insertLoader() {
 function handleYahooResponse(response) {
 	if (response.rsp === undefined) {
 		noEventsFound();
+		return;
 	}
-	
+
 	// Sort events by start date and store in global list
 	allEvents = response.rsp.event;
 	allEvents.sort(function(event1, event2) {
@@ -425,7 +428,6 @@ function handleYahooResponse(response) {
 			}
 		}
 	});
-
 	updateAllWidgets();
 	processUrlParameters();
 }
@@ -440,6 +442,9 @@ function noEventsFound() {
 	var cell = document.createElement('td');
 	row.appendChild(cell);
 	cell.innerHTML = 'Sorry, no events found.';
+	
+	allEvents = [];
+	updateMarkers(allEvents);
 }
 
 /** Parses URL parameters and calls respective handlers. */
