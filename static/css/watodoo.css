@@ -303,6 +303,16 @@ div#map_canvas {
 	margin-left: 5px;
 }
 
+#status {
+	background-color: #F7F8E0;
+	font-weight: bold;
+	margin-left: 330px;
+	margin-bottom: 5px;
+	padding-left: 5px;
+	height: 20px;
+	width: 76%;
+}
+
 /* Groupon deals. */
 #groupon_deals {
 	background-color: #F7F8E0; 
