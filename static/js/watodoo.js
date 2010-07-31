@@ -16,6 +16,7 @@ var homeMarker;
 var map;
 var labels = []; // All currently displayed labels
 var markers = []; // All currently displayed markers
+var currentAddress; // Current home address
 
 // Event related variables and methods
 var allEvents = [];          // All events sorted by start date
@@ -139,8 +140,6 @@ function whereAmI() {
 
 /** Location-dependent initialization chores. */
 function initChores() {
-	displayDefaultLocation();
-	
 	// Default filter settings
 	setCategories([0]);
 	setTimes(['any']);
@@ -151,33 +150,6 @@ function initChores() {
 	// TODO(ajit): Re-insert for v2.1 launch
 	// insertGrouponDealsScript();
 	markHome();
-}
-
-/** Displays default location in the set location box. */
-function displayDefaultLocation() {
-	var set_location_box = document.getElementById('set_location_box');
-	if (geocoder) {
-        geocoder.getLocations (
-			new GLatLng(readCookie('latitude'), readCookie('longitude')),
-			function(addresses) {
-				if(addresses.Status.code != 200) {
-				    // The user should not care about this, so ignore.
-				} else {
-					// Set minimum precision level.
-					var i = 3;
-					while (!addresses.Placemark[i] && i >= 0) {
-						i--;
-					}
-					if (i >= 0) { 
-						address = addresses.Placemark[i].address;
-						var box = document.getElementById('set_location_box');
-						box.value = address;
-						box.setAttribute('style', 'color: black');
-				    }
-				}
-			}
-        );
-	}
 }
 
 /** Initialize the event category options dialog. */
@@ -428,8 +400,84 @@ function handleYahooResponse(response) {
 			}
 		}
 	});
+	
+	var entered_address = document.getElementById('set_location_box').value;
+	if (entered_address == 'Address, City, State or Zip' || entered_address == '') {
+		findAddressAndDisplayStatus();
+	} else {
+		displayStatus(entered_address);
+	}
 	updateAllWidgets();
 	processUrlParameters();
+}
+
+/** Reverse geocodes the current location into an address. */
+function findAddressAndDisplayStatus() {
+	if (geocoder) {
+        geocoder.getLocations (
+			new GLatLng(readCookie('latitude'), readCookie('longitude')),
+			function(addresses) {
+				if(addresses.Status.code != 200) {
+				    // The user should not care about this, so ignore.
+				} else {
+					// Set minimum precision level.
+					var i = 3;
+					while (!addresses.Placemark[i] && i >= 0) {
+						i--;
+					}
+					if (i >= 0) { 
+						currentAddress = addresses.Placemark[i].address;
+						displayStatus(currentAddress);
+				    }
+				}
+			}
+        );
+	}
+}
+
+/** 
+ * Displays a status message about the events being displayed. The message is formatted like:
+ * 'Showing all Music events near Mountain View for Today matching "salsa"'.
+ *
+ * @param address to be displayed in the status message
+ */
+function displayStatus(address) {
+	var message = 'Showing all ';
+
+	// categories
+	var categories = '';
+	if (selectedCategories[0] != true) {
+		for (var i in selectedCategories) {
+			if (selectedCategories[i] == true) {
+				categories += categoryMap[i] + ',';
+			}
+		}
+	}
+	categories = categories.substring(0, categories.length - 1);
+	message += categories.toLowerCase() + ' events';
+	
+	// address
+    message += ' near ' + address;
+
+	// times
+	var times = '';	
+	if (selectedTimes['any'] != true) {
+		for (var key in selectedTimes) {
+			if (selectedTimes[key] == true) {
+				times += timeMap[key] + ','
+			}
+		}
+		times = times.substring(0, times.length - 1);
+		message += ', for ' + times.toLowerCase();
+	}
+	
+	// search string
+	var search_box = document.getElementById('search_events_box');
+	if (search_box.value != 'Search events (e.g. salsa, concert)' && search_box.value != '') {
+		message += ', matching "' + search_box.value + '"';
+	}
+
+	document.getElementById('status').innerHTML = message;
 }
 
 /** Inserts text into the scroller saying that no events were found. */
@@ -774,8 +822,12 @@ function storeMyLocation(latitude, longitude) {
 /**  Geocode user provided location, store cookie and reload page. **/
 function search() {
 	clearEventSpecificInfo();
-	// Fetch address from the set location box
+	// Fetch address from the set location box.
+	// If default or blank, use the home address.
 	var address = document.getElementById('set_location_box').value;
+	if (address == 'Address, City, State or Zip' || address == '') {
+		address = currentAddress;
+	}
 	if (geocoder) {
         geocoder.getLatLng (
           address,
