@@ -377,34 +377,48 @@ function insertLoader() {
 function handleYahooResponse(response) {
 	if (response.rsp === undefined) {
 		noEventsFound();
-		return;
+		allEvents = [];
+		updateMarkers(allEvents);
+	} else {
+		// Sort events by start date and store in global list
+		allEvents = response.rsp.event;
+		allEvents.sort(function(event1, event2) {
+			if (event1.start_date == null) {
+				return -1;
+			} else if (event2.start_date == null) {
+				return 1;
+			} else {
+				if (event1.start_date < event2.start_date) {
+					return -1;
+				} else if (event1.start_date > event2.start_date) {
+					return 1;
+				} 
+				return 0;	
+			}
+		});
+		updateAllWidgets();
+		processUrlParameters();
 	}
 
-	// Sort events by start date and store in global list
-	allEvents = response.rsp.event;
-	allEvents.sort(function(event1, event2) {
-		if (event1.start_date == null) {
-			return -1;
-		} else if (event2.start_date == null) {
-			return 1;
-		} else {
-			if (event1.start_date < event2.start_date) {
-				return -1;
-			} else if (event1.start_date > event2.start_date) {
-				return 1;
-			} 
-			return 0;	
-		}
-	});
-	
+	// Update the status whether there are events or not.
 	var entered_address = document.getElementById('set_location_box').value;
 	if (entered_address == 'Address, City, State or Zip' || entered_address == '') {
 		findAddressAndDisplayStatus();
 	} else {
 		displayStatus(entered_address);
 	}
-	updateAllWidgets();
-	processUrlParameters();
+}
+
+/** Inserts text into the scroller saying that no events were found. */
+function noEventsFound() {
+	var scroller = document.getElementById('events_scroller');
+	removeAllChildren(scroller);
+	var row = document.createElement('tr');
+	row.setAttribute('id', 'no_events_container');
+	scroller.appendChild(row);
+	var cell = document.createElement('td');
+	row.appendChild(cell);
+	cell.innerHTML = 'Sorry, no events found.';
 }
 
 /** Reverse geocodes the current location into an address. */
@@ -474,21 +488,6 @@ function displayStatus(address) {
 	}
 
 	document.getElementById('status').innerHTML = message;
-}
-
-/** Inserts text into the scroller saying that no events were found. */
-function noEventsFound() {
-	var scroller = document.getElementById('events_scroller');
-	removeAllChildren(scroller);
-	var row = document.createElement('tr');
-	row.setAttribute('id', 'no_events_container');
-	scroller.appendChild(row);
-	var cell = document.createElement('td');
-	row.appendChild(cell);
-	cell.innerHTML = 'Sorry, no events found.';
-	
-	allEvents = [];
-	updateMarkers(allEvents);
 }
 
 /** Parses URL parameters and calls respective handlers. */
