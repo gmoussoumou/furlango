@@ -388,16 +388,12 @@ function handleYahooResponse(response) {
 		} else if (event2.start_date == null) {
 			return 1;
 		} else {
-			var startDate1 = new Date(event1.start_date);
-			var startDate2 = new Date(event2.start_date);
-			var result =  startDate1.getTime() - startDate2.getTime();
-			if (result < 0) {
+			if (event1.start_date < event2.start_date) {
 				return -1;
-			} else if (result > 0) {
+			} else if (event1.start_date > event2.start_date) {
 				return 1;
-			} else {
-				return 0;	
-			}
+			} 
+			return 0;	
 		}
 	});
 	
