@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+ 	  xmlns:fb="http://www.facebook.com/2008/fbml" xml:lang="en">
 
 <head profile="http://www.w3.org/2005/10/profile">
 	<link rel="icon" type="images/ico" href="images/favicon.ico" />
@@ -103,8 +104,7 @@
 			 <img id="twitter" src="images/retweet.gif" border="0" alt="FurlanGo"/>
 		  </a>
 		  &nbsp;
-		  <a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a>
-		  <script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+			 <img style="margin-bottom:-4px" src="http://static.ak.fbcdn.net/images/fbconnect/login-buttons/connect_white_small_short.gif" onclick="publishFacebookStream()"/>
 		  &nbsp;
 		  <a title="Furlango - Local events and activities" 
 			 class="google-buzz-button" 
@@ -186,7 +186,28 @@
   <div id="center">
 	  <div id="map_canvas"></div>
 	  <script type="text/javascript">initialize()</script> 
-  </div>	
+  </div>
+
+  <!-- Facebook Javascript SDK load -->
+  <div id="fb-root"></div>
+	    <script>
+	      window.fbAsyncInit = function() {
+	        FB.init({appId: '100663286657073', status: true, cookie: true,
+	                 xfbml: true});
+	      };
+	      (function() {
+	        var e = document.createElement('script');
+	        e.type = 'text/javascript';
+	        e.src = document.location.protocol +
+	          '//connect.facebook.net/en_US/all.js';
+	        e.async = true;
+	        document.getElementById('fb-root').appendChild(e);
+	      }());
+	
+	    </script>
+	
+	
+	
 </body>
 </html>
 
