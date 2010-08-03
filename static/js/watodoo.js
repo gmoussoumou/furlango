@@ -624,7 +624,14 @@ function updateMarkers(events) {
 	
 	/** Formats information about the given event into human readable form. */
 	function formatInfo(event) {
-		var content = '<div id="event_info">'
+		var content = '<div id="event_info">'			
+		
+		var eventURL = window.location.protocol + '//' + window.location.host + '/?eventId=' + event.id;
+		
+		//facebook "f" button 
+		content += '<img style="margin-bottom:-4px" src="http://static.ak.fbcdn.net/images/fbconnect/login-buttons/connect_white_small_short.gif"' +  
+						 'onclick="publishFacebookStream(\'' + event.name + '\',\'' + eventURL + '\')"/>';
+		content += '  ';
 		
 		// Name
 		if (event.url == '') {
@@ -632,17 +639,8 @@ function updateMarkers(events) {
 		} else {
 			content += '<a href="' + event.url + '" target="_blank">' + event.name + '</a>';
 		}
-		content += '<br>';
 		
-		//facebook
-		var eventURL = window.location.protocol + '//' + window.location.host + '/?eventId=' + event.id;
-		var facebookURL = '<iframe src="http://www.facebook.com/plugins/like.php?href=' + escape(eventURL) +
-		                  '&amp;layout=standard&amp;show_faces=false&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80"' +
-		                  'scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:25px;" allowTransparency="true"></iframe>';
-		content += '<br>';
-        content += facebookURL;
-		content += '<br>';
-		content += '<br>';
+		content += '<br><br>';
 		
 		
 		// Description
@@ -679,7 +677,7 @@ function updateMarkers(events) {
 		}
 				
 				
-		// Facebook 'Like' Button
+		// Share Link
 		content +='<br><b>Share:</b></br>'
 		content +='<input type="text" style="width:300px" readonly="true" name="address" value="'+ eventURL+ '"/>';
 		
@@ -846,4 +844,45 @@ function clearEventSpecificInfo() {
 	if (currentInfoWindow) { // defined in watodoo.js
 		currentInfoWindow.close();
 	}
+}
+
+/** Opens stream publish pop up for publishing to Facebook. 
+	For publishing event, pass in eventName and eventURL
+	For publishing from furlango homepage, call without any parameters
+*/
+function publishFacebookStream(eventName,eventURL) {
+	
+	if (eventName==null || eventURL==null) {
+		// publish stream for furlango homepage (no specific event).
+		var caption = '{*actor*} likes FurlanGo';
+		var eventURL = 'http://www.furlango.com';
+		var eventName = '';
+		var user_prompt = 'Share your thoughts about FurlanGo';
+	}
+	else {
+		// publish stream for specific event (with passed parameters)
+		var caption = '{*actor*} likes ' + '\'' + eventName + '\' on FurlanGo';
+		var user_prompt = 'Share your thoughts about the event';
+	}
+	FB.ui(
+	   {
+		 display: 'popup',
+	     method: 'stream.publish',
+	     message: '',
+	     attachment: {
+	       name: eventName,
+	       caption: caption,
+	       description: (
+	         'Looking for something cool to do? Concerts, festivals, movies, music? Try FurlanGo!'
+	       ),
+	       href: eventURL
+	     },
+	     action_links: [
+	       { text: 'Find cool events', href: 'http://www.furlango.com'}
+	     ],
+	     user_message_prompt: user_prompt
+	   },
+	   function(response) {
+	   }
+	 );
 }
