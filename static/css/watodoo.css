@@ -1,140 +1,50 @@
-/* Generic styles */
+/** HTML tags */
 
-body { 
-	font-size: 16px; 
-	margin: 0; 
-	padding: 0; 
+html {
+    overflow: auto;
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
 	font-family: "Helvetica Neue", Helvetica, Arial, Sans-serif;
 	font-size: 0.875em;
-	background: url("/images/bg.png") repeat-x scroll center top #C0C0C0;
-	background-color:#FFFFFF;
-}
-
-h1 {
-	font-size:42px;
-	font-weight:bold;
-	margin-bottom:5px;
-	color:#333;
-	line-height:80%;
-}
-
-a:link {
-	color:#0D83DD;
+    width: 100%;
+    height: 100%;
 }
 
 
-/* Header - one below menu */
+/** Header */
 
-#header { 
-	height:95px;
+#header {
+    height: 100px;
+    width: 100%;
+    position: relative;
 }
 
-#header_left {
-	margin-left: 20px;
-	margin-top: -15px;	
+#logo {
+	position: absolute;
+	top: 15px;
+	left: 5px;
+}
+
+#search_boxes {
+	position: absolute;
+	top: 42px;
+	left: 340px;
+	width: 710px;
+}
+
+#search_events_box_form {
 	float: left;
-	font-color: #C9252B;
-	width: 310px;
-}
-
-#header_left2 {
-	margin-top: 40px;
-	float: left;
-	font-color: #333;
-	height: 27px;
-	width: 800px;
-}
-
-#header_right {
-	float:right;
-	margin-top:4px;
-	margin-right:10px;
-	text-align: right;
-	font-color: #333;
-    width: 250px;
-}
-
-/* Left block */
-
-#left { 
-	float: left;
-	width: 290px;
-	min-height: 500px; /* for modern browsers */
-	height:auto !important; /* for modern browsers */
-	height:520px; /* for IE5.x and IE6 */
-	border-style: solid;
-	border-width: 0px;
-	border-left-width: 0px;
-	border-right-width: 0px;
-	border-bottom-width: 0px;
-	border-color: #333;
-}
-
-#left_margin {
-	float: left;
-	margin-left: 10px;
-	height: 525px;
-}
-
-#left_block {
-	border-style: dotted;
-	border-width: 1px;
-	border-color: #333; 
-	font-color: #333;
-	margin-right: 10px;
-	margin-bottom: 10px;
-}
-
-
-/* Center */
-
-div#map_canvas {
-	max-height: 100%;
-	min-height: 550px;
-	width: 99%;
-	border-style: solid;
-	border-width: 1px;
-	border-left-width: 1px;
-	border-right-width: 1px;
-	border-color: #333;
-}
-
-#center { 
-	margin-left: 330px;
-	min-height: 500px; /* for modern browsers */
-	max-height: 100%;
-}
-
-
-/* Events scroller */
-
-#events_list {
-	width: 100%;
-	height: 495px;
-	overflow-y: scroll;
-	font-color: #333;
-	font-size: 13px;
-}
-
-#events_scroller {
-	width: 290px;
-}
-
-#set_location_box {
-	color: gray; 
-	float: left; 
-	font-size: 110%;
-	height: 25px; 
-	width: 250px; 
-	vertical-align: middle;
 }
 
 #search_events_box {
 	color: gray; 
-	float: left;
 	font-size: 100%;
 	height: 25px; 
-	width: 250px; 
+	width: 300px; 
 	vertical-align: middle;
 }
 
@@ -143,24 +53,70 @@ div#map_canvas {
 	font-size: larger; 
 	vertical-align: middle; 
 	margin-top: 3px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
-#loader_container {
-	top-margin: 100px;
-	width: 330px;
-	height: 400px;
-	text-align: center;
+#set_location_box_form {
+	float: left;
 }
 
-#no_events_container {
-	font-weight: bold; 
-	text-align: center;
+#set_location_box {
+	float: left; 
+	color: gray; 
+	font-size: 110%;
+	height: 25px; 
+	width: 300px; 
+	vertical-align: middle;
+}
+
+#search_button {
+	float: left;
+	margin-left: 5px;
+}
+
+#sharing {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+#status {
+	background-color: #F7F8E0;
+	font-weight: bold;
+	position: absolute;
+	top: 80px;
+	left: 340px;
+	padding-left: 5px;
+	height: 20px;
+	width: 76%;
+}
+
+/** Main panel */
+
+#main {
+	height: 86%;
+	width: 100%;
+    float: left;
+    position: relative;
+}
+
+
+/** Left navigation panel */
+
+#navigation {
+	height: 100%;
+    width: 330px;
+    float: left;
+	position: absolute;
+	top: 5px;
+	left: 5px;
 }
 
 #events_container_table {
-	border-top: 0px gray solid; 
-	border-bottom: 0px gray solid;
-	width: 290px; 
+	border-top: 2px #FF9331 solid;
+	border-bottom: 2px #FF9331 solid;
+	width: 100%; 
 }
 
 #events_title_cell {
@@ -172,15 +128,7 @@ div#map_canvas {
 	text-align: right;
 }
 
-#time_filters_cell {
-	text-align: right;
-}
-
 #categories_filter {
-	cursor: pointer;
-}
-
-#time_filter {
 	cursor: pointer;
 }
 
@@ -189,14 +137,23 @@ div#map_canvas {
 	font-size: 12px;
 }
 
+#time_filters_cell {
+	text-align: right;
+}
+
+#time_filter {
+	cursor: pointer;
+}
+
 #selected_time {
 	color: #0D83DD; 
 	font-size: 12px;
 }
 
-#event_info {
-	background-color: #F3F8FB; 
-	padding: 5px;
+#events_list {
+	height: 94%;
+	width: 100%;
+	overflow: auto;
 }
 
 #movies_scroller_item {
@@ -208,7 +165,7 @@ div#map_canvas {
 	padding-top: 5px;
 	padding-bottom: 5px;
 	height: 32px;
-	width: 290px; 
+	width: 100%; 
 	vertical-align: center;
 }
 
@@ -243,7 +200,7 @@ div#map_canvas {
 
 .events_scroller_venue {
 	font-size: 12px; 
-	width: 150px;
+	width: 160px;
 }
 
 .events_scroller_start_date {
@@ -252,22 +209,30 @@ div#map_canvas {
 	text-align: right;
 }
 
-.search_button {
-	float: left;
-	margin-left: 5px;
+#loader_container {
+	border: 1px solid black;
+	width: 50%;
+	height: 50%;
 }
 
-#status {
-	background-color: #F7F8E0;
-	font-weight: bold;
-	margin-left: 330px;
-	margin-bottom: 5px;
-	padding-left: 5px;
-	height: 20px;
-	width: 76%;
+#no_events_container {
+	width: 100%;
+	font-weight: bold; 
+	text-align: center;
 }
 
-/* Groupon deals. */
+
+/** Map */
+
+#map_canvas {
+	height: 100%;
+    width: 76%;
+    float: left;
+	position: absolute;
+	top: 5px;
+	left: 340px;
+}
+
 #groupon_deals {
 	background-color: #F7F8E0; 
 	border: 3px solid #76A045;

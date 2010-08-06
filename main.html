@@ -56,158 +56,152 @@
 </head>
 
 <body oncontextmenu="return false;">
-  <div id="header">
-	  <div id="header_left">
-		  <h1><img id="hdrImg" src="images/FurlanGo.png" alt="FurlanGo" /> </h1>
-	  </div>	
-	  
-	  <div id="header_left2">
-		  <form action="#" onsubmit="search(); return false;">
-			  <input type="text"
-					 id="search_events_box"
-					 value="Search events (e.g. salsa, concert)"
-					 onfocus="if (this.value == 'Search events (e.g. salsa, concert)') {
-								  this.value=''; 
-								  this.style.color = 'black';
-							  }"
-					 onblur="if (this.value == '') {
-								 this.value='Search events (e.g. salsa, concert)'; 
-								 this.style.color = 'gray';
-							 }"/>
-		  </form>
-		  <p id="near_label">&nbsp;&nbsp;near&nbsp;&nbsp;</p>
-		  <form action="#" onsubmit="search(); return false;">
-			<input type="text"
-				   id="set_location_box"
-				   value="Address, City, State or Zip"
-				   onfocus="if (this.value == 'Address, City, State or Zip') {
-								this.value=''; 
-								this.style.color = 'black';
-							}"
-				   onblur="if (this.value == '') {
-							   this.value='Address, City, State or Zip'; 
-							   this.style.color = 'gray';
-						   }"/>
-		   <input type="image" 
-				  src="images/search_button.png" 
-				  class="search_button"
-				  title="Search"/> 
-		  </form>
-	  </div>
+	<div id="header">
+		<div id="logo">
+	        <img id="hdrImg" src="images/FurlanGo.png" alt="FurlanGo" />
+		</div>	
 
-	  <div id="header_right">
-		  <a href="http://www.furlango.com/blog" target="_blank"><b>Blog</b></a>
-		  &nbsp;|&nbsp;
-		  <a id="twitter" 
-			 href="http://twitter.com/home?status=find interesting events and activities on map - www.furlango.com / @furlango" 
-			 target="_blank">
-			 <img id="twitter" src="images/retweet.gif" border="0" alt="FurlanGo"/>
-		  </a>
-		  &nbsp;
-			 <img style="margin-bottom:-4px" src="http://static.ak.fbcdn.net/images/fbconnect/login-buttons/connect_white_small_short.gif" onclick="publishFacebookStream()"/>
-		  &nbsp;
-		  <a title="Furlango - Local events and activities" 
-			 class="google-buzz-button" 
-			 href="http://www.google.com/buzz/post" 
-			 data-button-style="link" 
-			 data-imageurl="http://www.furlango.com/images/FurlanGo.png"></a>
-		  <script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>
-	  </div>
-  </div>
-  
-  <div id="status"></div>
-  
-  <div id="left">
-	  <div id="left_margin">
-		  <div id="left_block">
-		  <table id="events_container_table">
-			  <tr>
-				  <td id="events_title_cell" rowspan="2"><b>Events</b></td>
-				  <td id="events_filters_cell">
-					  <div id="categories_filter"
-						   onclick="toggle('events_categories', 'categories_arrow');
-									if (isOpen('time_options')) {
-										toggle('time_options', 'time_arrow');
-									}"
-						   onmouseover="this.style.backgroundColor = '#F3F8FB';"
-						   onmouseout="this.style.backgroundColor = 'white';">
-						  <u id="selected_category">All categories</u>
-						  <img id="categories_arrow" src="images/expand_arrow.png"></img>
-					  </div>
-					  <div id="events_categories"
-						   style="background-color: white; 
-						   border: 1px solid #0D83DD; 
-						   cursor: pointer; 
-						   display: none; 	
-						   position: absolute; top: 110px; left: 320px; z-index: 2; 
-						   text-align: left;"> 
-					  </div>
-				  </td>
-			  </tr>
-			  <tr>
-				  <td  id="time_filters_cell">
-					  <div id="time_filter"
-						   onclick="toggle('time_options', 'time_arrow');
-									if (isOpen('events_categories')) {
-										toggle('events_categories', 'categories_arrow');
-									}"
-						   onmouseover="this.style.backgroundColor = '#F3F8FB';"
-						   onmouseout="this.style.backgroundColor = 'white';">
-						  <u id="selected_time">All Times</u>
-						  <img id="time_arrow" src="images/expand_arrow.png"></img>
-					  </div>
-					  <div id="time_options"
-						   style="background-color: white; 
-								  border: 1px solid #0D83DD; 
-								  cursor: pointer; 
-								  display: none; 
-								  position: absolute; top: 135px; left: 320px; z-index: 2; 
-								  text-align: left;"> 
-					  </div>
-				  </td>
-			  </tr> 
-		  </table>
-		  </div>
-		  
-		  <div id="left_block">
+		<div id="search_boxes">
+			<form action="#" id="search_events_box_form" onsubmit="search(); return false;">
+				<input type="text"
+					   id="search_events_box"
+					   value="Search events (e.g. salsa, concert)"
+					   onfocus="if (this.value == 'Search events (e.g. salsa, concert)') {
+									this.value=''; 
+									this.style.color = 'black';
+								}"
+					   onblur="if (this.value == '') {
+								   this.value='Search events (e.g. salsa, concert)'; 
+								   this.style.color = 'gray';
+							   }"/>
+			</form>
+			<p id="near_label">near</p>
+			<form action="#" id="set_location_box_form" onsubmit="search(); return false;">
+				<input type="text"
+					   id="set_location_box"
+					   value="Address, City, State or Zip"
+					   onfocus="if (this.value == 'Address, City, State or Zip') {
+									this.value=''; 
+									this.style.color = 'black';
+								}"
+					   onblur="if (this.value == '') {
+								   this.value='Address, City, State or Zip'; 
+								   this.style.color = 'gray';
+							   }"/>
+			</form>
+			<input type="image" 
+				   src="images/search_button.png" 
+				   id="search_button"
+				   title="Search"/> 
+		</div>
+
+		<div id="sharing">
+			<a href="http://www.furlango.com/blog" target="_blank"><b>Blog</b></a>
+			&nbsp;|&nbsp;
+			<a id="twitter" 
+			   href="http://twitter.com/home?status=find interesting events and activities on map - www.furlango.com / @furlango" 
+			   target="_blank">
+			   <img id="twitter" src="images/retweet.gif" border="0" alt="FurlanGo"/>
+			</a>
+			&nbsp;
+			<img style="margin-bottom:-4px" 
+			     src="http://static.ak.fbcdn.net/images/fbconnect/login-buttons/connect_white_small_short.gif" 
+			     onclick="publishFacebookStream()"/>
+			&nbsp;
+            <a title="Furlango - Local events and activities" 
+			   class="google-buzz-button" 
+			   href="http://www.google.com/buzz/post" 
+			   data-button-style="link" 
+			   data-imageurl="http://www.furlango.com/images/FurlanGo.png"></a>
+			<script type="text/javascript" src="http://www.google.com/buzz/api/button.js"></script>
+		</div>
+		
+		<div id="status"></div>
+	</div>
+
+	<div id="main">
+		<div id="navigation">
+			<table id="events_container_table">
+				<tr>
+					<td id="events_title_cell" rowspan="2"><b>Events around you</b></td>
+					<td id="events_filters_cell">
+						<div id="categories_filter"
+							 onclick="toggle('events_categories', 'categories_arrow');
+									  if (isOpen('time_options')) {
+										  toggle('time_options', 'time_arrow');
+									  }"
+							 onmouseover="this.style.backgroundColor = '#F3F8FB';"
+							 onmouseout="this.style.backgroundColor = 'white';">
+							<u id="selected_category">All categories</u>
+							<img id="categories_arrow" src="images/expand_arrow.png"></img>
+						</div>
+						<div id="events_categories"
+							 style="background-color: white; 
+							 width: 95px;
+							 border: 1px solid #0D83DD; 
+							 cursor: pointer; 
+							 display: none; 	
+							 position: absolute; top: 0px; left: 335px; z-index: 2; 
+							 text-align: left;"> 
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td  id="time_filters_cell">
+						<div id="time_filter"
+							 onclick="toggle('time_options', 'time_arrow');
+									  if (isOpen('events_categories')) {
+										  toggle('events_categories', 'categories_arrow');
+									  }"
+							 onmouseover="this.style.backgroundColor = '#F3F8FB';"
+							 onmouseout="this.style.backgroundColor = 'white';">
+							<u id="selected_time">All Times</u>
+							<img id="time_arrow" src="images/expand_arrow.png"></img>
+						</div>
+						<div id="time_options"
+							 style="background-color: white; 
+							        width: 70px;
+									border: 1px solid #0D83DD; 
+									cursor: pointer; 
+									display: none; 
+									position: absolute; top: 20px; left: 335px; z-index: 2; 
+									text-align: left;"> 
+						</div>
+					</td>
+				</tr> 
+			</table>
+
 			<div id="events_list">
 			  <table id="events_scroller">
 			  </table>
 			</div>  		     
-		  </div>          
-	  </div>
-  </div>
+        </div>
+      
+        <div id="map_canvas"></div>
   
-  <!-- TODO(ajit): Reinsert for v2.1 launch
-  <div id="groupon_deals"></div>
-  <img id="powered_by_groupon" src="images/powered_by_groupon.png"></img>
-  -->
-  
-  <div id="center">
-	  <div id="map_canvas"></div>
-	  <script type="text/javascript">initialize()</script> 
-  </div>
-
-  <!-- Facebook Javascript SDK load -->
-  <div id="fb-root"></div>
-	    <script>
-	      window.fbAsyncInit = function() {
-	        FB.init({appId: '100663286657073', status: true, cookie: true,
-	                 xfbml: true});
-	      };
-	      (function() {
-	        var e = document.createElement('script');
-	        e.type = 'text/javascript';
-	        e.src = document.location.protocol +
-	          '//connect.facebook.net/en_US/all.js';
-	        e.async = true;
-	        document.getElementById('fb-root').appendChild(e);
-	      }());
-	
-	    </script>
-	
-	
-	
+		<!-- TODO(ajit): Reinsert for v2.1 launch
+		<div id="groupon_deals"></div>
+		<img id="powered_by_groupon" src="images/powered_by_groupon.png"></img>
+		-->
+	  
+		<!-- Facebook Javascript SDK load -->
+		<div id="fb-root"></div>
+			<script>
+			  window.fbAsyncInit = function() {
+				FB.init({appId: '100663286657073', status: true, cookie: true,
+						 xfbml: true});
+			  };
+			  (function() {
+				var e = document.createElement('script');
+				e.type = 'text/javascript';
+				e.src = document.location.protocol +
+				  '//connect.facebook.net/en_US/all.js';
+				e.async = true;
+				document.getElementById('fb-root').appendChild(e);
+			  }());
+			</script>
+		</div>
+		<script type="text/javascript">initialize()</script> 
+    </div>
 </body>
 </html>
-
