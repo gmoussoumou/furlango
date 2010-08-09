@@ -18,7 +18,7 @@ body {
 /** Header */
 
 #header {
-    height: 100px;
+    height: 80px;
     width: 100%;
     position: relative;
 }
@@ -31,7 +31,7 @@ body {
 
 #search_boxes {
 	position: absolute;
-	top: 42px;
+	top: 25px;
 	left: 340px;
 	width: 710px;
 }
@@ -78,25 +78,24 @@ body {
 #sharing {
 	position: absolute;
 	top: 5px;
-	right: 5px;
+	right: 25px;
 }
 
 #status {
-	background-color: #F7F8E0;
+	background-color: #F7F8E0; 
 	font-weight: bold;
 	position: absolute;
-	top: 80px;
+	top: 60px;
 	left: 340px;
-	padding-left: 5px;
 	height: 20px;
-	width: 76%;
+	width: 665px;
 }
 
 /** Main panel */
 
 #main {
 	height: 86%;
-	width: 100%;
+	width: 98%;
     float: left;
     position: relative;
 }
