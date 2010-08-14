@@ -56,7 +56,6 @@
 </head>
 
 <body oncontextmenu="return false;">
-	
 		
 	<div id="header">
 		<div id="logo">
@@ -122,90 +121,105 @@
 		<div id="status"></div>
 	</div>
 
-	<div id="main">
-		<div id="navigation">
-			<table id="events_container_table">
-				<tr>
-					<td id="events_title_cell" rowspan="2"><b>Events around you</b></td>
-					<td id="events_filters_cell">
-						<div id="categories_filter"
-							 onclick="toggle('events_categories', 'categories_arrow');
-									  if (isOpen('time_options')) {
-										  toggle('time_options', 'time_arrow');
-									  }"
-							 onmouseover="this.style.backgroundColor = '#F3F8FB';"
-							 onmouseout="this.style.backgroundColor = 'white';">
-							<u id="selected_category">All categories</u>
-							<img id="categories_arrow" src="images/expand_arrow.png"></img>
-						</div>
-						<div id="events_categories"
-							 style="background-color: white; 
-							 width: 95px;
-							 border: 1px solid #0D83DD; 
-							 cursor: pointer; 
-							 display: none; 	
-							 position: absolute; top: 0px; left: 335px; z-index: 2; 
-							 text-align: left;"> 
-						</div>
-					</td>
-				</tr>
-				<tr>
-					<td  id="time_filters_cell">
-						<div id="time_filter"
-							 onclick="toggle('time_options', 'time_arrow');
-									  if (isOpen('events_categories')) {
-										  toggle('events_categories', 'categories_arrow');
-									  }"
-							 onmouseover="this.style.backgroundColor = '#F3F8FB';"
-							 onmouseout="this.style.backgroundColor = 'white';">
-							<u id="selected_time">All Times</u>
-							<img id="time_arrow" src="images/expand_arrow.png"></img>
-						</div>
-						<div id="time_options"
-							 style="background-color: white; 
-							        width: 70px;
-									border: 1px solid #0D83DD; 
-									cursor: pointer; 
-									display: none; 
-									position: absolute; top: 20px; left: 335px; z-index: 2; 
-									text-align: left;"> 
-						</div>
-					</td>
-				</tr> 
-			</table>
+	<div id="navigation">
+		<table id="events_container_table">
+			<tr>
+				<td id="events_title_cell" rowspan="2"><b>Events around you</b></td>
+				<td id="events_filters_cell">
+					<div id="categories_filter"
+						 onclick="toggle('events_categories', 'categories_arrow');
+								  if (isOpen('time_options')) {
+									  toggle('time_options', 'time_arrow');
+								  }"
+						 onmouseover="this.style.backgroundColor = '#F3F8FB';"
+						 onmouseout="this.style.backgroundColor = 'white';">
+						<u id="selected_category">All categories</u>
+						<img id="categories_arrow" src="images/expand_arrow.png"></img>
+					</div>
+					<div id="events_categories"
+						 style="background-color: white; 
+						 width: 95px;
+						 border: 1px solid #0D83DD; 
+						 cursor: pointer; 
+						 display: none; 	
+						 position: absolute; top: 0px; left: 340px; z-index: 2; 
+						 text-align: left;"> 
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td  id="time_filters_cell">
+					<div id="time_filter"
+						 onclick="toggle('time_options', 'time_arrow');
+								  if (isOpen('events_categories')) {
+									  toggle('events_categories', 'categories_arrow');
+								  }"
+						 onmouseover="this.style.backgroundColor = '#F3F8FB';"
+						 onmouseout="this.style.backgroundColor = 'white';">
+						<u id="selected_time">All Times</u>
+						<img id="time_arrow" src="images/expand_arrow.png"></img>
+					</div>
+					<div id="time_options"
+						 style="background-color: white; 
+								width: 70px;
+								border: 1px solid #0D83DD; 
+								cursor: pointer; 
+								display: none; 
+								position: absolute; top: 20px; left: 340px; z-index: 2; 
+								text-align: left;"> 
+					</div>
+				</td>
+			</tr> 
+		</table>
 
-			<div id="events_list">
-			  <table id="events_scroller">
-			  </table>
-			</div>  		     
-        </div>
-      
-        <div id="map_canvas"></div>
+		<div id="events_list">
+		  <table id="events_scroller">
+		  </table>
+		</div>  		     
+	</div>
   
-		<!-- TODO(ajit): Reinsert for v2.1 launch
-		<div id="groupon_deals"></div>
-		<img id="powered_by_groupon" src="images/powered_by_groupon.png"></img>
-		-->
-	  
-		<!-- Facebook Javascript SDK load -->
-		<div id="fb-root"></div>
-			<script>
-			  window.fbAsyncInit = function() {
-				FB.init({appId: '100663286657073', status: true, cookie: true,
-						 xfbml: true});
-			  };
-			  (function() {
-				var e = document.createElement('script');
-				e.type = 'text/javascript';
-				e.src = document.location.protocol +
-				  '//connect.facebook.net/en_US/all.js';
-				e.async = true;
-				document.getElementById('fb-root').appendChild(e);
-			  }());
-			</script>
-		</div>
-		<script type="text/javascript">initialize()</script> 
-    </div>
+	<div id="map_canvas"></div>
+
+    <div id='shadow'> 
+        <div id='shadow_horizontal'> 
+            <div class='shadow horizontal1 opacity1'> </div> 
+            <div class='shadow horizontal2 opacity2'></div> 
+            <div class='shadow horizontal3 opacity3'></div> 
+            <div class='shadow horizontal4 opacity4'></div> 
+            <div class='shadow horizontal5 opacity5'></div> 
+        </div> 
+        <div id='shadow_vertical'> 
+            <div class='shadow vertical1 opacity1'></div> 
+            <div class='shadow vertical2 opacity2'></div> 
+            <div class='shadow vertical3 opacity3'></div> 
+            <div class='shadow vertical4 opacity4'></div> 
+            <div class='shadow vertical5 opacity5'></div> 
+        </div> 
+    </div> 
+    
+    <!-- TODO(ajit): Reinsert for v2.1 launch
+	<div id="groupon_deals"></div>
+	<img id="powered_by_groupon" src="images/powered_by_groupon.png"></img>
+	-->
+  
+	<!-- Facebook Javascript SDK load -->
+	<div id="fb-root"></div>
+		<script>
+		  window.fbAsyncInit = function() {
+			FB.init({appId: '100663286657073', status: true, cookie: true,
+					 xfbml: true});
+		  };
+		  (function() {
+			var e = document.createElement('script');
+			e.type = 'text/javascript';
+			e.src = document.location.protocol +
+			  '//connect.facebook.net/en_US/all.js';
+			e.async = true;
+			document.getElementById('fb-root').appendChild(e);
+		  }());
+		</script>
+	</div>
+	<script type="text/javascript">initialize()</script> 
 
     <!-- UserVoice feedback widget. -->
     <script type="text/javascript">

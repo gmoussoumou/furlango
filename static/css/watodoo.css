@@ -1,26 +1,26 @@
 /** HTML tags */
 
-html {
-    overflow: auto;
-    height: 100%;
-}
-
 body {
-    margin: 0;
-    padding: 0;
+	margin: 0; 
+	padding: 0;
+	height: 100%; 
+	width: 100%; 
+	overflow: hidden;
 	font-family: "Helvetica Neue", Helvetica, Arial, Sans-serif;
 	font-size: 0.875em;
-    width: 100%;
-    height: 100%;
 }
 
 
 /** Header */
 
 #header {
-    height: 80px;
-    width: 100%;
-    position: relative;
+	position: absolute; 
+	top: 0; 
+	left: 0; 
+	height: 80px; 
+	width: 100%; 
+	bottom left repeat-x; 
+	z-index: 1; 
 }
 
 #logo {
@@ -78,7 +78,7 @@ body {
 #sharing {
 	position: absolute;
 	top: 5px;
-	right: 25px;
+	right: 5px;
 }
 
 #status {
@@ -91,25 +91,16 @@ body {
 	width: 665px;
 }
 
-/** Main panel */
-
-#main {
-	height: 84%;
-	width: 96%;
-    float: left;
-    position: relative;
-}
-
 
 /** Left navigation panel */
 
 #navigation {
-	height: 100%;
-    width: 330px;
-    float: left;
-	position: absolute;
-	top: 5px;
-	left: 5px;
+	position: absolute; 
+	top: 85px; 
+	left: 0px; 
+	bottom: 0; 
+	width: 340px; 
+	padding-left: 0px; 
 }
 
 #events_container_table {
@@ -199,7 +190,7 @@ body {
 
 .events_scroller_venue {
 	font-size: 12px; 
-	width: 160px;
+	width: 170px;
 }
 
 .events_scroller_start_date {
@@ -224,13 +215,58 @@ body {
 /** Map */
 
 #map_canvas {
-	height: 100%;
-    width: 76%;
-    float: left;
-	position: absolute;
-	top: 5px;
-	left: 340px;
+	position: absolute; 
+	top: 85px; 
+	left: 340px; 
+	right: 0; 
+	bottom: 0;
 }
+
+#shadow_horizontal { 
+	position: absolute; 
+	left: 340px; 
+	top: 85px; 
+	bottom: 0; 
+	width: 5px; 
+	z-index: 1000; 
+}
+
+#shadow_horizontal div { 
+	float: left; 
+	height: 20000px; 
+	width: 1px; 
+	font-size: 1px; 
+	background-color: #000000; 
+	display: inline; 
+	overflow: hidden; 
+}
+
+#shadow_vertical { 
+	position: absolute; 
+	left: 340px; 
+	right: 0; 
+	top: 85px; 
+	height: 5px; 
+	z-index: 1000; 
+}
+
+#shadow_vertical div { 
+	position: relative; 
+	width: 100%; 
+	height: 1px; 
+	font-size: 1px; 
+	background-color: #000000; 
+	overflow: hidden; 
+}
+
+#shadow .opacity1 { opacity: .4; filter: alpha(opacity=40); }
+#shadow .opacity2 { opacity: .32; filter: alpha(opacity=32); }
+#shadow .opacity3 { opacity: .24; filter: alpha(opacity=24); }
+#shadow .opacity4 { opacity: .16; filter: alpha(opacity=16); }
+#shadow .opacity5 { opacity: .08; filter: alpha(opacity=8); }
+
+
+/** Groupon */
 
 #groupon_deals {
 	background-color: #F7F8E0; 
