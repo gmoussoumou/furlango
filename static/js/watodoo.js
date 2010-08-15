@@ -411,12 +411,10 @@ function handleYahooResponse(response) {
 function noEventsFound() {
 	var scroller = document.getElementById('events_scroller');
 	removeAllChildren(scroller);
-	var row = document.createElement('tr');
-	row.setAttribute('id', 'no_events_container');
-	scroller.appendChild(row);
-	var cell = document.createElement('td');
-	row.appendChild(cell);
-	cell.innerHTML = 'Sorry, no events found.';
+	var no_events = document.createElement('div');
+	no_events.setAttribute('id', 'no_events_container');
+	scroller.appendChild(no_events);
+	no_events.innerHTML = 'Sorry, no events found.';
 }
 
 /** Reverse geocodes the current location into an address. */
