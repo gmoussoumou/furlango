@@ -169,6 +169,10 @@ body {
 	padding-right: 5px;
 }
 
+#events_scroller {
+	width: 100%;
+}
+
 .events_scroller_item {
 	width: 100%; 
 	cursor: pointer; 
@@ -200,7 +204,7 @@ body {
 }
 
 #loader_container {
-	margin-left: 150px;
+	text-align: center;
 	margin-top: 200px;
 }
 
