@@ -362,15 +362,13 @@ function insertYahooUpcomingScript() {
 function insertLoader() {
 	var scroller = document.getElementById('events_scroller');
 	removeAllChildren(scroller);
-	var row = document.createElement('tr');
-	row.setAttribute('id', 'loader_container');
-	scroller.appendChild(row);
-	var cell = document.createElement('td');
-	row.appendChild(cell);
+	var loader = document.createElement('div');
+	loader.setAttribute('id', 'loader_container');
+	scroller.appendChild(loader);
 	var loaderImage = document.createElement('img');
 	loaderImage.setAttribute('src', 'images/loader.gif');
 	loaderImage.setAttribute('alt', 'Loading...');
-	cell.appendChild(loaderImage);
+	loader.appendChild(loaderImage);
 }
 
 /** Callback to handle event feed results. */
