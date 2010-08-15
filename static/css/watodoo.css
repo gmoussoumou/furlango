@@ -200,9 +200,8 @@ body {
 }
 
 #loader_container {
-	border: 1px solid black;
-	width: 50%;
-	height: 50%;
+	margin-left: 150px;
+	margin-top: 200px;
 }
 
 #no_events_container {
