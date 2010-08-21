@@ -67,20 +67,15 @@ var timeMap = {
 	'weekend': 'Weekend'
 };
 
-
 // -------------------- Initialization logic -----------------------------
 
 /** Bootstrap. */
 function initialize() {
 	dropIEUsers();
 	initMap();
-	geocoder = new GClientGeocoder();
-	var isSearch = readCookie('search');
-	if (isSearch != 'true' || isSearch == null) {
-		whereAmI();
-	} else {
-		initChores();
-	}
+	geocoder = new google.maps.Geocoder();
+	geolocateByIP();
+	initChores();
 }
 
 /** Shoo away IE users. */
@@ -103,38 +98,15 @@ function initMap() {
 	map = new google.maps.Map(document.getElementById("map_canvas"), options);
 }
 
-/** Finds out the user's geolocation and stores it as a cookie. */
-function whereAmI() {
-	// Try W3C geolocation (preferred)
-	if(navigator.geolocation) {
-		navigator.geolocation.getCurrentPosition(function(position) {
-			storeMyLocation(position.coords.latitude, position.coords.longitude);
-			initChores();
-		}, function() {
-			alert("W3C geolocation service failed. You have been placed in Mountain View, CA.");
-			storeMyLocation(37.386, -122.082);
-			initChores();
-		});
-	
-	// Try Google Gears geolocation
-	// Note that using Google Gears requires loading the Javascript
-	// at http://code.google.com/apis/gears/gears_init.js
-	} else if (google.gears) {
-		var geo = google.gears.factory.create('beta.geolocation');
-		geo.getCurrentPosition(function(position) {
-			storeMyLocation(position.coords.latitude, position.coords.longitude);
-			initChores();
-		}, function() {
-			alert("Google Gears geolocation service failed. You have been placed in Mountain View, CA.");
-			storeMyLocation(37.386, -122.082);
-			initChores();
-		});
-	
-	// Browser doesn't support geolocation
+/** Geolocate by IP of the user. */
+function geolocateByIP() {
+	if (google.loader.ClientLocation) {
+		var location = google.loader.ClientLocation;
+		currentAddress = location.address.city + ', ' + location.address.region;
+		storeMyLocation(location.latitude, location.longitude);
 	} else {
-		alert("Your browser doesn't support geolocation. You have been placed in Mountain View, CA.");
-		storeMyLocation(37.386, -122.082);
-		initChores();
+		currentAddress = 'San Fransisco, CA';
+		storeMyLocation(37.75, -122.45);
 	}
 }
 
@@ -400,11 +372,10 @@ function handleYahooResponse(response) {
 
 	// Update the status whether there are events or not.
 	var entered_address = document.getElementById('set_location_box').value;
-	if (entered_address == 'Address, City, State or Zip' || entered_address == '') {
-		findAddressAndDisplayStatus();
-	} else {
-		displayStatus(entered_address);
+	if (entered_address != 'Address, City, State or Zip' && entered_address != '') {
+		currentAddress = entered_address;
 	}
+	displayStatus(currentAddress);
 }
 
 /** Inserts text into the scroller saying that no events were found. */
@@ -415,30 +386,6 @@ function noEventsFound() {
 	no_events.setAttribute('id', 'no_events_container');
 	scroller.appendChild(no_events);
 	no_events.innerHTML = 'Sorry, no events found.';
-}
-
-/** Reverse geocodes the current location into an address. */
-function findAddressAndDisplayStatus() {
-	if (geocoder) {
-        geocoder.getLocations (
-			new GLatLng(readCookie('latitude'), readCookie('longitude')),
-			function(addresses) {
-				if(addresses.Status.code != 200) {
-				    // The user should not care about this, so ignore.
-				} else {
-					// Set minimum precision level.
-					var i = 3;
-					while (!addresses.Placemark[i] && i >= 0) {
-						i--;
-					}
-					if (i >= 0) { 
-						currentAddress = addresses.Placemark[i].address;
-						displayStatus(currentAddress);
-				    }
-				}
-			}
-        );
-	}
 }
 
 /** 
@@ -797,11 +744,6 @@ function openInfo(eventId) {
 	}
 }
 
-/** Initialize geocoder on load **/
-function setGeoCoder(){	
-       geocoder = new GClientGeocoder();
-}
-
 /** Stores the user's location in a cookie. */
 function storeMyLocation(latitude, longitude) {
 	writeCookie('latitude', latitude);
@@ -818,17 +760,15 @@ function search() {
 		address = currentAddress;
 	}
 	if (geocoder) {
-        geocoder.getLatLng (
-          address,
-          function(point) {
-            if (!point) {
-            	alert(address + " not found");
-            } else {
-				writeCookie('search', 'true');
-				storeMyLocation(point.lat(), point.lng());
-				initChores();
+        geocoder.geocode (
+        	{'address': address},
+          	function(results, status) {
+            	if (status == google.maps.GeocoderStatus.OK) {
+					var location = results[0].geometry.location;
+					storeMyLocation(location.lat(), location.lng());
+					initChores();
+            	}
             }
-          }
         );
 	}
 }
