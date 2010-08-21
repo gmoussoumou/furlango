@@ -293,11 +293,13 @@ function insertYahooUpcomingScript() {
 		var today_min = new Date();
 		var tomorrow_min = new Date();
 		tomorrow_min.setTime(tomorrow_min.getTime() + millisPerDay);
-		// The weekend is from the coming Friday to the coming Monday.
 		var weekend_min = new Date();
-		weekend_min.setTime(weekend_min.getTime() + (5 - weekend_min.getDay()) * millisPerDay);
 		var weekend_max = new Date();
-		weekend_max.setTime(weekend_min.getTime() + 3 * millisPerDay);
+		// We're good if today is a Sunday.
+		if (today_min.getDay() != 0) {
+			weekend_min.setTime(weekend_min.getTime() + (6 - weekend_min.getDay()) * millisPerDay);
+			weekend_max.setTime(weekend_min.getTime() + 1 * millisPerDay);
+		}
 		var dates = {'today': {'min': today_min, 'max': today_min},
 					 'tomorrow': {'min': tomorrow_min, 'max': tomorrow_min},
 					 'weekend': {'min': weekend_min, 'max': weekend_max}};
