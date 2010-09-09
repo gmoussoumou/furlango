@@ -16,5 +16,8 @@ handlers:
 - url: /js
   static_dir: static/js
 
+- url: /rest.*
+  script: rest.py
+
 - url: /.*
   script: main.py
