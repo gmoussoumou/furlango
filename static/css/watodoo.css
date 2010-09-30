@@ -278,9 +278,9 @@ body {
 	font-size: smaller;
 	font-weight: bold;
 	padding: 3px;
-	position: absolute; bottom: 160px; right: 15px; z-index: 2; 
+	position: absolute; bottom: 15px; right: 5px; z-index: 2; 
 	text-align: left;
-	height: 130px;
+	height: 220px;
 	width: 200px;
 	overflow-y: scroll;
 }
@@ -292,5 +292,5 @@ body {
 	border-right: 3px solid #76A045;
 	height: 40px;
 	width: 207px;
-	position: absolute; bottom: 302px; right: 15px; z-index: 2; 
+	position: absolute; bottom: 247px; right: 5px; z-index: 2; 
 }
