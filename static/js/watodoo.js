@@ -119,8 +119,7 @@ function initChores() {
 	initEventTimeOptions();
 
 	insertYahooUpcomingScript();
-	// TODO(ajit): Re-insert for v2.1 launch
-	// insertGrouponDealsScript();
+	insertGrouponDealsScript();
 	markHome();
 }
 
