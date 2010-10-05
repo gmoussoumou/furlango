@@ -530,6 +530,7 @@ function updateMarkers(events) {
 	eventMarkerMap = {};
 	for (var i in events) {
 		var event = events[i];
+		event.name = event.name + ''; // Defense against titles like '1964'
 		var marker = new google.maps.Marker({
 			position: new google.maps.LatLng(event.latitude, event.longitude),
 			icon: 'images/marker.png',
