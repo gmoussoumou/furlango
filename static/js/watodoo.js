@@ -71,7 +71,7 @@ var timeMap = {
 
 /** Bootstrap. */
 function initialize() {
-	dropIEUsers();
+	// dropIEUsers();
 	initMap();
 	geocoder = new google.maps.Geocoder();
 	geolocateByIP();
@@ -126,24 +126,22 @@ function initChores() {
 /** Initialize the event category options dialog. */
 function initEventCategoryOptions() {
 	// Set default
-	document.getElementById('selected_category').innerHTML = categoryMap[0];
+	$('#selected_category').html(categoryMap[0]);
 	
-	var container = document.getElementById('events_categories');
-	removeAllChildren(container);
-	var table = document.createElement('table');
-	container.appendChild(table);
+	var container = $('#events_categories').empty();
+	var table = $('<table></table>');
+	container.append(table);
 
 	// Add all categories to the dialog	
 	for (var i in categoryMap) {
-		var row = document.createElement('tr');
-		table.appendChild(row);
-		var col = document.createElement('td');
-		row.appendChild(col);
-		col.setAttribute("onmouseover", "this.style.backgroundColor = '#ADDFFF';");
-		col.setAttribute("onmouseout", "this.style.backgroundColor = 'white';");
-		col.setAttribute("onclick", 
-		                 "handleCategoryFilterClick(" + i + ", '" + categoryMap[i] + "');");
-		col.innerHTML = categoryMap[i];            
+		var row = $('<tr></tr>');
+		table.append(row);
+		var col = $('<td></td>');
+		row.append(col);
+		col.attr("onmouseover", "this.style.backgroundColor = '#ADDFFF';");
+		col.attr("onmouseout", "this.style.backgroundColor = 'white';");
+		col.attr("onclick", "handleCategoryFilterClick(" + i + ", '" + categoryMap[i] + "');");
+		col.html(categoryMap[i]);
 	}
 }
 
@@ -152,7 +150,7 @@ function initEventCategoryOptions() {
 function handleCategoryFilterClick(categoryId, categoryText) {
 	clearEventSpecificInfo();
 	toggle('events_categories', 'categories_arrow');
-    document.getElementById('selected_category').innerHTML = '<u>' + categoryText + '</u>';
+    $('#selected_category').html('<u>' + categoryText + '</u>');
 
 	// Set global array
 	setCategories([categoryId]);
@@ -177,24 +175,22 @@ function setCategories(categoryIds) {
 /** Initialize the event times options dialog. */
 function initEventTimeOptions() {
 	// Set default
-	document.getElementById('selected_time').innerHTML = timeMap['any'];
+	$('#selected_time').html(timeMap['any']);
 	
-	var container = document.getElementById('time_options');
-	removeAllChildren(container);
-	var table = document.createElement('table');
-	container.appendChild(table);
+	var container = $('#time_options').empty();
+	var table = $('<table></table>');
+	container.append(table);
 
 	// Add all time options to the dialog	
 	for (var i in timeMap) {
-		var row = document.createElement('tr');
-		table.appendChild(row);
-		var col = document.createElement('td');
-		row.appendChild(col);
-		col.setAttribute("onmouseover", "this.style.backgroundColor = '#ADDFFF';");
-		col.setAttribute("onmouseout", "this.style.backgroundColor = 'white';");
-		col.setAttribute("onclick", 
-		                 "handleTimeFilterClick('" + i + "', '" + timeMap[i] + "');");
-		col.innerHTML = timeMap[i];            
+		var row = $('<tr></tr>');
+		table.append(row);
+		var col = $('<td></td>');
+		row.append(col);
+		col.attr("onmouseover", "this.style.backgroundColor = '#ADDFFF';");
+		col.attr("onmouseout", "this.style.backgroundColor = 'white';");
+		col.attr("onclick", "handleTimeFilterClick('" + i + "', '" + timeMap[i] + "');");
+		col.html(timeMap[i]);
 	}
 }
 
@@ -202,7 +198,7 @@ function initEventTimeOptions() {
 function handleTimeFilterClick(timeTag, timeText) {
 	clearEventSpecificInfo();
 	toggle('time_options', 'time_arrow');
-    document.getElementById('selected_time').innerHTML = '<u>' + timeText + '</u>';
+    $('#selected_time').html('<u>' + timeText + '</u>');
 
 	// Set global array
 	setTimes([timeTag]);
@@ -234,10 +230,11 @@ function markHome() {
 	_home = new google.maps.LatLng(readCookie('latitude'), readCookie('longitude'));
 	map.setCenter(_home);
 
-	var image = new google.maps.MarkerImage('images/home.png',
-		  new google.maps.Size(48, 48),
-		  new google.maps.Point(0, 0),     // origin
-		  new google.maps.Point(0, 32));   // anchor
+	var image = new google.maps.MarkerImage(
+		'images/home.png',
+		new google.maps.Size(48, 48),
+		new google.maps.Point(0, 0),   // origin
+		new google.maps.Point(0, 32)); // anchor
 	homeMarker = new google.maps.Marker({
 		position: _home, 
 		map: map, 
@@ -326,22 +323,14 @@ function insertYahooUpcomingScript() {
 		url += '&search_text=' + escape(search_text);
 	}
 
-	var eventsScript = document.createElement('script');
-	eventsScript.src = url;
-	document.getElementsByTagName('head')[0].appendChild(eventsScript);
+	$('head:first').append($("<script src='" + url + "'></script>"));
 }
 
-/** Insert the loader into the scroller. */
+/** Insert the loader into the scroller, after removing all existing items. */
 function insertLoader() {
-	var scroller = document.getElementById('events_scroller');
-	removeAllChildren(scroller);
-	var loader = document.createElement('div');
-	loader.setAttribute('id', 'loader_container');
-	scroller.appendChild(loader);
-	var loaderImage = document.createElement('img');
-	loaderImage.setAttribute('src', 'images/loader.gif');
-	loaderImage.setAttribute('alt', 'Loading...');
-	loader.appendChild(loaderImage);
+	$('#events_scroller').empty()
+		.append($("<div id='loader_container'></div>")
+			.append($("<img src='images/loader.gif' alt='Loading...'></img>")));
 }
 
 /** Callback to handle event feed results. */
@@ -381,12 +370,8 @@ function handleYahooResponse(response) {
 
 /** Inserts text into the scroller saying that no events were found. */
 function noEventsFound() {
-	var scroller = document.getElementById('events_scroller');
-	removeAllChildren(scroller);
-	var no_events = document.createElement('div');
-	no_events.setAttribute('id', 'no_events_container');
-	scroller.appendChild(no_events);
-	no_events.innerHTML = 'Sorry, no events found.';
+	$('#events_scroller').empty()
+		.append($("<div id='no_events_container'>Sorry, no events found.</div>"));	
 }
 
 /** 
@@ -450,16 +435,13 @@ function processUrlParameters() {
 function insertGrouponDealsScript() {
 	var lat = readCookie('latitude');
 	var lng = readCookie('longitude');
-
-	var grouponScript = document.createElement('script');
-	grouponScript.src = 'http://www.groupon.com/api/v1/deals'
+	var _grouponUrl = 'http://www.groupon.com/api/v1/deals'
 		+ '?X-GrouponToken=827581b3617e5ac54482be2dcc23a12c5a36c2fd'
 		+ '&lat=' + lat
 		+ '&lng=' + lng
 		+ '&format=json'
 		+ '&callback=handleGrouponResponse';
-
-	document.getElementsByTagName('head')[0].appendChild(grouponScript);
+	$('head:first').append($('<script>').attr('src', _grouponUrl));
 }
 
 /** Display all groupon deals. */
@@ -469,22 +451,20 @@ function handleGrouponResponse(response) {
 		return;
 	}
 	
-	var container = document.getElementById('groupon_deals');
-	removeAllChildren(container);
+	var container = $('#groupon_deals').empty();
 	for (var i in response.deals) {
 		var deal = response.deals[i];
 		
-		var link = document.createElement('a');
-		container.appendChild(link);
-		link.setAttribute('href', deal.deal_url);
-		link.setAttribute('target', '_blank');
-		link.innerHTML = deal.title + '<br>';
+		var link = $("<a target='_blank'></a>");
+		link.attr('href', deal.deal_url);
+		link.html(deal.title + '<br>');
+		container.append(link);
 		
-		var image = document.createElement('img');
-		container.appendChild(image);
-		image.setAttribute('src', deal.medium_image_url);
+		var image = $('<img></img>');
+		image.attr('src', deal.medium_image_url);
+		container.append(image);
 		
-		container.innerHTML += '<br><br>';
+		container.append('<br><br>');
 	}
 }
 
@@ -633,100 +613,83 @@ function updateMarkers(events) {
 
 /** Updates the scroller with the given events. */
 function updateScroller(events) {
-	var scroller = document.getElementById('events_scroller');
-	removeAllChildren(scroller);
+	var scroller = $('#events_scroller').empty();
 	
 	// Add movies URL
-	var movieItem = document.createElement('div');
-	movieItem.setAttribute('id', 'movies_scroller_item');
-	scroller.appendChild(movieItem);
+	var movieItem = $("<div id='movies_scroller_item'></div>");
+	scroller.append(movieItem);
 
-	var moviesImage = document.createElement('img');
-	moviesImage.setAttribute('id', 'movie_scroller_image');
-	moviesImage.setAttribute('src', 'images/movies.png');
-	moviesImage.setAttribute('style', 'float: left');
-	movieItem.appendChild(moviesImage);
+	var moviesImage =
+		$("<img id='movie_scroller_image' src='images/movies.png' style='float:left'></img>");
+	movieItem.append(moviesImage);
 
-	var link = document.createElement('a');
-	link.setAttribute('id', 'movie_scroller_link');
+	var link = $("<a id='movie_scroller_link' target='_blank'>Movies playing near you</a>");
 	var movieUrl = 'http://www.google.com/movies?view=map&near=' + 
 	                escape(readCookie('latitude')) + ',' + escape(readCookie('longitude'));
-	link.setAttribute('href', movieUrl);
-	link.setAttribute('target', '_blank');
-	link.innerHTML = 'Movies playing near you';
-	movieItem.appendChild(link);
+	link.attr('href', movieUrl);
+	movieItem.append(link);
 
-	var external_link = document.createElement('img');
-	external_link.setAttribute('src', 'images/external_link.png');
-	movieItem.appendChild(external_link);
+	movieItem.append($("<img src='images/external_link.png'></img>"));
 	
 	// Add events to scroller
 	for (var i in events) {
 		var event = events[i];
-		var row = document.createElement('tr');
-		scroller.appendChild(row);
+		var row = $('<tr></tr>');
+		scroller.append(row);
 		
 		// Table in each row
-		var innerTable = document.createElement('table');
-		row.appendChild(innerTable);
+		var innerTable = $('<table></table>');
+		row.append(innerTable);
 		// Cannot start element ids with a number; only works in IE.
-		innerTable.setAttribute('id', 'event_' + event.id);  
-		innerTable.setAttribute('class', 'events_scroller_item');
-		innerTable.setAttribute('onclick', "openInfo(" + event.id + ");");
-		innerTable.setAttribute('onmouseover', "this.style.backgroundColor = '#ADDFFF';");
-		innerTable.setAttribute('onmouseout', "this.style.backgroundColor = 'white';");
-		innerTable.setAttribute('cellpadding', '1px');
+		innerTable.attr('id', 'event_' + event.id);  
+		innerTable.attr('class', 'events_scroller_item');
+		innerTable.attr('onclick', "openInfo(" + event.id + ");");
+		innerTable.attr('onmouseover', "this.style.backgroundColor = '#ADDFFF';");
+		innerTable.attr('onmouseout', "this.style.backgroundColor = 'white';");
+		innerTable.attr('cellpadding', '1px');
 		
 		// First row in the inner table contains marker and the link to the event
-		var row1 = document.createElement('tr');
-		innerTable.appendChild(row1);
+		var row1 = $('<tr></tr>');
+		innerTable.append(row1);
 
 		// Event marker tracking number
-		var cell1 = document.createElement('td');
-		cell1.setAttribute('rowspan', '2');
-		row1.appendChild(cell1);
-		cell1.setAttribute('class', 'events_scroller_item_id');
-		cell1.innerHTML = eval(i) + 1;
+		var cell1 = $("<td class='events_scroller_item_id' rowspan='2'></td>");
+		cell1.html(eval(i) + 1);
+		row1.append(cell1);
 
 		// Event link
-		var cell2 = document.createElement('td');
-		cell2.setAttribute('colspan', '3');
-		row1.appendChild(cell2);
+		var cell2 = $("<td colspan='3'></td>");
+		row1.append(cell2);
 		if (event.url == '') {
-			cell2.innerHTML = '<b style="color: #0D83DD;">' + event.name + '</b>';
+			cell2.html('<b style="color: #0D83DD;">' + event.name + '</b>');
 		} else {
-			var linkToEvent = document.createElement('a');
-			cell2.appendChild(linkToEvent);
-			linkToEvent.setAttribute('href', event.url);
-			linkToEvent.setAttribute('target', '_blank');
-			linkToEvent.setAttribute('style', 'color: #0D83DD;');
-			linkToEvent.innerHTML = '<b>' + event.name + '</b>';
+			var linkToEvent = $("<a target='_blank' style='color: #0D83DD'></a>");
+			linkToEvent.attr('href', event.url);
+			linkToEvent.html('<b>' + event.name + '</b>');
+			cell2.append(linkToEvent);
 		}
 
 		// Second row in the inner table contains category image and description
-		var row2 = document.createElement('tr');
-		innerTable.appendChild(row2);
+		var row2 = $('<tr></tr>');
+		innerTable.append(row2);
 
 		// Category image
-		var cell3 = document.createElement('td');
-		row2.appendChild(cell3);
-		var categoryImage = document.createElement('img');
-		cell3.appendChild(categoryImage);
-		categoryImage.setAttribute('src', 'images/' + imageMap[event.category_id]);
-		categoryImage.setAttribute('class', 'events_scroller_category_image');
+		var cell3 = $('<td></td>');
+		row2.append(cell3);
+		var categoryImage = $("<img class='events_scroller_category_image'></img>");
+		categoryImage.attr('src', 'images/' + imageMap[event.category_id]);
+		cell3.append(categoryImage);
 
 		// Event venue
-		var cell4 = document.createElement('td');
-		row2.appendChild(cell4);
-		cell4.setAttribute('class', 'events_scroller_venue');
-		cell4.innerHTML = event.venue_name + ', ' + event.venue_city;
+		var cell4 = $("<td class='events_scroller_venue'></td>");
+		cell4.html(event.venue_name + ', ' + event.venue_city);
+		row2.append(cell4);
 
 		// Event start date
-		var cell5 = document.createElement('td');
-		row2.appendChild(cell5);
-		cell5.setAttribute('class', 'events_scroller_start_date');
+		var cell5 = $("<td class='events_scroller_start_date'></td>");
 		var date = new Date(event.start_date);
-		cell5.innerHTML = convertDate(event.start_date, event.start_time);
+		cell5.html(convertDate(event.start_date, event.start_time));
+		row2.append(cell5);
 	}
 }
 
@@ -757,7 +720,7 @@ function search() {
 	clearEventSpecificInfo();
 	// Fetch address from the set location box.
 	// If default or blank, use the home address.
-	var address = document.getElementById('set_location_box').value;
+	var address = $('#set_location_box').val();
 	if (address == 'Address, City, State or Zip' || address == '') {
 		address = currentAddress;
 	}
@@ -790,7 +753,7 @@ function clearEventSpecificInfo() {
 */
 function publishFacebookStream(eventName,eventURL) {
 	
-	if (eventName==null || eventURL==null) {
+	if (eventName == null || eventURL == null) {
 		// publish stream for furlango homepage (no specific event).
 		var caption = '{*actor*} likes FurlanGo';
 		var eventURL = 'http://www.furlango.com';
