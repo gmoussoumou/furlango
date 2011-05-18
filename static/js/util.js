@@ -10,7 +10,7 @@ function readCookie(name) {
 	var ca = document.cookie.split(';');
 	for(var i = 0; i < ca.length; i++) {
 		var c = ca[i];
-		while (c.charAt(0) == ' ') c = c.substring(1,c.length);
+		while (c.charAt(0) == ' ') c = c.substring(1, c.length);
 		if (c.indexOf(nameEQ) == 0) 
 			return c.substring(nameEQ.length,c.length);
 	}
@@ -27,31 +27,22 @@ function writeCookie(key, value) {
  * zipper widget is clicked.
  */
 function toggle(target, zipper) {
-	var targetWidget = document.getElementById(target);
-	var zipperWidget = document.getElementById(zipper);
-	if (targetWidget.style.display == 'none') {
-		targetWidget.style.display = '';
-		zipperWidget.src = 'images/collapse_arrow.png';
+	var targetWidget = $('#' + target).toggle('slow');
+	var zipperWidget = $('#' + zipper);
+	if (zipperWidget.attr('src') == 'images/collapse_arrow.png') {
+		zipperWidget.attr('src', 'images/expand_arrow.png');
 	} else {
-		targetWidget.style.display = 'none';
-		zipperWidget.src = 'images/expand_arrow.png';
+		zipperWidget.attr('src', 'images/collapse_arrow.png');
 	}
 }
 
 /** Returns if the target widget is currently open. */
 function isOpen(target) {
-	if (document.getElementById(target).style.display == '') {
+	if ($('#' + target).css('display') == '') {
 		return true;
 	}
 	return false;
 }
-
-/** Remove all DOM children for the given widget. */
-function removeAllChildren(widget) {
-	while (widget.hasChildNodes()) {
-		widget.removeChild(widget.firstChild);
-	}
-}	
 
 /** 
  * Converts a one-digit number to a two-digit number by padding it with a zero.
@@ -74,7 +65,7 @@ function convertDate(date, time) {
 	var d = eval(date.substring(8, 10));
 	
 	// Assume toDateString() returns a string like 'Thu Jul 08 2010'
-	var str = new Date(y, m-1, d).toDateString().substring(0, 10);
+	var str = new Date(y, m - 1, d).toDateString().substring(0, 10);
 	
 	if (time.indexOf(':') >= 0) {
 		str += ', ' + twentyFourHourToTwelveHour(time.substring(0, 5));	

@@ -1,5 +1,5 @@
 application: watodoo
-version: 3 # Configurable FB post, status bar
+version: production # Configurable FB post, status bar
 runtime: python
 api_version: 1
 
