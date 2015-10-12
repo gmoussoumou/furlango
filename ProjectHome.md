@@ -1,0 +1,1 @@
+Furlango automatically detects your geolocation and gives a list of events around that location. Events around a custom location are also provided.
